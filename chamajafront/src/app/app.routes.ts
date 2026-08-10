@@ -11,6 +11,7 @@ import { HomePrestador } from './screens/Prestador/home-prestador/home-prestador
 import { PerfilPrestador } from './screens/usuario/perfil-prestador/perfil-prestador';
 import { ResultadosProcuraPrestadores } from './screens/usuario/resultados-procura-prestadores/resultados-procura-prestadores';
 import { PerfilUsuario } from './screens/usuario/perfil-usuario/perfil-usuario';
+import { Localizacao } from './screens/Registro/localizacao/localizacao';
 
 export const routes: Routes = [
     { path: '', component: Landingpage },
@@ -22,5 +23,6 @@ export const routes: Routes = [
     { path: 'homepageprestador', component: HomePrestador, canActivate: [roleGuard], data: { role: 'PRESTADOR' } },
     { path: 'resultados-busca', component: ResultadosProcuraPrestadores, canActivate: [roleGuard], data: { role: 'USUARIO' } },
     { path: 'prestador/:id', component: PerfilPrestador, canActivate: [roleGuard], data: { role: 'USUARIO' } },
-    { path: "perfil-usuario", component: PerfilUsuario, canActivate: [roleGuard], data: { role: 'USUARIO' } }
+    { path: "perfil-usuario", component: PerfilUsuario, canActivate: [roleGuard], data: { role: 'USUARIO' } },
+    { path: "register/localizacao", component : Localizacao }
 ];

@@ -1,15 +1,154 @@
-<div class="container">
-  <div class="imagemLogin"></div>
-  <div class="login">
-    <h2>Você é Prestador ou<br /><span>Cliente</span></h2>
-    <div class="botoes">
-      <p-button label="Prestador" icon="pi pi-briefcase" styleClass="prestador" severity="success" [raised]="true" (click)="prestador()"
-        />
+<section class="perfil-page">
+  <div class="perfil-container">
+    <aside class="imagemLogin">
+      <div class="imagem-overlay">
+        <span class="imagem-badge">
+          <i class="pi pi-users"></i>
+          Escolha seu perfil
+        </span>
 
-      <p-button label="Cliente" icon="pi pi-user" styleClass="cliente" severity="help" [raised]="true" (click)="usuario()"
-        />
-    </div>
+        <div class="imagem-conteudo">
+          <h1>Dois caminhos, uma só plataforma</h1>
+
+          <p>
+            Escolha como deseja utilizar o ChamaJá. Você poderá encontrar
+            profissionais ou oferecer seus próprios serviços.
+          </p>
+
+          <div class="vantagens">
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Encontre serviços próximos
+            </div>
+
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Receba propostas pela plataforma
+            </div>
+
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Converse diretamente pelo ChamaJá
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="perfil-painel">
+      <div class="perfil-conteudo">
+        <header class="perfil-header">
+          <div class="header-icon">
+            <i class="pi pi-users"></i>
+          </div>
+
+          <div>
+            <span class="etapa-texto">Tipo de perfil</span>
+
+            <h2>Como você usará o ChamaJá?</h2>
+
+            <p>
+              Selecione uma opção para personalizarmos sua experiência.
+            </p>
+          </div>
+        </header>
+
+        <div class="opcoes-perfil">
+          <button
+            type="button"
+            class="perfil-card perfil-prestador"
+            (click)="prestador()"
+          >
+            <span class="perfil-card-icon">
+              <i class="pi pi-briefcase"></i>
+            </span>
+
+            <span class="perfil-card-conteudo">
+              <span class="perfil-card-tag">Quero trabalhar</span>
+
+              <strong>Sou prestador</strong>
+
+              <small>
+                Quero divulgar meus serviços, receber solicitações e enviar
+                propostas para clientes.
+              </small>
+
+              <span class="perfil-recursos">
+                <span>
+                  <i class="pi pi-check-circle"></i>
+                  Receber chamados
+                </span>
+
+                <span>
+                  <i class="pi pi-check-circle"></i>
+                  Enviar propostas
+                </span>
+              </span>
+            </span>
+
+            <span class="perfil-card-seta">
+              <i class="pi pi-arrow-right"></i>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="perfil-card perfil-cliente"
+            (click)="usuario()"
+          >
+            <span class="perfil-card-icon">
+              <i class="pi pi-user"></i>
+            </span>
+
+            <span class="perfil-card-conteudo">
+              <span class="perfil-card-tag">Quero contratar</span>
+
+              <strong>Sou cliente</strong>
+
+              <small>
+                Quero encontrar profissionais, solicitar serviços e comparar
+                propostas.
+              </small>
+
+              <span class="perfil-recursos">
+                <span>
+                  <i class="pi pi-check-circle"></i>
+                  Criar chamados
+                </span>
+
+                <span>
+                  <i class="pi pi-check-circle"></i>
+                  Comparar propostas
+                </span>
+              </span>
+            </span>
+
+            <span class="perfil-card-seta">
+              <i class="pi pi-arrow-right"></i>
+            </span>
+          </button>
+        </div>
+
+        <div class="aviso-perfil">
+          <i class="pi pi-info-circle"></i>
+
+          <p>
+            Seu perfil definirá quais recursos serão exibidos inicialmente na
+            plataforma.
+          </p>
+        </div>
+      </div>
+    </main>
   </div>
-</div>
+</section>
 
-<p-toast position="top-left"></p-toast>
+<p-toast position="top-left" />

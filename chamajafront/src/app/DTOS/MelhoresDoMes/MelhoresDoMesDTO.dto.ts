@@ -5,5 +5,6 @@ export interface MelhoresDoMesDTO{
    categorias: string[],
     notaMedia: number,
     isVerificado: boolean,
-    quantidadeAvaliacoes: number
+    quantidadeAvaliacoes: number,
+    distanciaKm : number
 }

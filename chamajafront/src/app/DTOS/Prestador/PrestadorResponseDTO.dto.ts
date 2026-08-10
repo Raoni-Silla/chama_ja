@@ -7,4 +7,5 @@ export interface PrestadorResponseDTO {
   valorHora: number;
   cidadePrincipal: string;
   categorias: string[];
+  distanciaKm : number
 }

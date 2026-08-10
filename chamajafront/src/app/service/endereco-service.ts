@@ -15,13 +15,12 @@ export class EnderecoService {
 
   constructor(private http: HttpClient) { }
 
-  buscarEndereco(texto: string): Observable<GeoapifyResponse> {
+                                                                                                                                                                                                                                                                                                                                                              buscarEndereco(texto: string): Observable<GeoapifyResponse> {
     const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${texto}&apiKey=${environment.geoapifyKey}&lang=pt&limit=5&filter=countrycode:br`;
     return this.http.get<GeoapifyResponse>(url);
   }
 
   buscarEnderecoPorCoordenadas(lat: number, lon: number): Observable<any> {
-    const apiKey = 'SUA_CHAVE_GEOAPIFY_AQUI';
     const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${environment.geoapifyKey}&lang=pt`;
     return this.http.get(url);
   }

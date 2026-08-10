@@ -8,12 +8,12 @@ import { ToastModule } from 'primeng/toast';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MessageService } from 'primeng/api';
 import { CadastroRequestDTO } from '../../../DTOS/Cadastro/CadastroRequestDTO.dto';
-
+import { InputTextModule } from 'primeng/inputtext';
 
 
 @Component({
   selector: 'app-register',
-  imports: [Defaultbutton, CommonModule, FormsModule, RouterModule, ToastModule, InputMaskModule],
+  imports: [Defaultbutton, CommonModule, FormsModule, RouterModule, ToastModule, InputMaskModule, InputTextModule],
   providers: [MessageService],
   templateUrl: './register.html',
   styleUrl: './register.css',

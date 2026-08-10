@@ -1,10 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import * as AOS from 'aos';
+import { Navbarlogged } from './components/navbarlogged/navbarlogged';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Navbarlogged],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

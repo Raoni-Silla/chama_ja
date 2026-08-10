@@ -1,41 +1,121 @@
-<app-navbarlogged></app-navbarlogged>
+<section class="resultados-container">
 
-<div class="resultados-container">
-    <div class="header-resultados">
-        <h2>Resultados para: <span>"{{ termoPesquisado }}"</span></h2>
-        <p *ngIf="!carregando">Encontramos {{ prestadoresEncontrados.length }} profissionais para você.</p>
+  <div class="header-resultados" *ngIf="!carregando">
+    <div>
+      <span class="eyebrow">Profissionais encontrados</span>
+      <h2>Encontre quem está <span>perto de você</span></h2>
+      <p>Profissionais selecionados de acordo com sua busca e localização.</p>
     </div>
 
+    <div class="contador" *ngIf="prestadoresEncontrados.length > 0">
+      <strong>{{ prestadoresEncontrados.length }}</strong>
+      <span>resultado(s)</span>
+    </div>
+  </div>
 
-    <div *ngIf="carregando" class="loading">
-        <p-progress-spinner styleClass="spinner-chama-ja" strokeWidth="5" fill="transparent" animationDuration=".8s"
-            [style]="{ width: '70px', height: '70px' }" aria-label="Buscando profissioFnais">
-        </p-progress-spinner>
-        <p class="loading-text">Varrendo a cidade atrás dos melhores...</p>
+  <div *ngIf="carregando" class="loading">
+    <div class="spinner-wrapper">
+      <p-progress-spinner
+        styleClass="spinner-chama-ja"
+        strokeWidth="5"
+        fill="transparent"
+        animationDuration=".8s"
+        [style]="{ width: '64px', height: '64px' }"
+        aria-label="Buscando profissionais">
+      </p-progress-spinner>
     </div>
 
+    <h3>Buscando profissionais</h3>
+    <p>Varrendo sua região atrás dos melhores...</p>
+  </div>
 
-    <div class="grid-prestadores" *ngIf="!carregando">
+  <div class="grid-prestadores" *ngIf="!carregando">
 
-        @for (prestador of prestadoresEncontrados; track prestador.id) {
-        <div class="card-temporario" (click)="verPerfil(prestador.id)">
-            <img [src]="prestador.fotoUrl" alt="Foto">
-            <h3>{{ prestador.nome }}</h3>
-            <p><i class="pi pi-map-marker"></i> {{ prestador.cidadePrincipal }}</p>
-            <p class="preco">R$ {{ prestador.valorHora }} / hora</p>
+    @for (prestador of prestadoresEncontrados; track prestador.id) {
 
-            <div class="tags">
-                @for (cat of prestador.categorias; track cat) {
-                <span class="chip">{{ cat }}</span>
-                }
-            </div>
+      <article
+        class="card-prestador"
+        (click)="verPerfil(prestador.id)"
+        tabindex="0"
+        role="button">
+
+        <div class="card-topo">
+
+          <div class="avatar-wrapper">
+            <img
+              [src]="prestador.fotoUrl"
+              [alt]="'Foto de ' + prestador.nome">
+
+            <span class="status-online"></span>
+          </div>
+
+          <div class="distancia">
+            <i class="pi pi-map-marker"></i>
+            <span>{{ prestador.distanciaKm | number:'1.1-1' }} km</span>
+          </div>
+
         </div>
-        } @empty {
-        <div class="empty-state">
-            <i class="pi pi-search-minus" style="font-size: 3rem"></i>
-            <h3>Poxa, não encontramos ninguém!</h3>
-            <p>Tente pesquisar com outras palavras ou categorias.</p>
+
+        <div class="informacoes">
+
+          <h3>{{ prestador.nome }}</h3>
+
+          <div class="localizacao">
+            <i class="pi pi-map-marker"></i>
+            <span>{{ prestador.cidadePrincipal }}</span>
+          </div>
+
+          <p class="biografia" *ngIf="prestador.biografia">
+            {{ prestador.biografia }}
+          </p>
+
         </div>
-        }
-    </div>
-</div>
+
+        <div class="categorias">
+          @for (cat of prestador.categorias; track cat) {
+            <span class="chip">{{ cat }}</span>
+          }
+        </div>
+
+        <div class="card-footer">
+
+          <div class="valor">
+            <span>A partir de</span>
+
+            <strong>
+              R$ {{ prestador.valorHora | number:'1.2-2' }}
+              <small>/ hora</small>
+            </strong>
+          </div>
+
+          <div class="ver-perfil">
+            <span>Ver perfil</span>
+            <i class="pi pi-arrow-right"></i>
+          </div>
+
+        </div>
+
+      </article>
+
+    } @empty {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          <i class="pi pi-search"></i>
+        </div>
+
+        <h3>Nenhum profissional encontrado</h3>
+
+        <p>
+          Não encontramos profissionais dentro do seu raio para essa busca.
+          Tente outra categoria ou aumente sua distância de pesquisa.
+        </p>
+
+      </div>
+
+    }
+
+  </div>
+
+</section>

@@ -1,48 +1,342 @@
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+
+  --primary: #6d28d9;
+  --primary-dark: #4c1d95;
+  --primary-light: #8b5cf6;
+
+  --text-primary: #172033;
+  --text-secondary: #64748b;
+  --border: #e7e9f0;
+  --surface: #ffffff;
+}
+
+/* =========================================
+   Card principal
+   ========================================= */
+
 .principalContainer {
-    width: 300px;
-    height: 300px;
+  position: relative;
 
-    background: #fff;
-    border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 210px;
+  padding: 28px 20px;
+  overflow: hidden;
+  box-sizing: border-box;
 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    border: 1px solid #ececec;
+  cursor: pointer;
 
-    cursor: pointer;
+  background:
+    radial-gradient(
+      circle at 100% 0,
+      rgba(109, 40, 217, 0.07),
+      transparent 38%
+    ),
+    var(--surface);
 
-    transition: all .3s ease;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+
+  box-shadow:
+    0 8px 24px rgba(23, 32, 51, 0.05),
+    0 2px 6px rgba(23, 32, 51, 0.025);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
-.principalContainer > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
+/* Linha decorativa no topo */
+
+.principalContainer::before {
+  content: '';
+
+  position: absolute;
+  top: 0;
+  right: 18%;
+  left: 18%;
+
+  height: 3px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary-light),
+    transparent
+  );
+
+  opacity: 0;
+  transform: scaleX(0.5);
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
-.principalContainer i {
-    font-size: 2rem;
-    color: var(--primaryColor);
-    transition: transform .3s ease;
+/* Elemento decorativo */
+
+.principalContainer::after {
+  content: '';
+
+  position: absolute;
+  right: -45px;
+  bottom: -55px;
+
+  width: 125px;
+  height: 125px;
+
+  background: rgba(109, 40, 217, 0.04);
+  border-radius: 50%;
+
+  transition:
+    transform 0.35s ease,
+    background 0.35s ease;
 }
+
+/* =========================================
+   Conteúdo
+   ========================================= */
+
+.area-content {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+}
+
+/* =========================================
+   Ícone
+   ========================================= */
+
+.icon-container {
+  display: grid;
+  width: 68px;
+  height: 68px;
+  place-items: center;
+
+  color: var(--primary);
+
+  background: linear-gradient(
+    135deg,
+    #f3e8ff,
+    #ede9fe
+  );
+
+  border: 1px solid rgba(109, 40, 217, 0.1);
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 24px rgba(109, 40, 217, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.icon-container i {
+  font-size: 1.8rem;
+
+  transition: transform 0.3s ease;
+}
+
+/* =========================================
+   Título
+   ========================================= */
 
 .principalContainer h4 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #2d2d2d;
+  max-width: 100%;
+  margin: 0;
+
+  overflow: hidden;
+
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Hover */
+/* =========================================
+   Ação
+   ========================================= */
+
+.area-action {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  opacity: 0.75;
+
+  transition:
+    color 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.area-action i {
+  font-size: 0.65rem;
+
+  transition: transform 0.25s ease;
+}
+
+/* =========================================
+   Hover
+   ========================================= */
+
 .principalContainer:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(79, 70, 229, 0.18);
-    border-color: var(--primaryColor);
+  border-color: rgba(109, 40, 217, 0.3);
+
+  box-shadow:
+    0 20px 45px rgba(76, 29, 149, 0.12),
+    0 5px 14px rgba(23, 32, 51, 0.04);
+
+  transform: translateY(-7px);
 }
 
-.principalContainer:hover i {
-    transform: scale(1.15) rotate(-5deg);
+.principalContainer:hover::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.principalContainer:hover::after {
+  background: rgba(109, 40, 217, 0.08);
+  transform: scale(1.25);
+}
+
+.principalContainer:hover .icon-container {
+  color: #ffffff;
+
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-light)
+  );
+
+  border-color: transparent;
+
+  box-shadow:
+    0 14px 28px rgba(109, 40, 217, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+
+  transform: translateY(-4px) rotate(-3deg);
+}
+
+.principalContainer:hover .icon-container i {
+  transform: scale(1.08);
+}
+
+.principalContainer:hover .area-action {
+  color: var(--primary);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.principalContainer:hover .area-action i {
+  transform: translateX(4px);
+}
+
+/* =========================================
+   Clique e teclado
+   ========================================= */
+
+.principalContainer:active {
+  transform: translateY(-3px) scale(0.99);
+}
+
+.principalContainer:focus-visible {
+  border-color: var(--primary);
+  outline: 3px solid rgba(109, 40, 217, 0.2);
+  outline-offset: 3px;
+}
+
+/* =========================================
+   Responsividade
+   ========================================= */
+
+@media (max-width: 900px) {
+  .principalContainer {
+    min-height: 190px;
+    padding: 24px 18px;
+  }
+
+  .icon-container {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+  }
+
+  .icon-container i {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .principalContainer {
+    min-height: 165px;
+    padding: 20px 14px;
+    border-radius: 18px;
+  }
+
+  .area-content {
+    gap: 12px;
+  }
+
+  .icon-container {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+  }
+
+  .icon-container i {
+    font-size: 1.4rem;
+  }
+
+  .principalContainer h4 {
+    font-size: 0.95rem;
+  }
+
+  .area-action {
+    font-size: 0.7rem;
+  }
+}
+
+/* =========================================
+   Redução de movimento
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .principalContainer,
+  .principalContainer::before,
+  .principalContainer::after,
+  .icon-container,
+  .icon-container i,
+  .area-action,
+  .area-action i {
+    transition: none;
+  }
 }

@@ -1,40 +1,208 @@
-<div class="container">
-  <div class="imagemLogin"></div>
-  <div class="login">
-    <h2>Crie Sua<br /><span>Conta</span></h2>
-    <form>
-      <div class="campo">
-        <i class="fa fa-user icon" style="z-index: 1;"></i>
-        <input pInputText type="text" id="nome" name="nome" placeholder="Nome Completo" [(ngModel)]="nome" />
+<section class="cadastro-page">
+  <div class="cadastro-container">
+    <aside class="imagemLogin">
+      <div class="imagem-overlay">
+        <span class="imagem-badge">
+          <i class="pi pi-user-plus"></i>
+          Novo cadastro
+        </span>
+
+        <div class="imagem-conteudo">
+          <h1>Seu próximo serviço começa aqui</h1>
+
+          <p>
+            Crie sua conta no ChamaJá e encontre profissionais preparados
+            para ajudar você.
+          </p>
+
+          <div class="vantagens">
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Cadastro rápido e gratuito
+            </div>
+
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Profissionais próximos de você
+            </div>
+
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Negocie diretamente pela plataforma
+            </div>
+          </div>
+        </div>
       </div>
+    </aside>
 
-      <div class="campo">
-        <i class="fa fa-address-card icon" style="z-index: 1;"></i>
-        <p-inputMask mask="999.999.999-99" id="cpf" name="cpf" placeholder="CPF" [(ngModel)]="cpf"></p-inputMask>
+    <main class="cadastro-painel">
+      <div class="cadastro-conteudo">
+        <header class="cadastro-header">
+          <div class="header-icon">
+            <i class="pi pi-user"></i>
+          </div>
+
+          <div>
+            <span class="etapa-texto">Dados pessoais</span>
+            <h2>Crie sua conta</h2>
+
+            <p>
+              Preencha seus dados para começar a utilizar o ChamaJá.
+            </p>
+          </div>
+        </header>
+
+        <form class="cadastro-form">
+          <div class="campo">
+            <label for="nome">Nome completo</label>
+
+            <div class="input-container">
+              <i class="pi pi-user input-icon"></i>
+
+              <input
+                pInputText
+                id="nome"
+                name="nome"
+                type="text"
+                class="input-control"
+                placeholder="Digite seu nome completo"
+                autocomplete="name"
+                [(ngModel)]="nome"
+              />
+            </div>
+          </div>
+
+          <div class="campos-linha">
+            <div class="campo">
+              <label for="cpf">CPF</label>
+
+              <div class="input-container">
+                <i class="pi pi-id-card input-icon"></i>
+
+                <p-inputMask
+                  id="cpf"
+                  name="cpf"
+                  mask="999.999.999-99"
+                  styleClass="input-control"
+                  placeholder="000.000.000-00"
+                  autocomplete="off"
+                  [(ngModel)]="cpf"
+                />
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="dataNascimento">Data de nascimento</label>
+
+              <div class="input-container">
+                <i class="pi pi-calendar input-icon"></i>
+
+                <p-inputMask
+                  id="dataNascimento"
+                  name="dataNascimento"
+                  mask="99/99/9999"
+                  styleClass="input-control"
+                  placeholder="DD/MM/AAAA"
+                  autocomplete="bday"
+                  [(ngModel)]="dataNascimento"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="email">E-mail</label>
+
+            <div class="input-container">
+              <i class="pi pi-envelope input-icon"></i>
+
+              <input
+                pInputText
+                id="email"
+                name="email"
+                type="email"
+                class="input-control"
+                placeholder="seuemail@exemplo.com"
+                autocomplete="email"
+                [(ngModel)]="email"
+              />
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="password">Senha</label>
+
+            <div class="input-container">
+              <i class="pi pi-lock input-icon"></i>
+
+              <input
+                pInputText
+                id="password"
+                name="password"
+                type="password"
+                class="input-control"
+                placeholder="Crie uma senha segura"
+                autocomplete="new-password"
+                [(ngModel)]="senha"
+              />
+            </div>
+
+            <small class="senha-ajuda">
+              <i class="pi pi-info-circle"></i>
+              Utilize letras maiúsculas, minúsculas, números e símbolos.
+            </small>
+          </div>
+
+          <app-defaultbutton
+            type="btn-entrar"
+            [disabled]="
+              !nome.trim() ||
+              !cpf.trim() ||
+              !dataNascimento.trim() ||
+              !email.trim() ||
+              !senha.trim()
+            "
+            (click)="iniciarCadastro()"
+          >
+            Continuar
+
+            <i class="pi pi-arrow-right"></i>
+          </app-defaultbutton>
+
+          <div class="separador">
+            <span>Já possui cadastro?</span>
+          </div>
+
+          <p class="criar-conta">
+            Acesse sua conta para continuar de onde parou.
+
+            <a routerLink="/login">
+              Fazer login
+              <i class="pi pi-arrow-up-right"></i>
+            </a>
+          </p>
+        </form>
+
+        <div class="aviso-seguranca">
+          <i class="pi pi-shield"></i>
+
+          <p>
+            Seus dados são protegidos e utilizados apenas para o funcionamento
+            da plataforma.
+          </p>
+        </div>
       </div>
-
-      <div class="campo">
-        <i class="fa fa-calendar icon" style="z-index: 1;"></i>
-        <p-inputMask mask="99/99/9999" id="dataNascimento" name="dataNascimento" placeholder="Data de Nascimento" [(ngModel)]="dataNascimento"></p-inputMask>
-      </div>
-
-      <div class="campo">
-        <i class="fa fa-envelope icon" style="z-index: 1;"></i>
-        <input pInputText type="email" id="email" name="email" placeholder="Email" [(ngModel)]="email" />
-      </div>
-
-      <div class="campo">
-        <i class="fa fa-lock icon" style="z-index: 1;"></i>
-        <input pInputText type="password" id="password" name="password" placeholder="Senha" [(ngModel)]="senha" />
-      </div>
-
-      <app-defaultbutton type="btn-entrar" [disabled]="!nome.trim() || !cpf.trim() || !dataNascimento.trim() || !email.trim() || !senha.trim()" (click)="iniciarCadastro()">
-        Continuar
-      </app-defaultbutton>
-
-      <p class="criar-conta">Já tem uma conta? <a routerLink="/login">Logar aqui</a></p>
-    </form>
+    </main>
   </div>
-</div>
+</section>
 
-<p-toast position="top-left"></p-toast>
+<p-toast position="top-left" />

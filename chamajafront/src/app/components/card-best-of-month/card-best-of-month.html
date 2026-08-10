@@ -1,35 +1,57 @@
 <div class="card-container">
   <div class="fotoPerfil">
-    <img [src]="urlFoto" alt="Foto de {{ nome }}">
+    <img [src]="urlFoto" [alt]="'Foto de ' + nome">
+
+    @if (isVerificado) {
+      <div class="verified-badge" title="Profissional verificado">
+        <i class="pi pi-check"></i>
+        <span>Verificado</span>
+      </div>
+    }
+
+    <div class="image-overlay"></div>
   </div>
 
   <div class="infoPrestador">
     <div class="header-info">
-      <h1>{{ nome }}</h1>
-
-      @if (isVerificado) {
-      <i class="pi pi-check-circle verified-icon"></i>
-      }
+      <h2 [title]="nome">{{ nome }}</h2>
     </div>
 
     <div class="categorias">
       @for (categoria of categorias?.slice(0, 2); track categoria) {
-      <span class="categoria">
-        {{ categoria }}
-      </span>
+        <span class="categoria">
+          {{ categoria }}
+        </span>
+      }
+
+      @if ((categorias?.length || 0) > 2) {
+        <span class="categoria categoria-extra">
+          +{{ (categorias?.length || 0) - 2 }}
+        </span>
       }
     </div>
 
-    <div class="rating-container">
-      <i class="pi pi-star-fill star-icon"></i>
-      <span class="nota">{{ notaMedia }}</span>
-      <span class="avaliacoes">
-        ({{ quantidadeAvaliacoes }})
-      </span>
-    </div>
+    <div class="card-footer">
+      <div class="rating-container">
+        <div class="rating-value">
+          <i class="pi pi-star-fill star-icon"></i>
+          <span class="nota">{{ notaMedia }}</span>
+        </div>
 
-    <button class="action-btn" (click)="clicarSaberMais()">
-      Saber Mais
-    </button>
+        <span class="avaliacoes">
+          {{ quantidadeAvaliacoes }}
+          {{ quantidadeAvaliacoes === 1 ? 'avaliação' : 'avaliações' }}
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="action-btn"
+        (click)="clicarSaberMais()"
+      >
+        <span>Ver perfil</span>
+        <i class="pi pi-arrow-right"></i>
+      </button>
+    </div>
   </div>
 </div>

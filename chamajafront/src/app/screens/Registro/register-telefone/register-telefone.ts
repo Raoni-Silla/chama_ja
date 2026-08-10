@@ -10,10 +10,11 @@ import { LoginService } from '../../../service/login-service';
 import { InputOtpModule } from 'primeng/inputotp';
 import { ButtonModule } from 'primeng/button';
 import { Defaultbutton } from '../../../components/defaultbutton/defaultbutton';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-register-telefone',
-  imports: [Defaultbutton, CommonModule, FormsModule, RouterModule, ToastModule, InputMaskModule, InputOtpModule, ButtonModule],
+  imports: [Defaultbutton, CommonModule, FormsModule, RouterModule, ToastModule, InputMaskModule, InputOtpModule, ButtonModule , InputTextModule],
   providers: [MessageService],
   templateUrl: './register-telefone.html',
   styleUrl: './register-telefone.css',
@@ -138,7 +139,7 @@ export class RegisterTelefone implements OnInit {
           detail: 'Seu telefone foi verificado com sucesso.',
           life: 3000
         });
-        this.router.navigate(['/register/tipousuario']);
+        this.router.navigate(['register/localizacao']);
       },
       error: (error) => {
         this.messageService.add({

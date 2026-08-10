@@ -6,6 +6,7 @@ import { CadastroResponseDTO } from '../DTOS/Cadastro/CadastroResponseDTO.dto';
 import { UsuarioResponseDTO } from '../DTOS/Usuario/UsuarioResponseDTO.dto';
 import { LoginResponseDTO } from '../DTOS/Login/LoginResponseDTO.dto';
 import { LoginRequestDTO } from '../DTOS/Login/LoginRequestDTO.dto';
+import { EnderecoRequestDTO } from '../DTOS/Endereco/EnderecoRequestDTO.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -81,4 +82,9 @@ export class LoginService {
     const request: LoginRequestDTO = { email, senha };
     return this.http.post<LoginResponseDTO>(`${this.apiLogin}`, request);
   }
+
+
+   salvarEnderecoCadastroTemporario (dto : EnderecoRequestDTO) : Observable<void> {
+    return this.http.post<void>(`${this.apiCadastro}/confirmar-endereco`,dto)
+   }
 }

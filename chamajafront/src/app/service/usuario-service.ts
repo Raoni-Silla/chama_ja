@@ -56,5 +56,7 @@ export class UsuarioService {
   excluirConta(): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/excluir`);
   }
+
+ 
   
 }

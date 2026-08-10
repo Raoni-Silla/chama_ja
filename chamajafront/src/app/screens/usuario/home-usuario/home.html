@@ -1,83 +1,230 @@
 <div class="body">
-    <app-navbarlogged></app-navbarlogged>
+
     <div class="header-container">
 
-        <div class="searchContainer">
+        <section class="searchContainer">
+
             <div class="searchHeader">
+
                 <div class="greeting-text">
-                    <h1>Olá, <span>{{nomeUsuario}}!</span> 👋</h1>
-                    <p>O que vamos resolver hoje?</p>
+                    <span class="welcome-label">ChamaJá</span>
+
+                    <h1>
+                        Olá, <span>{{ nomeUsuario }}!</span> 👋
+                    </h1>
+
+                    <p>
+                        Encontre profissionais próximos e resolva o que precisa.
+                    </p>
                 </div>
-                <div class="location-container" *ngIf="localizacao !== '' && estado !== ''">
+
+                <div
+                    class="location-container"
+                    *ngIf="localizacao !== '' && estado !== ''">
+
+                    <span class="location-label">
+                        Sua localização
+                    </span>
+
                     <span class="location-chip">
                         <i class="pi pi-map-marker"></i>
-                        {{localizacao}}, {{estado}}
+                        {{ localizacao }}, {{ estado }}
                     </span>
+
                 </div>
+
             </div>
 
             <div class="searchBar">
+
                 <div class="inputDiv">
-                    <i class="pi pi-search search-icon" (click)="pesquisar()"></i>
-                    <input type="text" placeholder="O que você precisa?..." [(ngModel)]="termoBusca"
+
+                    <i
+                        class="pi pi-search search-icon"
+                        (click)="pesquisar()">
+                    </i>
+
+                    <input
+                        type="text"
+                        placeholder="Eletricista, limpeza, encanador..."
+                        [(ngModel)]="termoBusca"
                         (keyup.enter)="pesquisar()">
+
+                    <button
+                        class="search-button"
+                        (click)="pesquisar()">
+
+                        <span>Buscar</span>
+                        <i class="pi pi-arrow-right"></i>
+
+                    </button>
+
                 </div>
 
                 <div class="searchOptions">
-                    <button (click)="pesquisar('Limpeza')">Limpeza</button>
-                    <button (click)="pesquisar('Tecnologia')">Tecnologia</button>
-                    <button (click)="pesquisar('Elétrica')">Elétrica</button>
-                    <button (click)="pesquisar('Jardinagem')">Jardinagem</button>
+
+                    <span class="options-label">
+                        Buscas rápidas:
+                    </span>
+
+                    <button (click)="pesquisar('Limpeza')">
+                        <i class="pi pi-sparkles"></i>
+                        Limpeza
+                    </button>
+
+                    <button (click)="pesquisar('Tecnologia')">
+                        <i class="pi pi-desktop"></i>
+                        Tecnologia
+                    </button>
+
+                    <button (click)="pesquisar('Elétrica')">
+                        <i class="pi pi-bolt"></i>
+                        Elétrica
+                    </button>
+
+                    <button (click)="pesquisar('Jardinagem')">
+                        <i class="pi pi-sun"></i>
+                        Jardinagem
+                    </button>
+
                 </div>
-            </div>
-        </div>
 
-        <div class="stats-card">
+            </div>
+
+        </section>
+
+        <section class="stats-card">
+
             <div class="stat-item">
-                <div class="stat-icon-bg purple"><i class="pi pi-users"></i></div>
-                <h3>500+</h3>
-                <p>Profissionais</p>
+
+                <div class="stat-icon-bg purple">
+                    <i class="pi pi-users"></i>
+                </div>
+
+                <div class="stat-content">
+                    <h3>500+</h3>
+                    <p>Profissionais</p>
+                </div>
+
             </div>
 
             <div class="stat-divider"></div>
 
             <div class="stat-item">
-                <div class="stat-icon-bg green"><i class="pi pi-verified"></i></div>
-                <h3>98%</h3>
-                <p>Satisfação</p>
+
+                <div class="stat-icon-bg green">
+                    <i class="pi pi-verified"></i>
+                </div>
+
+                <div class="stat-content">
+                    <h3>98%</h3>
+                    <p>Satisfação</p>
+                </div>
+
             </div>
 
             <div class="stat-divider"></div>
 
             <div class="stat-item">
-                <div class="stat-icon-bg purple"><i class="pi pi-chart-line"></i></div>
-                <h3>5k+</h3>
-                <p>Serviços</p>
+
+                <div class="stat-icon-bg orange">
+                    <i class="pi pi-chart-line"></i>
+                </div>
+
+                <div class="stat-content">
+                    <h3>5k+</h3>
+                    <p>Serviços realizados</p>
+                </div>
+
             </div>
-        </div>
+
+        </section>
+
     </div>
 
-    <div class="bestsOfMonth">
 
-        <h1 class="titleSectionBest">Nossos Profissionais Mais Bem <span>Avaliados</span></h1>
+    <section class="bestsOfMonth">
+
+        <div class="section-header">
+
+            <div>
+                <span class="section-eyebrow">
+                    Excelência na comunidade
+                </span>
+
+                <h2 class="titleSectionBest">
+                    Profissionais mais bem
+                    <span>avaliados</span>
+                </h2>
+
+                <p>
+                    Conheça alguns dos profissionais que mais se destacam
+                    pelas avaliações dos clientes.
+                </p>
+            </div>
+
+            <div class="section-icon">
+                <i class="pi pi-star-fill"></i>
+            </div>
+
+        </div>
+
         <div class="gridCardsOfBests">
+
             @for (melhor of listaMelhoresMes; track melhor.id) {
-            <app-card-best-of-month [id]="melhor.id" [nome]="melhor.nome" [urlFoto]="melhor.urlFoto"
-                [categorias]="melhor.categorias" [notaMedia]="melhor.notaMedia" [isVerificado]="melhor.isVerificado"
-                [quantidadeAvaliacoes]="melhor.quantidadeAvaliacoes" (saberMais)="abrirDetalhesPrestador($event)">
-            </app-card-best-of-month>
+
+                <app-card-best-of-month
+                    [id]="melhor.id"
+                    [nome]="melhor.nome"
+                    [urlFoto]="melhor.urlFoto"
+                    [categorias]="melhor.categorias"
+                    [notaMedia]="melhor.notaMedia"
+                    [isVerificado]="melhor.isVerificado"
+                    [quantidadeAvaliacoes]="melhor.quantidadeAvaliacoes"
+                    (saberMais)="abrirDetalhesPrestador($event)">
+                </app-card-best-of-month>
+
             }
+
         </div>
 
-    </div>
+    </section>
 
-    <div class="highlightedAreas">
-        <h1 class="titleHigh">Áreas em destaque para <span>você</span></h1>
+
+    <section class="highlightedAreas">
+
+        <div class="areas-header">
+
+            <span class="section-eyebrow">
+                Explore serviços
+            </span>
+
+            <h2 class="titleHigh">
+                Áreas em destaque para
+                <span>você</span>
+            </h2>
+
+            <p>
+                Escolha uma categoria e encontre profissionais próximos
+                disponíveis para ajudar.
+            </p>
+
+        </div>
+
         <div class="gridAreas">
+
             @for (melhor of listaMelhoresAreas; track melhor.id) {
-            <app-highlight-areas [area]="melhor.nome" [icon]="melhor.icon" (click)="pesquisar(melhor.nome)">
-            </app-highlight-areas>
+
+                <app-highlight-areas
+                    [area]="melhor.nome"
+                    [icon]="melhor.icon"
+                    (click)="pesquisar(melhor.nome)">
+                </app-highlight-areas>
+
             }
+
         </div>
-    </div>
+
+    </section>
+
 </div>

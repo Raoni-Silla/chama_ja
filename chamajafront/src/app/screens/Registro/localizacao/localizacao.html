@@ -1,0 +1,257 @@
+<section class="localizacao-page">
+  <div class="containerPrincipal">
+    <div class="imagemLogin">
+      <div class="imagem-overlay">
+        <span class="imagem-badge">
+          <i class="pi pi-map-marker"></i>
+          Localização
+        </span>
+
+        <div class="imagem-conteudo">
+          <h1>Encontre serviços perto de você</h1>
+
+          <p>
+            Informe seu endereço para encontrarmos os melhores prestadores
+            disponíveis na sua região.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="painel-localizacao">
+      <div class="painel-header">
+        <div class="header-icon">
+          <i class="pi pi-map"></i>
+        </div>
+
+        <div>
+          <span class="etapa-texto">Configuração de localização</span>
+          <h2>Onde você está?</h2>
+          <p>Procure seu endereço ou utilize sua localização atual.</p>
+        </div>
+      </div>
+
+      <div class="containerSearch">
+        <label for="campoBusca">Procure seu endereço</label>
+
+        <p-iconField class="search-field">
+          <p-inputIcon class="pi pi-search" />
+
+          <input
+            id="campoBusca"
+            pInputText
+            type="text"
+            class="inputSearch"
+            placeholder="Rua, avenida, bairro ou cidade"
+            autocomplete="street-address"
+            [formControl]="campoBusca"
+          />
+
+          @if (sugestoes.length > 0) {
+            <div class="container-sugestoes">
+              <div class="sugestoes-header">
+                <span>Endereços encontrados</span>
+                <small>{{ sugestoes.length }} resultados</small>
+              </div>
+
+              @for (
+                sugestao of sugestoes;
+                track sugestao.properties.formatted
+              ) {
+                <button
+                  type="button"
+                  class="card-endereco"
+                  (click)="selecionarEndereco(sugestao)"
+                >
+                  <span class="icone">
+                    <i class="pi pi-map-marker"></i>
+                  </span>
+
+                  <span class="texto-endereco">
+                    <strong>{{ sugestao.properties.formatted }}</strong>
+                    <small>Clique para selecionar este endereço</small>
+                  </span>
+
+                  <i class="pi pi-chevron-right seta-endereco"></i>
+                </button>
+              }
+            </div>
+          }
+        </p-iconField>
+      </div>
+
+      <div class="separador">
+        <span>ou</span>
+      </div>
+
+      <button
+        type="button"
+        class="card-gps"
+        [disabled]="buscandoLocalizacao"
+        (click)="obterLocalizacaoAtual()"
+      >
+        <span class="icone-gps">
+          @if (buscandoLocalizacao) {
+            <p-progressSpinner
+              styleClass="gps-spinner"
+              strokeWidth="8"
+              animationDuration=".5s"
+            />
+          } @else {
+            <i class="pi pi-compass"></i>
+          }
+        </span>
+
+        <span class="texto-gps">
+          <strong>
+            @if (buscandoLocalizacao) {
+              Buscando sua localização...
+            } @else {
+              Usar localização atual
+            }
+          </strong>
+
+          <small>
+            Permita o acesso ao GPS do dispositivo
+          </small>
+        </span>
+
+        @if (!buscandoLocalizacao) {
+          <i class="pi pi-arrow-right seta-gps"></i>
+        }
+      </button>
+
+      <div class="aviso-privacidade">
+        <i class="pi pi-lock"></i>
+
+        <p>
+          Sua localização será utilizada apenas para encontrar serviços
+          próximos a você.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p-dialog
+  [(visible)]="mostrarModal"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '30rem' }"
+  [breakpoints]="{
+    '640px': '94vw'
+  }"
+  styleClass="localizacao-dialog"
+>
+  <ng-template pTemplate="header">
+    <div class="dialog-header">
+      <div class="dialog-header-icon">
+        <i class="pi pi-map-marker"></i>
+      </div>
+
+      <div>
+        <h2>Confirme seu endereço</h2>
+        <p>Verifique os dados antes de continuar.</p>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="dialog-conteudo">
+    <div class="endereco-selecionado">
+      <span class="endereco-icon">
+        <i class="pi pi-map-marker"></i>
+      </span>
+
+      <div>
+        <small>Endereço selecionado</small>
+
+        <strong>
+          {{ enderecoSelecionado?.properties?.formatted }}
+        </strong>
+      </div>
+    </div>
+
+    <div class="modal-form-container">
+      <div class="input-group">
+        <label for="cep">CEP</label>
+
+        <input
+          pInputText
+          id="cep"
+          autocomplete="postal-code"
+          placeholder="Ex: 19800-000"
+          [formControl]="cepFormControl"
+        />
+
+        @if (cepFormControl.invalid && cepFormControl.touched) {
+          <small class="mensagem-erro">
+            <i class="pi pi-exclamation-circle"></i>
+            Informe um CEP válido.
+          </small>
+        }
+      </div>
+
+      <div class="campos-linha">
+        <div class="input-group">
+          <label for="numero">Número</label>
+
+          <input
+            pInputText
+            id="numero"
+            type="number"
+            placeholder="Ex: 123"
+            [formControl]="numeroFormControl"
+          />
+
+          @if (
+            numeroFormControl.invalid &&
+            numeroFormControl.touched
+          ) {
+            <small class="mensagem-erro">
+              <i class="pi pi-exclamation-circle"></i>
+              Informe o número.
+            </small>
+          }
+        </div>
+
+        <div class="input-group">
+          <label for="complemento">
+            Complemento
+            <span>Opcional</span>
+          </label>
+
+          <input
+            pInputText
+            id="complemento"
+            placeholder="Apto, bloco..."
+            [formControl]="complementoFormControl"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-acoes">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        variant="outlined"
+        (click)="mostrarModal = false"
+      />
+
+      <p-button
+        label="Salvar endereço"
+        icon="pi pi-check"
+        [disabled]="
+          numeroFormControl.invalid ||
+          cepFormControl.invalid
+        "
+        (click)="confirmarEEnviarEndereco()"
+      />
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-toast />

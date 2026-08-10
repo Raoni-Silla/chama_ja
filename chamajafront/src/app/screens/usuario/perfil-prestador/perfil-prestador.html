@@ -1,69 +1,217 @@
-<app-navbarlogged></app-navbarlogged>
+@if (carregando) {
+    <div class="loading">
+        <p-progress-spinner
+            strokeWidth="5"
+            fill="transparent"
+            animationDuration=".8s"
+            [style]="{ width: '64px', height: '64px' }">
+        </p-progress-spinner>
 
-
-
-
-@if (prestador) {
-<div class="perfil-container">
-
-    <!-- Cabeçalho do Perfil -->
-    <div class="perfil-header">
-        <div class="foto-wrapper">
-            <img [src]="prestador.fotoUrl" alt="Foto de {{ prestador.nome }}">
-        </div>
-
-        <div class="info-principal">
-            <h1>{{ prestador.nome }} <i class="pi pi-verified verificado-icon" title="Profissional Verificado"></i></h1>
-            <p class="localizacao"><i class="pi pi-map-marker"></i> {{ prestador.cidadePrincipal }}</p>
-
-            <div class="tags">
-                @for (cat of prestador.categorias; track cat) {
-                <span class="chip">{{ cat }}</span>
-                }
-            </div>
-        </div>
-
-        <div class="acao-principal">
-            <div class="preco-box">
-                <span class="label">Valor médio</span>
-                <span class="valor">R$ {{ prestador.valorHora | number:'1.2-2' }} <small>/ hora</small></span>
-            </div>
-            <button class="btn-contratar"><i class="pi pi-calendar-plus"></i> Solicitar Orçamento</button>
-        </div>
+        <p>Carregando perfil...</p>
     </div>
+}
 
-    <!-- Corpo do Perfil -->
-    <div class="perfil-body">
-        <div class="sobre-card">
-            <h2>Sobre o profissional</h2>
-            <p>{{ prestador.biografia }}</p>
-        </div>
+@if (!carregando && prestador) {
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="icon-bg star"><i class="pi pi-star-fill"></i></div>
-                <h3>{{ prestador.notaMedia }}</h3>
-                <p>Nota média</p>
+    <main class="perfil-container">
+
+        <section class="perfil-header">
+
+            <div class="perfil-identidade">
+
+                <div class="foto-wrapper">
+                    <img
+                        [src]="prestador.fotoUrl"
+                        [alt]="'Foto de ' + prestador.nome">
+                </div>
+
+                <div class="info-principal">
+
+                    <span class="tipo-profissional">
+                        Profissional ChamaJá
+                    </span>
+
+                    <h1>{{ prestador.nome }}</h1>
+
+                    <div class="localizacao">
+
+                        <span>
+                            <i class="pi pi-map-marker"></i>
+                            {{ prestador.cidadePrincipal }}
+                        </span>
+
+                        @if (prestador.distanciaKm != null) {
+                            <span class="distancia">
+                                <i class="pi pi-directions"></i>
+                                {{ prestador.distanciaKm | number:'1.1-1' }} km de você
+                            </span>
+                        }
+
+                    </div>
+
+                    <div class="tags">
+                        @for (cat of prestador.categorias; track cat) {
+                            <span class="chip">
+                                {{ cat }}
+                            </span>
+                        }
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="stat-card">
-                <div class="icon-bg purple"><i class="pi pi-briefcase"></i></div>
-                <h3>Destaque</h3>
-                <p>Serviços concluídos</p>
+            <aside class="acao-principal">
+
+                <span class="preco-label">
+                    Valor por hora
+                </span>
+
+                <div class="preco">
+                    <span class="moeda">R$</span>
+
+                    <strong>
+                        {{ prestador.valorHora | number:'1.2-2' }}
+                    </strong>
+
+                    <small>/ hora</small>
+                </div>
+
+                <button class="btn-contratar">
+                    <i class="pi pi-comments"></i>
+                    Solicitar orçamento
+                </button>
+
+                <p class="acao-info">
+                    Converse com o profissional e combine os detalhes do serviço.
+                </p>
+
+            </aside>
+
+        </section>
+
+
+        <section class="perfil-conteudo">
+
+            <div class="conteudo-principal">
+
+                <article class="sobre-card">
+
+                    <div class="section-title">
+                        <div class="title-icon">
+                            <i class="pi pi-user"></i>
+                        </div>
+
+                        <div>
+                            <h2>Sobre o profissional</h2>
+                            <p>Conheça um pouco mais sobre o trabalho oferecido.</p>
+                        </div>
+                    </div>
+
+                    <p class="biografia">
+                        {{ prestador.biografia }}
+                    </p>
+
+                </article>
+
+
+                <article class="especialidades-card">
+
+                    <div class="section-title">
+                        <div class="title-icon">
+                            <i class="pi pi-briefcase"></i>
+                        </div>
+
+                        <div>
+                            <h2>Especialidades</h2>
+                            <p>Áreas em que este profissional atua.</p>
+                        </div>
+                    </div>
+
+                    <div class="especialidades">
+                        @for (cat of prestador.categorias; track cat) {
+                            <div class="especialidade">
+                                <div class="especialidade-icon">
+                                    <i class="pi pi-check"></i>
+                                </div>
+
+                                <span>{{ cat }}</span>
+                            </div>
+                        }
+                    </div>
+
+                </article>
+
             </div>
 
-            <div class="stat-card">
-                <div class="icon-bg green"><i class="pi pi-clock"></i></div>
-                <h3>Rápido</h3>
-                <p>Tempo de resposta</p>
-            </div>
-        </div>
-    </div>
-</div>
-} @else {
 
-<div class="loading-state" style="text-align: center; margin-top: 100px;">
-    <p-progressSpinner ariaLabel="loading" />
-    <p style="margin-top: 15px; color: #666;">Buscando informações do profissional...</p>
-</div>
+            <aside class="stats">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon avaliacao">
+                        <i class="pi pi-star-fill"></i>
+                    </div>
+
+                    <div>
+                        <span class="stat-label">Avaliação</span>
+
+                        <strong>
+                            {{ prestador.notaMedia != null
+                                ? (prestador.notaMedia | number:'1.1-1')
+                                : 'Novo' }}
+                        </strong>
+
+                        <small>Nota média</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon local">
+                        <i class="pi pi-map-marker"></i>
+                    </div>
+
+                    <div>
+                        <span class="stat-label">Distância</span>
+
+                        <strong>
+                            @if (prestador.distanciaKm != null) {
+                                {{ prestador.distanciaKm | number:'1.1-1' }} km
+                            } @else {
+                                —
+                            }
+                        </strong>
+
+                        <small>Da sua localização</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon categorias-icon">
+                        <i class="pi pi-th-large"></i>
+                    </div>
+
+                    <div>
+                        <span class="stat-label">Especialidades</span>
+
+                        <strong>
+                            {{ prestador.categorias.length }}
+                        </strong>
+
+                        <small>Categoria(s) de serviço</small>
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+    </main>
 }

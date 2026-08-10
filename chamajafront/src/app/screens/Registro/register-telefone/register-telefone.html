@@ -1,54 +1,242 @@
-<div class="container">
-  <div class="imagemLogin"></div>
+<section class="telefone-page">
+  <div class="telefone-container">
+    <aside class="imagemLogin">
+      <div class="imagem-overlay">
+        <span class="imagem-badge">
+          <i class="pi pi-mobile"></i>
+          Verificação de contato
+        </span>
 
-  <div class="flip-container" [class.virado]="etapaVerificacao">
-    <div class="flipper">
+        <div class="imagem-conteudo">
+          <h1>Estamos quase terminando</h1>
 
-      <div class="front card-branco">
-        <h2>Adicione seu<br /><span>Telefone</span></h2>
-        <form>
-          <div class="campo">
-            <i class="fa fa-phone icon"></i>
-            <p-inputMask mask="(99) 99999-9999" id="telefone" name="telefone" placeholder="Telefone"
-              [(ngModel)]="telefone"></p-inputMask>
+          <p>
+            Confirme seu telefone para proteger sua conta e receber
+            atualizações importantes sobre seus serviços.
+          </p>
+
+          <div class="vantagens">
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Mais segurança para sua conta
+            </div>
+
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Recuperação de acesso facilitada
+            </div>
+
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Notificações importantes
+            </div>
           </div>
-
-
-
-          <app-defaultbutton type="btn-entrar" [disabled]="!telefone" (click)="enviarTelefone()">
-            Continuar
-          </app-defaultbutton>
-
-          <p class="criar-conta">Já tem uma conta? <a routerLink="/login">Logar aqui</a></p>
-        </form>
-      </div>
-
-      <div class="back card-branco">
-        <h2 style="text-align: center;">Verifique o<br /><span>Telefone</span></h2>
-        <p class="subtitulo">Enviamos um código para o número<br><strong>{{ telefone || '(00) 00000-0000' }}</strong>
-        </p>
-
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; height: 100%;">
-
-          <div class="otp-container">
-            <p-inputOtp [(ngModel)]="codigoSms" name="codigoSms" [length]="6"
-              [ngModelOptions]="{standalone: true}"></p-inputOtp>
-          </div>
-
-          <app-defaultbutton type="btn-entrar" [disabled]="!codigoSms || codigoSms.length !== 6"
-            (click)="verificarCodigo()" style="width: 100%;">
-            Verificar
-          </app-defaultbutton>
-
-          <p-button label="Reenviar codigo" variant="text" severity="warn" size="small" (click)="handleClick()"
-            [disabled]="bloqueado" />
-
-          <button type="button" class="btn-reenviar" (click)="voltar()">Editar número de telefone</button>
         </div>
       </div>
+    </aside>
 
-    </div>
+    <main class="telefone-painel">
+      <div
+        class="flip-container"
+        [class.virado]="etapaVerificacao"
+      >
+        <div class="flipper">
+          <!-- ====================================== -->
+          <!-- Frente: informar telefone             -->
+          <!-- ====================================== -->
+
+          <section class="card-face front">
+            <header class="card-header">
+              <div class="header-icon">
+                <i class="pi pi-phone"></i>
+              </div>
+
+              <div>
+                <span class="etapa-texto">
+                  Verificação de contato
+                </span>
+
+                <h2>Adicione seu telefone</h2>
+
+                <p>
+                  Enviaremos um código de seis dígitos para confirmar
+                  seu número.
+                </p>
+              </div>
+            </header>
+
+            <form class="telefone-form">
+              <div class="campo">
+                <label for="telefone">Número de telefone</label>
+
+                <div class="input-container">
+                  <i class="pi pi-phone input-icon"></i>
+
+                  <p-inputMask
+                    id="telefone"
+                    name="telefone"
+                    mask="(99) 99999-9999"
+                    styleClass="input-control"
+                    placeholder="(00) 00000-0000"
+                    autocomplete="tel"
+                    [(ngModel)]="telefone"
+                  />
+                </div>
+
+                <small class="campo-ajuda">
+                  <i class="pi pi-info-circle"></i>
+                  Informe um número que possa receber mensagens SMS.
+                </small>
+              </div>
+
+              <app-defaultbutton
+                type="btn-entrar"
+                [disabled]="!telefone"
+                (click)="enviarTelefone()"
+              >
+                Enviar código
+
+                <i class="pi pi-arrow-right"></i>
+              </app-defaultbutton>
+
+              <div class="separador">
+                <span>Já possui cadastro?</span>
+              </div>
+
+              <p class="login-link">
+                Acesse sua conta para continuar.
+
+                <a routerLink="/login">
+                  Fazer login
+                  <i class="pi pi-arrow-up-right"></i>
+                </a>
+              </p>
+            </form>
+
+            <div class="aviso-seguranca">
+              <i class="pi pi-lock"></i>
+
+              <p>
+                Seu telefone não será exibido publicamente sem sua
+                autorização.
+              </p>
+            </div>
+          </section>
+
+          <!-- ====================================== -->
+          <!-- Verso: verificar código               -->
+          <!-- ====================================== -->
+
+          <section class="card-face back">
+            <header class="card-header card-header-centralizado">
+              <div class="header-icon">
+                <i class="pi pi-shield"></i>
+              </div>
+
+              <div>
+                <span class="etapa-texto">
+                  Confirmação por SMS
+                </span>
+
+                <h2>Verifique seu telefone</h2>
+
+                <p>
+                  Insira o código de seis dígitos que enviamos para:
+                </p>
+              </div>
+            </header>
+
+            <div class="telefone-destino">
+              <span class="telefone-destino-icon">
+                <i class="pi pi-mobile"></i>
+              </span>
+
+              <div>
+                <small>Código enviado para</small>
+
+                <strong>
+                  {{ telefone || '(00) 00000-0000' }}
+                </strong>
+              </div>
+            </div>
+
+            <div class="verificacao-conteudo">
+              <div class="otp-area">
+                <label for="codigoSms">
+                  Digite o código recebido
+                </label>
+
+                <div class="otp-container">
+                  <p-inputOtp
+                    id="codigoSms"
+                    name="codigoSms"
+                    [length]="6"
+                    [integerOnly]="true"
+                    [ngModelOptions]="{ standalone: true }"
+                    [(ngModel)]="codigoSms"
+                  />
+                </div>
+
+                <small>
+                  O código pode levar alguns segundos para chegar.
+                </small>
+              </div>
+
+              <app-defaultbutton
+                type="btn-entrar"
+                [disabled]="
+                  !codigoSms ||
+                  codigoSms.length !== 6
+                "
+                (click)="verificarCodigo()"
+              >
+                Confirmar código
+
+                <i class="pi pi-check"></i>
+              </app-defaultbutton>
+
+              <div class="acoes-codigo">
+                <p-button
+                  label="Reenviar código"
+                  icon="pi pi-refresh"
+                  variant="text"
+                  size="small"
+                  [disabled]="bloqueado"
+                  (click)="handleClick()"
+                />
+
+                <button
+                  type="button"
+                  class="editar-telefone"
+                  (click)="voltar()"
+                >
+                  <i class="pi pi-pencil"></i>
+                  Editar número de telefone
+                </button>
+              </div>
+            </div>
+
+            <div class="aviso-seguranca">
+              <i class="pi pi-shield"></i>
+
+              <p>
+                Nunca compartilhe este código com outras pessoas.
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
   </div>
-</div>
+</section>
 
-<p-toast position="top-left"></p-toast>
+<p-toast position="top-left" />
