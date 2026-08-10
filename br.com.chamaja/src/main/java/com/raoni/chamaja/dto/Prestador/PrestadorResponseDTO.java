@@ -11,6 +11,7 @@ public record PrestadorResponseDTO(
         Double notaMedia,
         BigDecimal valorHora,
         String cidadePrincipal,
-        List<String> categorias
+        List<String> categorias,
+        Double distanciaKm
 ) {
 }

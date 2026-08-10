@@ -2,11 +2,13 @@ package com.raoni.chamaja.controller;
 
 import com.raoni.chamaja.dto.Cadastro.CadastroRequestDTO;
 import com.raoni.chamaja.dto.Cadastro.CadastroResponseDTO;
+import com.raoni.chamaja.dto.Endereco.EnderecoRequestDTO;
 import com.raoni.chamaja.dto.Usuario.UsuarioResponseDTO;
 import com.raoni.chamaja.model.CadastroTemporario;
 import com.raoni.chamaja.model.Usuario;
 import com.raoni.chamaja.seguranca.JwtService;
 import com.raoni.chamaja.service.CadastroService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,6 +90,16 @@ public class CadastroController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping(path = "/confirmar-endereco")
+    public ResponseEntity<Void> cadastrarEndereco (@Valid @RequestBody EnderecoRequestDTO dto){
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long idSeguro = Long.parseLong(authentication.getName());
+        cadastroService.cadastrarEndereco(dto, idSeguro);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @PostMapping("/tipo-usuario")
     public ResponseEntity<UsuarioResponseDTO> tipoUsuario(
             @RequestParam String tipoUsuario) {
@@ -104,7 +116,7 @@ public class CadastroController {
                 usuario.getEmail(),
                 usuario.getTipoUsuario(),
                 usuario.getNotaMedia(),
-                usuario.getRaioAtuacao(),
+                usuario.getRaioDeBusca(),
                 tokenDefinitivo
         );
 

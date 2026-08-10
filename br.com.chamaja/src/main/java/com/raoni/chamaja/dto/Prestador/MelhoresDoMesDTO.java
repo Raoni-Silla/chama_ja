@@ -9,6 +9,7 @@ public record MelhoresDoMesDTO(
         List<String> categorias,
         Double notaMedia,
         boolean isVerificado,
-        Long quantidadeAvaliacoes
+        Long quantidadeAvaliacoes,
+        Double distanciaKm
 ) {
 }

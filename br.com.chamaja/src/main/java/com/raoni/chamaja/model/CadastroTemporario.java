@@ -24,14 +24,12 @@ public class CadastroTemporario {
     private String nome;
 
     @NotBlank
-    @Column(unique = true)
     private String cpf;
 
     private LocalDate dataNascimento;
 
     @Email
     @NotBlank
-    @Column(unique = true)
     private String email;
 
     @NotBlank
@@ -48,4 +46,8 @@ public class CadastroTemporario {
 
     @Enumerated(EnumType.STRING)
     private StatusCadastro status;
+
+    @OneToOne (cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "endereco_temp_id")
+    private EnderecoTemporario enderecoTemporario;
 }

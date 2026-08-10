@@ -1,17 +1,14 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                    package com.raoni.chamaja.model;
+package com.raoni.chamaja.model;
 
-import com.raoni.chamaja.model.Usuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@RequiredArgsConstructor
 @Getter
 @Setter
-public class Endereco {
+public class EnderecoTemporario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,10 +44,4 @@ public class Endereco {
     @DecimalMax("180.0")
     private Double longitude;
 
-    private boolean enderecoPrincipal;
-
-
-    @ManyToOne (optional = false)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
 }

@@ -26,6 +26,8 @@ public class Prestador extends Usuario {
 
     private Integer tempoDeRespostaMedio;
 
+    private Long raioDeAtuacao;
+
     @ManyToMany
     @JoinTable(
             name = "prestador_categoria",

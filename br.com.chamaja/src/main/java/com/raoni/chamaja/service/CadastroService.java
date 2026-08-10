@@ -2,15 +2,20 @@ package com.raoni.chamaja.service;
 
 import com.raoni.chamaja.Erros.EntityAlreadyExistsException;
 import com.raoni.chamaja.dto.Cadastro.CadastroRequestDTO;
+import com.raoni.chamaja.dto.Endereco.EnderecoRequestDTO;
 import com.raoni.chamaja.enums.StatusCadastro;
 import com.raoni.chamaja.enums.TipoUsuario;
 import com.raoni.chamaja.model.CadastroTemporario;
+import com.raoni.chamaja.model.Endereco;
+import com.raoni.chamaja.model.EnderecoTemporario;
 import com.raoni.chamaja.model.Usuario;
 import com.raoni.chamaja.repository.CadastroTemporarioRepository;
 import com.raoni.chamaja.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -234,7 +239,43 @@ public class CadastroService {
         usuario.setTipoUsuario(tipoEnum);
         usuario.setTelefone(cadastro.getTelefone());
         usuario.setDataDeNascimento(cadastro.getDataNascimento());
+        Endereco endereco = createEndereco(cadastro);
+        usuario.getEnderecos().add(endereco);
+        endereco.setUsuario(usuario);
+        cadastroTemporarioRepository.delete(cadastro);
 
         return userRepo.save(usuario);
+    }
+
+    private static @NonNull Endereco createEndereco(CadastroTemporario cadastro) {
+        Endereco endereco = new Endereco();
+        endereco.setLogradouro(cadastro.getEnderecoTemporario().getLogradouro());
+        endereco.setNumero(cadastro.getEnderecoTemporario().getNumero());
+        endereco.setComplemento(cadastro.getEnderecoTemporario().getComplemento());
+        endereco.setSiglaEstado(cadastro.getEnderecoTemporario().getSiglaEstado());
+        endereco.setCep(cadastro.getEnderecoTemporario().getCep());
+        endereco.setLongitude(cadastro.getEnderecoTemporario().getLongitude());
+        endereco.setLatitude(cadastro.getEnderecoTemporario().getLatitude());
+        endereco.setEnderecoPrincipal(true);
+        endereco.setNomeCidade(cadastro.getEnderecoTemporario().getNomeCidade());
+        return endereco;
+    }
+
+    @Transactional
+    public void cadastrarEndereco(@Valid EnderecoRequestDTO dto, Long idSeguro) {
+
+        CadastroTemporario cadastro = cadastroTemporarioRepository.findById(idSeguro)
+                .orElseThrow(() -> new EntityNotFoundException("Não encontramos o seu usuário"));
+        EnderecoTemporario enderecoTemporario = new EnderecoTemporario();
+        enderecoTemporario.setLogradouro(dto.logradouro());
+        enderecoTemporario.setNumero(dto.numero());
+        enderecoTemporario.setComplemento(dto.complemento());
+        enderecoTemporario.setSiglaEstado(dto.siglaEstado());
+        enderecoTemporario.setCep(dto.cep());
+        enderecoTemporario.setLongitude(dto.longitude());
+        enderecoTemporario.setLatitude(dto.latitude());
+        enderecoTemporario.setNomeCidade(dto.nomeCidade());
+        cadastro.setEnderecoTemporario(enderecoTemporario);
+        cadastroTemporarioRepository.save(cadastro);
     }
 }

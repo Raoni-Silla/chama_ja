@@ -1,5 +1,6 @@
 package com.raoni.chamaja.service;
 
+import com.raoni.chamaja.Erros.EntityAlreadyExistsException;
 import com.raoni.chamaja.dto.Endereco.EnderecoRequestDTO;
 import com.raoni.chamaja.dto.Endereco.EnderecoResponseDTO;
 import com.raoni.chamaja.model.Endereco;
@@ -27,11 +28,33 @@ public class EnderecoService {
         return Long.parseLong(authentication.getName());
     }
 
+    private void naoPermitirDoisEnderecosPrincipais () {
+        Long usuarioId = extrairIdUsuarioLogado();
+        enderecoRepo
+                .findByUsuarioIdAndEnderecoPrincipalTrue(usuarioId)
+                .ifPresent(enderecoPrincipal -> {
+                    enderecoPrincipal.setEnderecoPrincipal(false);
+                    enderecoRepo.save(enderecoPrincipal);
+                });
+    }
+
+    private void verificarSeUsuarioJaCadastrouEsseEndereco (String cep) {
+        Long usuarioId = extrairIdUsuarioLogado();
+        boolean jaCriou = enderecoRepo.existsByUsuarioIdAndCep (usuarioId, cep);
+        if (jaCriou) {
+            throw new EntityAlreadyExistsException("esse endereço ja foi cadastrado");
+        }
+    }
+
     public void salvarEndereco(EnderecoRequestDTO dto) {
 
         Usuario usuario = userRepo.findById(extrairIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("impossivel encontrar esse usuario"));
         Endereco endereco = new Endereco();
+        if (dto.enderecoPrincipal()){
+            naoPermitirDoisEnderecosPrincipais();
+        }
         endereco.setEnderecoPrincipal(dto.enderecoPrincipal());
+        verificarSeUsuarioJaCadastrouEsseEndereco(dto.cep());
         endereco.setCep(dto.cep());
         endereco.setComplemento(dto.complemento());
         endereco.setNumero(dto.numero());
@@ -80,6 +103,9 @@ public class EnderecoService {
             throw new IllegalArgumentException("Id enviado é impossivel de encontrar");
         }
         Endereco endereco = enderecoRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Não foi possivel encontrar esse endereço em nosso sistena"));
+        if (dto.enderecoPrincipal()){
+            naoPermitirDoisEnderecosPrincipais();
+        }
         endereco.setEnderecoPrincipal(dto.enderecoPrincipal());
         endereco.setCep(dto.cep());
         endereco.setComplemento(dto.complemento());

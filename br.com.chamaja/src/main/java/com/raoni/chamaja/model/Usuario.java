@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -52,7 +53,7 @@ public class Usuario {
     private Double notaMedia;
 
     @PositiveOrZero(message = "O raio de atuação não pode ser negativo")
-    private Long raioAtuacao;
+    private Long raioDeBusca;
 
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
@@ -68,7 +69,7 @@ public class Usuario {
     private boolean isContaAtiva;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Endereco> enderecos;
+    private List<Endereco> enderecos = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario")
     private List<Pagamento> pagamentos;
