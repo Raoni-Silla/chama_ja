@@ -1,5 +1,6 @@
 package com.raoni.chamaja.service;
 
+import com.raoni.chamaja.dto.Endereco.EnderecoResponseDTO;
 import com.raoni.chamaja.dto.Usuario.UsuarioInfoBasicasDTO;
 import com.raoni.chamaja.dto.Usuario.UsuarioInfoPerfilDTO;
 import com.raoni.chamaja.dto.Usuario.UsuarioTrocaSenhaDTO;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -43,12 +45,12 @@ public class UsuarioService {
         throw new IllegalArgumentException("O número digitado está incompleto ou inválido. Por favor, inclua o DDD.");
     }
 
-    private Long obterIdUsuarioLogado (){
+    private Long obterIdUsuarioLogado() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         return Long.parseLong(authentication.getName());
     }
 
-    public UsuarioInfoBasicasDTO obterNomeAndEnderecoDoUsuarioLogado (){
+    public UsuarioInfoBasicasDTO obterNomeAndEnderecoDoUsuarioLogado() {
         Long idSeguro = obterIdUsuarioLogado();
         Usuario usuario = userRepo.findById(idSeguro).orElseThrow(() -> new RuntimeException("Impossivel encontrar esse usuario"));
         String nome = usuario.getNome();
@@ -66,7 +68,7 @@ public class UsuarioService {
     }
 
 
-    public UsuarioInfoPerfilDTO obterInformacoesDoPerfilUsuario(){
+    public UsuarioInfoPerfilDTO obterInformacoesDoPerfilUsuario() {
         Long idSeguro = obterIdUsuarioLogado();
         Usuario usuario = userRepo.findById(idSeguro).orElseThrow(() -> new RuntimeException("Impossivel encontrar esse usuario"));
         String ultimosDoisDigitosCpf = usuario.getCpf().substring(usuario.getCpf().length() - 2);
@@ -94,14 +96,14 @@ public class UsuarioService {
 
     @Transactional
     public void solicitarTrocaDeTelefoneAndEnvioDeSms(String telefone) {
-        if(telefone == null || telefone.isBlank()){
-            throw  new IllegalArgumentException("Telefone inválido");
+        if (telefone == null || telefone.isBlank()) {
+            throw new IllegalArgumentException("Telefone inválido");
         }
         Long id = obterIdUsuarioLogado();
         Usuario usuario = userRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar esse usuario"));
         String codigoGerado = gerarNumeroAleatorioValidacao();
         usuario.setCodigoSms(codigoGerado);
-        String telefoneFormatadoParaTwillio =formatarTelefoneProTwilio(telefone);
+        String telefoneFormatadoParaTwillio = formatarTelefoneProTwilio(telefone);
 
         try {
             smsService.enviarSms(telefoneFormatadoParaTwillio, codigoGerado);
@@ -132,7 +134,7 @@ public class UsuarioService {
 
     @Transactional
     public void trocarSenha(UsuarioTrocaSenhaDTO dto) {
-        if (dto.senhaAntiga().isBlank() || dto.senhaNova().isBlank()){
+        if (dto.senhaAntiga().isBlank() || dto.senhaNova().isBlank()) {
             throw new IllegalArgumentException("Impossivel continuar operação, insira dados validos");
         }
         Usuario usuario = userRepo.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar esse usuario"));
@@ -151,7 +153,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void desativarConta () {
+    public void desativarConta() {
         Long id = obterIdUsuarioLogado();
         Usuario usuario = userRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Não encontramos o seu usuário"));
@@ -164,4 +166,24 @@ public class UsuarioService {
         Long id = obterIdUsuarioLogado();
         userRepo.deleteById(id);
     }
+
+    public List<EnderecoResponseDTO> listarTodosEnderecosUsuario() {
+        Usuario usuario = userRepo.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
+        return usuario.getEnderecos().stream().map(e -> {
+            return new EnderecoResponseDTO(
+                    e.getId(),
+                    e.getLogradouro(),
+                    e.getNumero(),
+                    e.getComplemento(),
+                    e.getNomeCidade(),
+                    e.getSiglaEstado(),
+                    e.getCep(),
+                    e.getLatitude(),
+                    e.getLongitude(),
+                    e.isEnderecoPrincipal()
+            );
+        }).toList();
+    }
+
+
 }

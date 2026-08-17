@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -38,7 +39,7 @@ public class InteracaoInicial {
     @Column(columnDefinition = "TEXT")
     private String mensagem; // Descrição formatada
 
-    private Double valorSugerido; // Caso o prestador esteja enviando
+    private BigDecimal valorSugerido; // Caso o prestador esteja enviando
 
     @Enumerated(EnumType.STRING)
     private StatusInteracao status; // PENDENTE, ACEITA, RECUSADA

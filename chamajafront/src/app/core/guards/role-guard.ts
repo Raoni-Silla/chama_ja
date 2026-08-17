@@ -11,7 +11,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const token = loginService.obterToken();
 
   //se não existir o token, redireciona para a página de login
-  if(!token) {
+  if (!token) {
     router.navigate(['/login']);
     return false;
   }
@@ -22,12 +22,11 @@ export const roleGuard: CanActivateFn = (route, state) => {
     //verifica se a role do usuário é igual a role exigida pela rota
     const roles = payloadAberto.ROLE;
     //pega a role exigida pela rota
-    const roleExigida = route.data['role'];
+    const rolesPermitidas = route.data['roles'];
 
-    //se a role do usuário for igual a role exigida, permite o acesso caso contrário, redireciona para a página de login
-    if(roles === roleExigida) {
+    if (rolesPermitidas.includes(roles)) {
       return true;
-    }else{
+    } else {
       router.navigate(['/login']);
       return false;
     }
@@ -35,7 +34,4 @@ export const roleGuard: CanActivateFn = (route, state) => {
     router.navigate(['/login']);
     return false;
   }
-
 };
-
-

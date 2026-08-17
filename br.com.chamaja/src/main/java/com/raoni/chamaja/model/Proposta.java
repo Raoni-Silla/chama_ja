@@ -43,6 +43,10 @@ public class Proposta {
 
     private LocalDateTime dataCriacao;
 
+    @ManyToOne
+    @JoinColumn(name = "chamado_id", nullable = false)
+    private Chamado chamado;
+
     @PrePersist
     public void prePersist() {
         this.dataCriacao = LocalDateTime.now();

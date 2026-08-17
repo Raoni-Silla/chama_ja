@@ -8,8 +8,8 @@ public record EnderecoResponseDTO(
         String nomeCidade,
         String siglaEstado,
         String cep,
-        Double latitude,
-        Double longitude,
+        Double latitude, // e isso tambem
+        Double longitude, //tirar isso aqui
         boolean enderecoPrincipal
 ) {
 }

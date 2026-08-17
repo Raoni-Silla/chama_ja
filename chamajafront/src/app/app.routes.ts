@@ -1,4 +1,3 @@
-import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { Landingpage } from './screens/landingpage/landingpage';
 import { Login } from './screens/login/login';
@@ -12,17 +11,85 @@ import { PerfilPrestador } from './screens/usuario/perfil-prestador/perfil-prest
 import { ResultadosProcuraPrestadores } from './screens/usuario/resultados-procura-prestadores/resultados-procura-prestadores';
 import { PerfilUsuario } from './screens/usuario/perfil-usuario/perfil-usuario';
 import { Localizacao } from './screens/Registro/localizacao/localizacao';
+import { Chat } from './screens/usuario/chat/chat';
 
 export const routes: Routes = [
-    { path: '', component: Landingpage },
-    { path: 'login', component: Login },
-    { path: 'register', component: Register },
-    { path: 'register/telefone', component: RegisterTelefone },
-    { path: 'register/tipousuario', component: TipoUsuario },
-    { path: 'homepageuser', component: Home, canActivate: [roleGuard], data: { role: 'USUARIO' } },
-    { path: 'homepageprestador', component: HomePrestador, canActivate: [roleGuard], data: { role: 'PRESTADOR' } },
-    { path: 'resultados-busca', component: ResultadosProcuraPrestadores, canActivate: [roleGuard], data: { role: 'USUARIO' } },
-    { path: 'prestador/:id', component: PerfilPrestador, canActivate: [roleGuard], data: { role: 'USUARIO' } },
-    { path: "perfil-usuario", component: PerfilUsuario, canActivate: [roleGuard], data: { role: 'USUARIO' } },
-    { path: "register/localizacao", component : Localizacao }
+  {
+    path: '',
+    component: Landingpage
+  },
+  {
+    path: 'login',
+    component: Login
+  },
+  {
+    path: 'register',
+    component: Register
+  },
+  {
+    path: 'register/telefone',
+    component: RegisterTelefone
+  },
+  {
+    path: 'register/tipousuario',
+    component: TipoUsuario
+  },
+  {
+    path: 'register/localizacao',
+    component: Localizacao
+  },
+
+  {
+    path: 'homepageuser',
+    component: Home,
+    canActivate: [roleGuard],
+    data: {
+      roles: ['USUARIO']
+    }
+  },
+
+  {
+    path: 'homepageprestador',
+    component: HomePrestador,
+    canActivate: [roleGuard],
+    data: {
+      roles: ['PRESTADOR']
+    }
+  },
+
+  {
+    path: 'resultados-busca',
+    component: ResultadosProcuraPrestadores,
+    canActivate: [roleGuard],
+    data: {
+      roles: ['USUARIO']
+    }
+  },
+
+  {
+    path: 'prestador/:id',
+    component: PerfilPrestador,
+    canActivate: [roleGuard],
+    data: {
+      roles: ['USUARIO']
+    }
+  },
+
+  {
+    path: 'perfil-usuario',
+    component: PerfilUsuario,
+    canActivate: [roleGuard],
+    data: {
+      roles: ['USUARIO']
+    }
+  },
+
+  {
+    path: 'chat',
+    component: Chat,
+    canActivate: [roleGuard],
+    data: {
+      roles: ['USUARIO', 'PRESTADOR']
+    }
+  }
 ];

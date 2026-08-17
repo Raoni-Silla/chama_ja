@@ -41,9 +41,16 @@ public class EnderecoController {
 
     @PostMapping(path = "/atualizar-endereco/{id}")
     @PreAuthorize("hasRole('USUARIO')")
-    public ResponseEntity<Void> excluirEndereco (@PathVariable(name = "id") Long id, @RequestBody EnderecoRequestDTO dto) {
+    public ResponseEntity<Void> atualizarEndereco (@PathVariable(name = "id") Long id, @RequestBody EnderecoRequestDTO dto) {
         enderecoService.atualizarInformacoesEndereco(id,dto);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(path = "/definir-endereco-principal/{id}")
+    @PreAuthorize("hasRole('USUARIO')") //prestador tambem pode
+    public ResponseEntity<Void> definirEnderecoPrincipal (@PathVariable (name = "id") Long id){
+        enderecoService.definirNovoEnderecoPrincipal(id);
+        return ResponseEntity.status(200).build();
     }
 
 

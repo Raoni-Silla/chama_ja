@@ -5,6 +5,7 @@ import { PrestadorService } from '../../../service/prestador-service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
 import { Navbarlogged } from '../../../components/navbarlogged/navbarlogged';
+
 @Component({
   selector: 'app-resultados-procura-prestadores',
   imports: [ProgressSpinnerModule, CommonModule, Navbarlogged],

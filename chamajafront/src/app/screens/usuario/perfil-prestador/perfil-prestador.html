@@ -1,217 +1,289 @@
 @if (carregando) {
-    <div class="loading">
-        <p-progress-spinner
-            strokeWidth="5"
-            fill="transparent"
-            animationDuration=".8s"
-            [style]="{ width: '64px', height: '64px' }">
-        </p-progress-spinner>
+  <div class="loading">
+    <p-progress-spinner
+      strokeWidth="5"
+      fill="transparent"
+      animationDuration=".8s"
+      [style]="{ width: '64px', height: '64px' }"
+    >
+    </p-progress-spinner>
 
-        <p>Carregando perfil...</p>
-    </div>
+    <p>Carregando perfil...</p>
+  </div>
 }
 
 @if (!carregando && prestador) {
+  <main class="perfil-container">
+    <section class="perfil-header">
+      <div class="perfil-identidade">
+        <div class="foto-wrapper">
+          <img [src]="prestador.fotoUrl" [alt]="'Foto de ' + prestador.nome" />
+        </div>
 
-    <main class="perfil-container">
+        <div class="info-principal">
+          <span class="tipo-profissional"> Profissional ChamaJá </span>
 
-        <section class="perfil-header">
+          <h1>{{ prestador.nome }}</h1>
 
-            <div class="perfil-identidade">
+          <div class="localizacao">
+            <span>
+              <i class="pi pi-map-marker"></i>
+              {{ prestador.cidadePrincipal }}
+            </span>
 
-                <div class="foto-wrapper">
-                    <img
-                        [src]="prestador.fotoUrl"
-                        [alt]="'Foto de ' + prestador.nome">
-                </div>
+            @if (prestador.distanciaKm != null) {
+              <span class="distancia">
+                <i class="pi pi-directions"></i>
+                {{ prestador.distanciaKm | number: '1.1-1' }} km de você
+              </span>
+            }
+          </div>
 
-                <div class="info-principal">
+          <div class="tags">
+            @for (cat of prestador.categorias; track cat) {
+              <span class="chip">
+                {{ cat }}
+              </span>
+            }
+          </div>
+        </div>
+      </div>
 
-                    <span class="tipo-profissional">
-                        Profissional ChamaJá
-                    </span>
+      <aside class="acao-principal">
+        <span class="preco-label"> Valor por hora </span>
 
-                    <h1>{{ prestador.nome }}</h1>
+        <div class="preco">
+          <span class="moeda">R$</span>
 
-                    <div class="localizacao">
+          <strong>
+            {{ prestador.valorHora | number: '1.2-2' }}
+          </strong>
 
-                        <span>
-                            <i class="pi pi-map-marker"></i>
-                            {{ prestador.cidadePrincipal }}
-                        </span>
+          <small>/ hora</small>
+        </div>
 
-                        @if (prestador.distanciaKm != null) {
-                            <span class="distancia">
-                                <i class="pi pi-directions"></i>
-                                {{ prestador.distanciaKm | number:'1.1-1' }} km de você
-                            </span>
-                        }
+        <button class="btn-contratar" (click)="isModalAberto = true">
+          <i class="pi pi-comments"></i>
+          Solicitar orçamento
+        </button>
 
-                    </div>
+        <p class="acao-info">Converse com o profissional e combine os detalhes do serviço.</p>
+      </aside>
+    </section>
 
-                    <div class="tags">
-                        @for (cat of prestador.categorias; track cat) {
-                            <span class="chip">
-                                {{ cat }}
-                            </span>
-                        }
-                    </div>
-
-                </div>
-
+    <section class="perfil-conteudo">
+      <div class="conteudo-principal">
+        <article class="sobre-card">
+          <div class="section-title">
+            <div class="title-icon">
+              <i class="pi pi-user"></i>
             </div>
 
-            <aside class="acao-principal">
+            <div>
+              <h2>Sobre o profissional</h2>
+              <p>Conheça um pouco mais sobre o trabalho oferecido.</p>
+            </div>
+          </div>
 
-                <span class="preco-label">
-                    Valor por hora
+          <p class="biografia">
+            {{ prestador.biografia }}
+          </p>
+        </article>
+
+        <article class="especialidades-card">
+          <div class="section-title">
+            <div class="title-icon">
+              <i class="pi pi-briefcase"></i>
+            </div>
+
+            <div>
+              <h2>Especialidades</h2>
+              <p>Áreas em que este profissional atua.</p>
+            </div>
+          </div>
+
+          <div class="especialidades">
+            @for (cat of prestador.categorias; track cat) {
+              <div class="especialidade">
+                <div class="especialidade-icon">
+                  <i class="pi pi-check"></i>
+                </div>
+
+                <span>{{ cat }}</span>
+              </div>
+            }
+          </div>
+        </article>
+      </div>
+
+      <aside class="stats">
+        <div class="stat-card">
+          <div class="stat-icon avaliacao">
+            <i class="pi pi-star-fill"></i>
+          </div>
+
+          <div>
+            <span class="stat-label">Avaliação</span>
+
+            <strong>
+              {{ prestador.notaMedia != null ? (prestador.notaMedia | number: '1.1-1') : 'Novo' }}
+            </strong>
+
+            <small>Nota média</small>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon local">
+            <i class="pi pi-map-marker"></i>
+          </div>
+
+          <div>
+            <span class="stat-label">Distância</span>
+
+            <strong>
+              @if (prestador.distanciaKm != null) {
+                {{ prestador.distanciaKm | number: '1.1-1' }} km
+              } @else {
+                —
+              }
+            </strong>
+
+            <small>Da sua localização</small>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon categorias-icon">
+            <i class="pi pi-th-large"></i>
+          </div>
+
+          <div>
+            <span class="stat-label">Especialidades</span>
+
+            <strong>
+              {{ prestador.categorias.length }}
+            </strong>
+
+            <small>Categoria(s) de serviço</small>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <p-dialog header="Solicitar um orçamento" [modal]="true" [(visible)]="isModalAberto">
+    <div class="cardInputs">
+      <label for="titulo">Assunto</label>
+      <input
+        type="text"
+        id="titulo"
+        name="titulo"
+        placeholder="Ex : conserto de chuveiro"
+        [formControl]="titulo"
+        class="inputStyle"
+      />
+      <label for="descricao">Descrição</label>
+      <p-editor
+        id="descricao"
+        name="descricao"
+        [formControl]="descricao"
+        class="editorStyle"
+        [formControl]="descricao"
+      ></p-editor>
+      <label for="valorSugerido">Valor Oferta</label>
+      <input
+        type="number"
+        id="valorSugerido"
+        name="valorSugerido"
+        placeholder="R$ 111,11"
+        class="inputStyle"
+        [formControl]="valorSugerido"
+      />
+    </div>
+    <div class="cardBotoes">
+      <p-button
+        label="Continuar"
+        (click)="carregarModalConfirmacao()"
+        [disabled]="!titulo.valid || !descricao.valid || !valorSugerido.valid"
+        class="buttonStyle"
+      ></p-button>
+    </div>
+  </p-dialog>
+
+  @if(!carregandoInfoEnderecosModais && enderecosUsuario.length > 0) {
+    <p-dialog
+      header="Preste Atenção"
+      [(visible)]="modalConfirmacao"
+      [modal]="true"
+      [style]="{ width: '40rem' }"
+    >
+      <h1 class="tituloPrincipalModal">
+        Vamos utilizar seu endereço marcado como <strong>principal</strong> para realizar esse
+        orçamento
+      </h1>
+      <p class="descricaoTituloPrincipal">
+        Por favor, se não é o endereço que você deseja mude seu endereço principal com um clique
+        antes de continuar
+      </p>
+
+      <div class="containerEnderecos">
+        @for (endereco of enderecosUsuario; track endereco.id) {
+          <div class="cardEndereco" [class.principal]="endereco.enderecoPrincipal" (click)="definirEnderecoComoPrincipal(endereco.id)">
+            <div class="cardEnderecoHeader">
+              <div class="iconeEndereco">
+                <i class="pi pi-map-marker"></i>
+              </div>
+
+              @if (endereco.enderecoPrincipal) {
+                <span class="badge-principal">
+                  <i class="pi pi-star-fill"></i>
+                  Principal
+                </span>
+              }
+            </div>
+
+            <div class="cardEnderecoContent">
+              <h3>{{ endereco.logradouro }}, {{ endereco.numero }}</h3>
+
+              <p class="cidade">{{ endereco.nomeCidade }} - {{ endereco.siglaEstado }}</p>
+
+              <div class="detalhesEndereco">
+                <span>
+                  <i class="pi pi-map"></i>
+                  CEP {{ endereco.cep }}
                 </span>
 
-                <div class="preco">
-                    <span class="moeda">R$</span>
-
-                    <strong>
-                        {{ prestador.valorHora | number:'1.2-2' }}
-                    </strong>
-
-                    <small>/ hora</small>
-                </div>
-
-                <button class="btn-contratar">
-                    <i class="pi pi-comments"></i>
-                    Solicitar orçamento
-                </button>
-
-                <p class="acao-info">
-                    Converse com o profissional e combine os detalhes do serviço.
-                </p>
-
-            </aside>
-
-        </section>
-
-
-        <section class="perfil-conteudo">
-
-            <div class="conteudo-principal">
-
-                <article class="sobre-card">
-
-                    <div class="section-title">
-                        <div class="title-icon">
-                            <i class="pi pi-user"></i>
-                        </div>
-
-                        <div>
-                            <h2>Sobre o profissional</h2>
-                            <p>Conheça um pouco mais sobre o trabalho oferecido.</p>
-                        </div>
-                    </div>
-
-                    <p class="biografia">
-                        {{ prestador.biografia }}
-                    </p>
-
-                </article>
-
-
-                <article class="especialidades-card">
-
-                    <div class="section-title">
-                        <div class="title-icon">
-                            <i class="pi pi-briefcase"></i>
-                        </div>
-
-                        <div>
-                            <h2>Especialidades</h2>
-                            <p>Áreas em que este profissional atua.</p>
-                        </div>
-                    </div>
-
-                    <div class="especialidades">
-                        @for (cat of prestador.categorias; track cat) {
-                            <div class="especialidade">
-                                <div class="especialidade-icon">
-                                    <i class="pi pi-check"></i>
-                                </div>
-
-                                <span>{{ cat }}</span>
-                            </div>
-                        }
-                    </div>
-
-                </article>
-
+                @if (endereco.complemento) {
+                  <span>
+                    <i class="pi pi-home"></i>
+                    {{ endereco.complemento }}
+                  </span>
+                }
+              </div>
             </div>
 
+            <i class="pi pi-chevron-right seta"></i>
+          </div>
+        }
+      </div>
+       <p-button
+        label="Enviar Proposta"
+        (click)="enviarProposta()"
+        class="buttonStyle"
+      ></p-button>
+    </p-dialog>
+  }@else {
+    <div class="loading">
+    <p-progress-spinner
+      strokeWidth="5"
+      fill="transparent"
+      animationDuration=".8s"
+      [style]="{ width: '64px', height: '64px' }"
+    >
+    </p-progress-spinner>
 
-            <aside class="stats">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon avaliacao">
-                        <i class="pi pi-star-fill"></i>
-                    </div>
-
-                    <div>
-                        <span class="stat-label">Avaliação</span>
-
-                        <strong>
-                            {{ prestador.notaMedia != null
-                                ? (prestador.notaMedia | number:'1.1-1')
-                                : 'Novo' }}
-                        </strong>
-
-                        <small>Nota média</small>
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon local">
-                        <i class="pi pi-map-marker"></i>
-                    </div>
-
-                    <div>
-                        <span class="stat-label">Distância</span>
-
-                        <strong>
-                            @if (prestador.distanciaKm != null) {
-                                {{ prestador.distanciaKm | number:'1.1-1' }} km
-                            } @else {
-                                —
-                            }
-                        </strong>
-
-                        <small>Da sua localização</small>
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon categorias-icon">
-                        <i class="pi pi-th-large"></i>
-                    </div>
-
-                    <div>
-                        <span class="stat-label">Especialidades</span>
-
-                        <strong>
-                            {{ prestador.categorias.length }}
-                        </strong>
-
-                        <small>Categoria(s) de serviço</small>
-                    </div>
-
-                </div>
-
-            </aside>
-
-        </section>
-
-    </main>
+    <p>Carregando enderecos...</p>
+  </div>
+  }
 }

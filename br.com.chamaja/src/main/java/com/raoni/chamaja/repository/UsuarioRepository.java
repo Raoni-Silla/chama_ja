@@ -17,4 +17,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsByTelefone(String telefone);
 
 
+    Long id(Long id);
 }

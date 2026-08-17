@@ -33,4 +33,8 @@ public class Pagamento {
     @ManyToOne (optional = false)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "chamado_id", nullable = false)
+    private Chamado chamado;
 }

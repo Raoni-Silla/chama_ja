@@ -119,4 +119,14 @@ public class EnderecoService {
         enderecoRepo.save(endereco);
 
     }
+
+    public void definirNovoEnderecoPrincipal(Long id) {
+        if (id == null || id <= 0){
+            throw new IllegalArgumentException("Id inválido");
+        }
+        naoPermitirDoisEnderecosPrincipais();
+        Endereco endereco = enderecoRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar esse endereço"));
+        endereco.setEnderecoPrincipal(true);
+        enderecoRepo.save(endereco);
+    }
 }

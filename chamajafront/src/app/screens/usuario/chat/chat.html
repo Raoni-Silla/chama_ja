@@ -1,0 +1,697 @@
+@if (carregandoContatos) {
+
+  <div class="divCarregamento">
+    <p-progress-spinner></p-progress-spinner>
+    <p>Carregando suas conversas...</p>
+  </div>
+
+} @else {
+
+  <div class="body">
+
+    <!-- =====================================================
+         LISTA DE CONVERSAS
+    ====================================================== -->
+
+    <aside class="contatos">
+
+      <div class="headerContatos">
+
+        <div class="headerContatosTexto">
+          <h2>Conversas</h2>
+          <p>Seus contatos e solicitações</p>
+        </div>
+
+        <div class="iconeHeader">
+          <i class="pi pi-comments"></i>
+        </div>
+
+      </div>
+
+
+      <div class="listaContatos">
+
+        @if (listaContatos.length === 0) {
+
+          <div class="contatosVazio">
+
+            <div class="iconeVazio">
+              <i class="pi pi-comments"></i>
+            </div>
+
+            <h3>Nenhuma conversa por aqui</h3>
+
+            <p>
+              Você ainda não possui negociações ou interações pendentes.
+            </p>
+
+          </div>
+
+        } @else {
+
+          @for (contato of listaContatos; track contato.idReferencia) {
+
+            <div
+              class="cardContatos"
+              [class.selecionado]="
+                contatoSelecionado?.idReferencia === contato.idReferencia &&
+                contatoSelecionado?.tipoItemCentral === contato.tipoItemCentral
+              "
+              (click)="carregarInformacoesDaConversa(contato)"
+            >
+
+              <div class="fotoContato">
+
+                <img
+                  [src]="contato.fotoOutraPessoa"
+                  [alt]="contato.nomeOutraPessoa"
+                />
+
+                <span
+                  class="statusIndicador"
+                  [class.andamento]="contato.estadoCentral === 'EM_ANDAMENTO'"
+                ></span>
+
+              </div>
+
+
+              <div class="infoContato">
+
+                <div class="linhaNome">
+
+                  <h3>
+                    {{ contato.nomeOutraPessoa }}
+                  </h3>
+
+                  <span class="data">
+                    {{ contato.datarReferencia | date: 'dd/MM' }}
+                  </span>
+
+                </div>
+
+
+                <p class="tituloContato">
+                  {{ contato.titulo }}
+                </p>
+
+
+                <div class="footerContato">
+
+                  <span
+                    class="tipo"
+                    [class.chamado]="contato.tipoItemCentral === 'CHAMADO'"
+                  >
+                    {{ contato.tipoItemCentral }}
+                  </span>
+
+                  <span
+                    class="estado"
+                    [class.estadoAndamento]="
+                      contato.estadoCentral === 'EM_ANDAMENTO'
+                    "
+                  >
+                    {{ contato.estadoCentral }}
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          }
+
+        }
+
+      </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         ÁREA DA CONVERSA
+    ====================================================== -->
+
+    <main class="telaChat">
+
+      @if (contatoSelecionado) {
+
+        <!-- LOADING DOS DETALHES -->
+
+        @if (carregandoDetalhesContatos) {
+
+          <div class="carregandoChat">
+
+            <p-progress-spinner></p-progress-spinner>
+
+            <p>
+              Carregando os detalhes da conversa...
+            </p>
+
+          </div>
+
+        } @else {
+
+
+          <!-- =================================================
+               INTERAÇÃO INICIAL
+          ================================================== -->
+
+          @if (contatoSelecionado.tipoItemCentral === 'INTERACAO') {
+
+            @if (detalhesInteracaoInicial) {
+
+              <div class="interacaoContainer">
+
+
+                <!-- HEADER -->
+
+                <header class="headerConversa">
+
+                  <div class="usuarioConversa">
+
+                    <img
+                      [src]="contatoSelecionado.fotoOutraPessoa"
+                      [alt]="contatoSelecionado.nomeOutraPessoa"
+                    />
+
+                    <div class="dadosUsuarioConversa">
+
+                      <h3>
+                        {{ contatoSelecionado.nomeOutraPessoa }}
+                      </h3>
+
+                      <div class="subtituloConversa">
+
+                        <span class="indicadorInteracao"></span>
+
+                        <span>
+                          Interação inicial
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  <span class="badgeInteracao">
+
+                    <i class="pi pi-comments"></i>
+
+                    Interação
+
+                  </span>
+
+                </header>
+
+
+                <!-- CONTEÚDO -->
+
+                <section class="conteudoInteracao">
+
+                  <div class="avisoInteracao">
+
+                    <i class="pi pi-info-circle"></i>
+
+                    <span>
+                      Esta é uma interação inicial. O chat será liberado
+                      quando a negociação avançar.
+                    </span>
+
+                  </div>
+
+
+                  <div class="separadorData">
+
+                    <span>
+                      {{
+                        detalhesInteracaoInicial.dataCriacao
+                          | date: 'dd/MM/yyyy'
+                      }}
+                    </span>
+
+                  </div>
+
+
+                  <div class="linhaMensagemInteracao">
+
+                    <div class="avatarMensagem">
+
+                      <img
+                        [src]="contatoSelecionado.fotoOutraPessoa"
+                        [alt]="contatoSelecionado.nomeOutraPessoa"
+                      />
+
+                    </div>
+
+
+                    <article class="cardInteracao">
+
+                      <div class="topoCardInteracao">
+
+                        <div>
+
+                          <span class="labelSolicitacao">
+                            Solicitação
+                          </span>
+
+                          <h2>
+                            {{ detalhesInteracaoInicial.titulo }}
+                          </h2>
+
+                        </div>
+
+
+                        <span
+                          class="statusSolicitacao"
+                          [class.statusAndamento]="
+                            detalhesInteracaoInicial.statusInteracao ===
+                            'EM_ANDAMENTO'
+                          "
+                        >
+                          {{ detalhesInteracaoInicial.statusInteracao }}
+                        </span>
+
+                      </div>
+
+
+                      <div
+                        class="descricaoInteracao"
+                        [innerHTML]="detalhesInteracaoInicial.descricao"
+                      ></div>
+
+
+                      <div class="divisorInteracao"></div>
+
+
+                      <div class="detalhesProposta">
+
+                        <div class="detalheProposta">
+
+                          <div class="iconeDetalhe">
+                            <i class="pi pi-wallet"></i>
+                          </div>
+
+                          <div>
+
+                            <span>
+                              Valor sugerido
+                            </span>
+
+                            <strong>
+                              {{
+                                detalhesInteracaoInicial.valorSugerido
+                                  | currency: 'BRL'
+                              }}
+                            </strong>
+
+                          </div>
+
+                        </div>
+
+
+                        <div class="detalheProposta">
+
+                          <div class="iconeDetalhe">
+                            <i class="pi pi-calendar"></i>
+                          </div>
+
+                          <div>
+
+                            <span>
+                              Enviado em
+                            </span>
+
+                            <strong>
+                              {{
+                                detalhesInteracaoInicial.dataCriacao
+                                  | date: 'dd/MM/yyyy HH:mm'
+                              }}
+                            </strong>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+
+                      <div class="rodapeCardInteracao">
+
+                        <i class="pi pi-lock"></i>
+
+                        <span>
+                          Aguardando andamento da negociação
+                        </span>
+
+                      </div>
+
+                    </article>
+
+                  </div>
+
+                </section>
+
+
+                <!-- INPUT BLOQUEADO -->
+
+                <footer class="composerBloqueado">
+
+                  <div class="campoBloqueado">
+
+                    <i class="pi pi-lock"></i>
+
+                    <input
+                      type="text"
+                      value="As mensagens ainda não estão disponíveis nesta interação"
+                      disabled
+                    />
+
+                  </div>
+
+
+                  <button
+                    type="button"
+                    class="botaoEnviarBloqueado"
+                    disabled
+                  >
+                    <i class="pi pi-send"></i>
+                  </button>
+
+                </footer>
+
+              </div>
+
+            } @else {
+
+              <div class="erroDetalhes">
+
+                <div class="iconeErroDetalhes">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+
+                <h3>
+                  Não foi possível carregar a interação
+                </h3>
+
+                <p>
+                  Tivemos um problema ao buscar os detalhes dessa solicitação.
+                </p>
+
+              </div>
+
+            }
+
+
+          <!-- =================================================
+               CHAT DO CHAMADO / WEBSOCKET
+          ================================================== -->
+
+          } @else if (contatoSelecionado.tipoItemCentral === 'CHAMADO') {
+
+            <div class="chatContainer">
+
+
+              <!-- HEADER CHAT -->
+
+              <header class="headerConversa">
+
+                <div class="usuarioConversa">
+
+                  <div class="fotoHeaderChat">
+
+                    <img
+                      [src]="contatoSelecionado.fotoOutraPessoa"
+                      [alt]="contatoSelecionado.nomeOutraPessoa"
+                    />
+
+                    <span class="indicadorOnline"></span>
+
+                  </div>
+
+
+                  <div class="dadosUsuarioConversa">
+
+                    <h3>
+                      {{ contatoSelecionado.nomeOutraPessoa }}
+                    </h3>
+
+                    <div class="subtituloConversa">
+
+                      <span class="indicadorChamado"></span>
+
+                      <span>
+                        {{ contatoSelecionado.titulo }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="acoesHeaderChat">
+
+                  <span class="badgeChamado">
+
+                    <i class="pi pi-briefcase"></i>
+
+                    Chamado
+
+                  </span>
+
+                </div>
+
+              </header>
+
+
+              <!-- ============================================
+                   HISTÓRICO DE MENSAGENS
+              ============================================= -->
+
+              <section class="conteudoMensagens">
+
+
+                @if (mensagensChamado.length === 0) {
+
+                  <div class="semMensagens">
+
+                    <div class="iconeSemMensagens">
+                      <i class="pi pi-comments"></i>
+                    </div>
+
+                    <h3>
+                      Nenhuma mensagem ainda
+                    </h3>
+
+                    <p>
+                      Essa negociação acabou de começar.
+                      Envie uma mensagem para iniciar a conversa.
+                    </p>
+
+                  </div>
+
+                } @else {
+
+                  <div class="inicioConversa">
+
+                    <div class="iconeInicioConversa">
+                      <i class="pi pi-lock"></i>
+                    </div>
+
+                    <p>
+                      Esta conversa está vinculada ao chamado
+                      <strong>{{ contatoSelecionado.titulo }}</strong>.
+                    </p>
+
+                  </div>
+
+
+                  <div class="separadorChat">
+
+                    <span>
+                      Mensagens
+                    </span>
+
+                  </div>
+
+
+                  <div class="listaMensagens">
+
+                    @for (
+                      mensagem of mensagensChamado;
+                      track mensagem.idMensagem
+                    ) {
+
+                      <div
+                        class="linhaMensagemChat"
+                        [class.minhaMensagem]="mensagem.idRemetente != contatoSelecionado.idOutraPessoa"
+                      >
+
+
+                        <!-- FOTO SOMENTE DA OUTRA PESSOA -->
+
+                        @if (mensagem.idRemetente === contatoSelecionado.idOutraPessoa) {
+
+                          <div class="avatarMensagemChat">
+
+                            <img
+                              [src]="mensagem.fotoRemetente"
+                              [alt]="mensagem.nomeRemetente"
+                            />
+
+                          </div>
+
+                        }
+
+
+                        <div class="grupoMensagem">
+
+
+                          <!-- NOME DA OUTRA PESSOA -->
+
+                          @if (mensagem.idRemetente === contatoSelecionado.idOutraPessoa) {
+
+                            <span class="nomeRemetente">
+                              {{ mensagem.nomeRemetente }}
+                            </span>
+
+                          }
+
+
+                          <!-- BALÃO -->
+
+                          <div class="balaoMensagem">
+
+                            <p>
+                              {{ mensagem.conteudo }}
+                            </p>
+
+
+                            <div class="metaMensagem">
+
+                              <span class="horarioMensagem">
+                                {{
+                                  mensagem.dataEnvio
+                                    | date: 'HH:mm'
+                                }}
+                              </span>
+
+
+                              @if (mensagem.idRemetente !== contatoSelecionado.idOutraPessoa) {
+
+                                <i
+                                  class="pi"
+                                  [ngClass]="
+                                    mensagem.lida
+                                      ? 'pi-check-circle'
+                                      : 'pi-check'
+                                  "
+                                  [title]="
+                                    mensagem.lida
+                                      ? 'Mensagem lida'
+                                      : 'Mensagem enviada'
+                                  "
+                                ></i>
+
+                              }
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    }
+
+                  </div>
+
+                }
+
+              </section>
+
+
+              <!-- ============================================
+                   INPUT / ENVIO DA MENSAGEM
+              ============================================= -->
+
+              <footer class="composerChat">
+
+
+                <button
+                  type="button"
+                  class="botaoComposer botaoAnexo"
+                  aria-label="Adicionar anexo"
+                >
+                  <i class="pi pi-paperclip"></i>
+                </button>
+
+
+                <div class="campoMensagemChat">
+
+                  <input
+                    type="text"
+                    placeholder="Digite uma mensagem..."
+                    autocomplete="off"
+                    [(ngModel)]="conteudo"
+                  />
+
+                </div>
+
+
+                <button
+                  type="button"
+                  class="botaoEnviarMensagem"
+                  aria-label="Enviar mensagem"
+                  (click)="enviarMensagem()"
+                >
+                  <i class="pi pi-send"></i>
+                </button>
+
+
+              </footer>
+
+            </div>
+
+          }
+
+        }
+
+      } @else {
+
+
+        <!-- =================================================
+             NENHUMA CONVERSA SELECIONADA
+        ================================================== -->
+
+        <div class="chatVazio">
+
+          <div class="iconeChat">
+            <i class="pi pi-comments"></i>
+          </div>
+
+          <h2>
+            Central de conversas
+          </h2>
+
+          <p>
+            Selecione uma conversa ao lado para visualizar
+            as mensagens e continuar sua negociação.
+          </p>
+
+        </div>
+
+      }
+
+    </main>
+
+  </div>
+
+}
+
+<p-toast></p-toast>

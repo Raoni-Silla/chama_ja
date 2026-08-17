@@ -1,0 +1,1829 @@
+/* ============================================================
+   CONFIGURAÇÕES GERAIS
+============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+.body {
+  width: 100%;
+  height: calc(100vh - 70px);
+
+  display: flex;
+
+  background: #f6f7f9;
+
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   LOADING GERAL
+============================================================ */
+
+.divCarregamento {
+  width: 100%;
+  height: calc(100vh - 70px);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  background: #f6f7f9;
+}
+
+.divCarregamento p {
+  margin: 0;
+
+  font-size: 0.88rem;
+
+  color: #7e7e7e;
+}
+
+
+/* ============================================================
+   MENU DE CONTATOS
+============================================================ */
+
+.contatos {
+  width: 390px;
+  min-width: 340px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #ffffff;
+
+  border-right: 1px solid #e8e8e8;
+
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.025);
+
+  z-index: 5;
+}
+
+
+/* ============================================================
+   HEADER DA LISTA
+============================================================ */
+
+.headerContatos {
+  min-height: 95px;
+
+  padding: 22px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.headerContatosTexto h2 {
+  margin: 0;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  color: #222222;
+}
+
+.headerContatosTexto p {
+  margin: 5px 0 0;
+
+  font-size: 0.82rem;
+
+  color: #929292;
+}
+
+.iconeHeader {
+  width: 43px;
+  height: 43px;
+
+  min-width: 43px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.iconeHeader i {
+  font-size: 1.25rem;
+
+  color: var(--primaryColor, #4f46e5);
+}
+
+
+/* ============================================================
+   LISTA CONTATOS
+============================================================ */
+
+.listaContatos {
+  flex: 1;
+
+  padding: 10px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+/* ============================================================
+   CARD CONTATO
+============================================================ */
+
+.cardContatos {
+  position: relative;
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 14px;
+
+  margin-bottom: 5px;
+
+  border: 1px solid transparent;
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cardContatos:hover {
+  background: #f8f8ff;
+
+  border-color: rgba(79, 70, 229, 0.13);
+
+  transform: translateX(3px);
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.035);
+}
+
+.cardContatos.selecionado {
+  background: rgba(79, 70, 229, 0.07);
+
+  border-color: rgba(79, 70, 229, 0.16);
+}
+
+.cardContatos.selecionado::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 11px;
+  bottom: 11px;
+
+  width: 3px;
+
+  border-radius: 0 10px 10px 0;
+
+  background: var(--primaryColor, #4f46e5);
+}
+
+
+/* ============================================================
+   FOTO CONTATO
+============================================================ */
+
+.fotoContato {
+  position: relative;
+
+  width: 55px;
+  height: 55px;
+
+  min-width: 55px;
+}
+
+.fotoContato img {
+  width: 55px;
+  height: 55px;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 2px solid #f1f1f1;
+
+  background: #eeeeee;
+}
+
+.statusIndicador {
+  position: absolute;
+
+  right: 0;
+  bottom: 2px;
+
+  width: 13px;
+  height: 13px;
+
+  border-radius: 50%;
+
+  background: #f59e0b;
+
+  border: 2px solid #ffffff;
+}
+
+.statusIndicador.andamento {
+  background: #22c55e;
+}
+
+
+/* ============================================================
+   INFO CONTATO
+============================================================ */
+
+.infoContato {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.linhaNome {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.linhaNome h3 {
+  margin: 0;
+
+  min-width: 0;
+
+  font-size: 0.96rem;
+  font-weight: 600;
+
+  color: #292929;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.data {
+  flex-shrink: 0;
+
+  font-size: 0.69rem;
+  font-weight: 500;
+
+  color: #a1a1aa;
+}
+
+.tituloContato {
+  margin: 5px 0 9px;
+
+  max-width: 220px;
+
+  font-size: 0.81rem;
+
+  color: #747474;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   BADGES CONTATO
+============================================================ */
+
+.footerContato {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  flex-wrap: wrap;
+}
+
+.tipo,
+.estado {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px 8px;
+
+  border-radius: 20px;
+
+  font-size: 0.61rem;
+  font-weight: 600;
+
+  text-transform: lowercase;
+}
+
+.tipo {
+  color: #4f46e5;
+
+  background: #eef2ff;
+}
+
+.tipo.chamado {
+  color: #0369a1;
+
+  background: #e0f2fe;
+}
+
+.estado {
+  color: #b45309;
+
+  background: #fef3c7;
+}
+
+.estado.estadoAndamento {
+  color: #15803d;
+
+  background: #dcfce7;
+}
+
+
+/* ============================================================
+   LISTA VAZIA
+============================================================ */
+
+.contatosVazio {
+  min-height: 70%;
+
+  padding: 40px 25px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.iconeVazio {
+  width: 76px;
+  height: 76px;
+
+  margin-bottom: 18px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(79, 70, 229, 0.07);
+}
+
+.iconeVazio i {
+  font-size: 2rem;
+
+  color: var(--primaryColor, #4f46e5);
+}
+
+.contatosVazio h3 {
+  margin: 0 0 8px;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  color: #3d3d3d;
+}
+
+.contatosVazio p {
+  max-width: 250px;
+
+  margin: 0;
+
+  font-size: 0.8rem;
+
+  line-height: 1.55;
+
+  color: #9a9a9a;
+}
+
+
+/* ============================================================
+   ÁREA DIREITA
+============================================================ */
+
+.telaChat {
+  position: relative;
+
+  flex: 1;
+
+  min-width: 0;
+  height: 100%;
+
+  display: flex;
+
+  overflow: hidden;
+
+  background: #f7f8fa;
+}
+
+
+/* ============================================================
+   LOADING DA CONVERSA
+============================================================ */
+
+.carregandoChat {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+}
+
+.carregandoChat p {
+  margin: 0;
+
+  font-size: 0.86rem;
+
+  color: #8b8b8b;
+}
+
+
+/* ============================================================
+   CHAT NÃO SELECIONADO
+============================================================ */
+
+.chatVazio {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  text-align: center;
+}
+
+.iconeChat {
+  width: 95px;
+  height: 95px;
+
+  margin-bottom: 22px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.iconeChat i {
+  font-size: 2.6rem;
+
+  color: var(--primaryColor, #4f46e5);
+}
+
+.chatVazio h2 {
+  margin: 0 0 10px;
+
+  font-size: 1.55rem;
+  font-weight: 700;
+
+  color: #303030;
+}
+
+.chatVazio p {
+  max-width: 380px;
+
+  margin: 0;
+
+  font-size: 0.88rem;
+
+  line-height: 1.65;
+
+  color: #8d8d8d;
+}
+
+
+/* ============================================================
+   HEADER COMPARTILHADO
+============================================================ */
+
+.headerConversa {
+  min-height: 82px;
+
+  padding: 14px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  flex-shrink: 0;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #e9e9e9;
+
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.025);
+
+  z-index: 4;
+}
+
+.usuarioConversa {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+}
+
+.usuarioConversa img {
+  width: 49px;
+  height: 49px;
+
+  min-width: 49px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  background: #ececec;
+
+  border: 2px solid #f1f1f1;
+}
+
+.dadosUsuarioConversa {
+  min-width: 0;
+}
+
+.dadosUsuarioConversa h3 {
+  margin: 0 0 5px;
+
+  font-size: 0.98rem;
+  font-weight: 650;
+
+  color: #272727;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtituloConversa {
+  display: flex;
+  align-items: center;
+
+  min-width: 0;
+
+  gap: 6px;
+
+  font-size: 0.75rem;
+
+  color: #8c8c8c;
+}
+
+.subtituloConversa > span:last-child {
+  white-space: nowrap;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.indicadorInteracao,
+.indicadorChamado {
+  width: 7px;
+  height: 7px;
+
+  min-width: 7px;
+
+  border-radius: 50%;
+}
+
+.indicadorInteracao {
+  background: #f59e0b;
+}
+
+.indicadorChamado {
+  background: #22c55e;
+}
+
+
+/* ============================================================
+   BADGES HEADER
+============================================================ */
+
+.badgeInteracao,
+.badgeChamado {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 7px 11px;
+
+  border-radius: 20px;
+
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.badgeInteracao {
+  color: #4f46e5;
+
+  background: #eef2ff;
+}
+
+.badgeChamado {
+  color: #0369a1;
+
+  background: #e0f2fe;
+}
+
+
+/* ============================================================
+   FOTO HEADER CHAT
+============================================================ */
+
+.fotoHeaderChat {
+  position: relative;
+
+  width: 49px;
+  height: 49px;
+
+  min-width: 49px;
+}
+
+.fotoHeaderChat img {
+  width: 100%;
+  height: 100%;
+}
+
+.indicadorOnline {
+  position: absolute;
+
+  right: 0;
+  bottom: 1px;
+
+  width: 12px;
+  height: 12px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+
+  border: 2px solid #ffffff;
+}
+
+
+/* ============================================================
+   INTERAÇÃO
+============================================================ */
+
+.interacaoContainer {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #f7f8fa;
+}
+
+.conteudoInteracao {
+  flex: 1;
+
+  min-height: 0;
+
+  padding: 25px 35px 40px;
+
+  overflow-y: auto;
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(79, 70, 229, 0.035),
+      transparent 45%
+    ),
+    #f7f8fa;
+}
+
+.avisoInteracao {
+  width: fit-content;
+  max-width: 620px;
+
+  margin: 0 auto 24px;
+
+  padding: 10px 15px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  color: #777777;
+
+  font-size: 0.75rem;
+
+  line-height: 1.4;
+}
+
+.avisoInteracao i {
+  color: #6366f1;
+}
+
+
+/* ============================================================
+   SEPARADOR DE DATA
+============================================================ */
+
+.separadorData {
+  width: 100%;
+
+  margin: 5px 0 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.separadorData span {
+  padding: 5px 11px;
+
+  border: 1px solid #ebebeb;
+
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  font-size: 0.67rem;
+
+  color: #9a9a9a;
+}
+
+
+/* ============================================================
+   CARD INTERAÇÃO
+============================================================ */
+
+.linhaMensagemInteracao {
+  width: min(820px, 100%);
+
+  margin: 0 auto;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+}
+
+.avatarMensagem {
+  width: 40px;
+  height: 40px;
+
+  min-width: 40px;
+}
+
+.avatarMensagem img {
+  width: 40px;
+  height: 40px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 2px solid #ffffff;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.cardInteracao {
+  position: relative;
+
+  width: 100%;
+  max-width: 690px;
+
+  padding: 22px;
+
+  border: 1px solid #e8e8e8;
+
+  border-radius: 6px 18px 18px 18px;
+
+  background: #ffffff;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.045);
+}
+
+.topoCardInteracao {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.labelSolicitacao {
+  display: block;
+
+  margin-bottom: 4px;
+
+  font-size: 0.67rem;
+  font-weight: 600;
+
+  color: #6366f1;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.6px;
+}
+
+.topoCardInteracao h2 {
+  margin: 0;
+
+  font-size: 1.15rem;
+  font-weight: 650;
+
+  color: #292929;
+}
+
+.statusSolicitacao {
+  flex-shrink: 0;
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  background: #fef3c7;
+
+  color: #b45309;
+
+  font-size: 0.64rem;
+  font-weight: 700;
+
+  text-transform: lowercase;
+}
+
+.statusSolicitacao.statusAndamento {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+.descricaoInteracao {
+  margin-top: 16px;
+
+  color: #626262;
+
+  font-size: 0.86rem;
+
+  line-height: 1.65;
+
+  word-break: break-word;
+}
+
+.divisorInteracao {
+  width: 100%;
+  height: 1px;
+
+  margin: 20px 0;
+
+  background: #eeeeee;
+}
+
+.detalhesProposta {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.detalheProposta {
+  padding: 12px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  border: 1px solid #eeeeee;
+
+  border-radius: 12px;
+
+  background: #fafafa;
+}
+
+.iconeDetalhe {
+  width: 38px;
+  height: 38px;
+
+  min-width: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: rgba(79, 70, 229, 0.08);
+
+  color: var(--primaryColor, #4f46e5);
+}
+
+.detalheProposta > div:last-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.detalheProposta span {
+  font-size: 0.67rem;
+
+  color: #9a9a9a;
+}
+
+.detalheProposta strong {
+  font-size: 0.83rem;
+
+  color: #393939;
+}
+
+.detalheProposta:first-child strong {
+  color: #16a34a;
+
+  font-size: 0.92rem;
+}
+
+.rodapeCardInteracao {
+  margin-top: 18px;
+
+  padding-top: 14px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  border-top: 1px solid #eeeeee;
+
+  color: #a0a0a0;
+
+  font-size: 0.68rem;
+}
+
+
+/* ============================================================
+   COMPOSER BLOQUEADO
+============================================================ */
+
+.composerBloqueado {
+  min-height: 82px;
+
+  padding: 15px 24px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+
+  background: #ffffff;
+
+  border-top: 1px solid #e7e7e7;
+}
+
+.campoBloqueado {
+  flex: 1;
+
+  height: 48px;
+
+  padding: 0 15px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  border: 1px solid #e2e2e2;
+
+  border-radius: 14px;
+
+  background: #f5f5f5;
+}
+
+.campoBloqueado i {
+  color: #aaaaaa;
+}
+
+.campoBloqueado input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #999999;
+
+  font-family: inherit;
+}
+
+.botaoEnviarBloqueado {
+  width: 48px;
+  height: 48px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background: #eeeeee;
+
+  color: #bbbbbb;
+}
+
+
+/* ============================================================
+   CHAT WEBSOCKET
+============================================================ */
+
+.chatContainer {
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #f4f6f8;
+}
+
+
+/* ============================================================
+   CONTEÚDO DAS MENSAGENS
+============================================================ */
+
+.conteudoMensagens {
+  flex: 1;
+
+  min-height: 0;
+
+  padding: 22px 30px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      circle at 55% 30%,
+      rgba(79, 70, 229, 0.035),
+      transparent 40%
+    ),
+    #f6f7f9;
+}
+
+
+/* ============================================================
+   AVISO NO INÍCIO DA CONVERSA
+============================================================ */
+
+.inicioConversa {
+  width: fit-content;
+
+  max-width: 600px;
+
+  margin: 0 auto 20px;
+
+  padding: 9px 14px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  border: 1px solid #e8e8e8;
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.85);
+
+  color: #8b8b8b;
+
+  font-size: 0.72rem;
+
+  text-align: center;
+}
+
+.inicioConversa strong {
+  color: #626262;
+}
+
+.iconeInicioConversa {
+  color: #9a9a9a;
+}
+
+.iconeInicioConversa i {
+  font-size: 0.75rem;
+}
+
+
+/* ============================================================
+   SEPARADOR CHAT
+============================================================ */
+
+.separadorChat {
+  width: 100%;
+
+  margin: 5px 0 24px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+}
+
+.separadorChat::before,
+.separadorChat::after {
+  content: "";
+
+  flex: 1;
+
+  height: 1px;
+
+  background: #e5e7eb;
+}
+
+.separadorChat span {
+  color: #a1a1aa;
+
+  font-size: 0.67rem;
+  font-weight: 500;
+}
+
+
+/* ============================================================
+   LISTA DE MENSAGENS
+============================================================ */
+
+.listaMensagens {
+  width: min(920px, 100%);
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+/* ============================================================
+   LINHA DE MENSAGEM
+============================================================ */
+
+.linhaMensagemChat {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+
+  gap: 9px;
+
+  margin-bottom: 6px;
+}
+
+.linhaMensagemChat.minhaMensagem {
+  justify-content: flex-end;
+}
+
+
+/* ============================================================
+   AVATAR RECEBIDO
+============================================================ */
+
+.avatarMensagemChat {
+  width: 34px;
+  height: 34px;
+
+  min-width: 34px;
+
+  margin-bottom: 2px;
+}
+
+.avatarMensagemChat img {
+  width: 34px;
+  height: 34px;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 2px solid #ffffff;
+
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
+}
+
+
+/* ============================================================
+   GRUPO DA MENSAGEM
+============================================================ */
+
+.grupoMensagem {
+  max-width: min(65%, 600px);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+.minhaMensagem .grupoMensagem {
+  align-items: flex-end;
+}
+
+
+/* ============================================================
+   NOME REMETENTE
+============================================================ */
+
+.nomeRemetente {
+  margin: 0 0 4px 7px;
+
+  font-size: 0.68rem;
+  font-weight: 600;
+
+  color: #777777;
+}
+
+
+/* ============================================================
+   BALÃO
+============================================================ */
+
+.balaoMensagem {
+  position: relative;
+
+  min-width: 90px;
+
+  padding: 10px 12px 7px;
+
+  border: 1px solid #e8e8e8;
+
+  border-radius: 5px 16px 16px 16px;
+
+  background: #ffffff;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.035);
+
+  color: #404040;
+}
+
+.balaoMensagem::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -7px;
+
+  width: 13px;
+  height: 13px;
+
+  background: #ffffff;
+
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+
+/* ============================================================
+   MINHA MENSAGEM
+============================================================ */
+
+.minhaMensagem .balaoMensagem {
+  border-color: transparent;
+
+  border-radius: 16px 5px 16px 16px;
+
+  background: var(--primaryColor, #4f46e5);
+
+  color: #ffffff;
+
+  box-shadow: 0 5px 16px rgba(79, 70, 229, 0.15);
+}
+
+.minhaMensagem .balaoMensagem::before {
+  left: auto;
+  right: -7px;
+
+  background: var(--primaryColor, #4f46e5);
+
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+
+/* ============================================================
+   TEXTO MENSAGEM
+============================================================ */
+
+.balaoMensagem p {
+  margin: 0;
+
+  font-size: 0.84rem;
+
+  line-height: 1.5;
+
+  white-space: pre-wrap;
+
+  word-break: break-word;
+}
+
+
+/* ============================================================
+   HORÁRIO / LEITURA
+============================================================ */
+
+.metaMensagem {
+  min-height: 16px;
+
+  margin-top: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 5px;
+}
+
+.horarioMensagem {
+  font-size: 0.59rem;
+
+  color: #a3a3a3;
+}
+
+.minhaMensagem .horarioMensagem {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.metaMensagem i {
+  font-size: 0.65rem;
+
+  color: rgba(255, 255, 255, 0.8);
+}
+
+
+/* ============================================================
+   SEM MENSAGENS
+============================================================ */
+
+.semMensagens {
+  width: 100%;
+  height: 100%;
+
+  min-height: 350px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.iconeSemMensagens {
+  width: 75px;
+  height: 75px;
+
+  margin-bottom: 17px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(79, 70, 229, 0.07);
+
+  color: var(--primaryColor, #4f46e5);
+}
+
+.iconeSemMensagens i {
+  font-size: 1.9rem;
+}
+
+.semMensagens h3 {
+  margin: 0 0 7px;
+
+  font-size: 1rem;
+
+  color: #3e3e3e;
+}
+
+.semMensagens p {
+  max-width: 330px;
+
+  margin: 0;
+
+  font-size: 0.8rem;
+
+  line-height: 1.55;
+
+  color: #999999;
+}
+
+
+/* ============================================================
+   COMPOSER CHAT
+============================================================ */
+
+.composerChat {
+  min-height: 82px;
+
+  padding: 14px 22px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+
+  background: #ffffff;
+
+  border-top: 1px solid #e8e8e8;
+
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.025);
+
+  z-index: 5;
+}
+
+
+/* ============================================================
+   CAMPO MENSAGEM
+============================================================ */
+
+.campoMensagemChat {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.campoMensagemChat input {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 17px;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 14px;
+
+  outline: none;
+
+  background: #f8f8f8;
+
+  color: #333333;
+
+  font-family: inherit;
+  font-size: 0.84rem;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.campoMensagemChat input::placeholder {
+  color: #aaaaaa;
+}
+
+.campoMensagemChat input:focus {
+  border-color: rgba(79, 70, 229, 0.35);
+
+  background: #ffffff;
+
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.07);
+}
+
+
+/* ============================================================
+   BOTÃO ANEXO
+============================================================ */
+
+.botaoComposer {
+  width: 44px;
+  height: 44px;
+
+  min-width: 44px;
+
+  display: grid;
+  place-items: center;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: transparent;
+
+  color: #898989;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.botaoComposer:hover {
+  background: #f0f0f5;
+
+  color: var(--primaryColor, #4f46e5);
+}
+
+.botaoComposer i {
+  font-size: 1rem;
+}
+
+
+/* ============================================================
+   BOTÃO ENVIAR
+============================================================ */
+
+.botaoEnviarMensagem {
+  width: 48px;
+  height: 48px;
+
+  min-width: 48px;
+
+  display: grid;
+  place-items: center;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background: var(--primaryColor, #4f46e5);
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  box-shadow: 0 5px 15px rgba(79, 70, 229, 0.22);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.botaoEnviarMensagem:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.26);
+}
+
+.botaoEnviarMensagem:active {
+  transform: translateY(0);
+}
+
+.botaoEnviarMensagem i {
+  font-size: 1rem;
+}
+
+
+/* ============================================================
+   ERRO
+============================================================ */
+
+.erroDetalhes {
+  width: 100%;
+  height: 100%;
+
+  padding: 40px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.iconeErroDetalhes {
+  width: 75px;
+  height: 75px;
+
+  margin-bottom: 18px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #fff7ed;
+
+  color: #ea580c;
+}
+
+.iconeErroDetalhes i {
+  font-size: 1.8rem;
+}
+
+.erroDetalhes h3 {
+  margin: 0 0 8px;
+
+  font-size: 1rem;
+
+  color: #3a3a3a;
+}
+
+.erroDetalhes p {
+  max-width: 330px;
+
+  margin: 0;
+
+  font-size: 0.8rem;
+
+  line-height: 1.5;
+
+  color: #969696;
+}
+
+
+/* ============================================================
+   SCROLLBAR
+============================================================ */
+
+.listaContatos::-webkit-scrollbar,
+.conteudoInteracao::-webkit-scrollbar,
+.conteudoMensagens::-webkit-scrollbar {
+  width: 5px;
+}
+
+.listaContatos::-webkit-scrollbar-track,
+.conteudoInteracao::-webkit-scrollbar-track,
+.conteudoMensagens::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.listaContatos::-webkit-scrollbar-thumb,
+.conteudoInteracao::-webkit-scrollbar-thumb,
+.conteudoMensagens::-webkit-scrollbar-thumb {
+  background: #d5d5d5;
+
+  border-radius: 20px;
+}
+
+.listaContatos::-webkit-scrollbar-thumb:hover,
+.conteudoInteracao::-webkit-scrollbar-thumb:hover,
+.conteudoMensagens::-webkit-scrollbar-thumb:hover {
+  background: #bbbbbb;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE
+============================================================ */
+
+@media (max-width: 1100px) {
+
+  .contatos {
+    width: 340px;
+    min-width: 320px;
+  }
+
+  .grupoMensagem {
+    max-width: 72%;
+  }
+
+}
+
+
+@media (max-width: 850px) {
+
+  .contatos {
+    width: 300px;
+    min-width: 280px;
+  }
+
+  .headerContatos {
+    padding: 18px;
+  }
+
+  .tituloContato {
+    max-width: 150px;
+  }
+
+  .conteudoMensagens {
+    padding: 20px;
+  }
+
+  .grupoMensagem {
+    max-width: 78%;
+  }
+
+  .detalhesProposta {
+    grid-template-columns: 1fr;
+  }
+
+  .badgeInteracao,
+  .badgeChamado {
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .contatos {
+    width: 250px;
+    min-width: 240px;
+  }
+
+  .headerContatosTexto p {
+    display: none;
+  }
+
+  .iconeHeader {
+    display: none;
+  }
+
+  .fotoContato,
+  .fotoContato img {
+    width: 46px;
+    height: 46px;
+
+    min-width: 46px;
+  }
+
+  .linhaNome h3 {
+    font-size: 0.86rem;
+  }
+
+  .tituloContato {
+    max-width: 120px;
+  }
+
+  .conteudoMensagens {
+    padding: 15px;
+  }
+
+  .grupoMensagem {
+    max-width: 85%;
+  }
+
+  .composerChat {
+    padding: 11px 13px;
+  }
+
+  .botaoAnexo {
+    display: none;
+  }
+
+}

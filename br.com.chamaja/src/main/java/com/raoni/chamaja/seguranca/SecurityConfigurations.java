@@ -37,6 +37,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers("/registro/iniciar").permitAll(); //rotas publicas
                     req.requestMatchers("/login").permitAll(); //rotas publicas
+                    req.requestMatchers("/ws-chat").permitAll();
                     req.anyRequest().authenticated(); //pra qqlqr outra rota exige identificação
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // aqui eu digo que o spring deve usar o meu segurança primeiro
@@ -57,7 +58,7 @@ public class SecurityConfigurations {
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
 
         // Quais métodos HTTP são permitidos
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 
         // Quais cabeçalhos o front-end pode enviar
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));

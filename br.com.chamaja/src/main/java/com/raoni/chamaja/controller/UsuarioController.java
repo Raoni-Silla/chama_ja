@@ -1,5 +1,6 @@
 package com.raoni.chamaja.controller;
 
+import com.raoni.chamaja.dto.Endereco.EnderecoResponseDTO;
 import com.raoni.chamaja.dto.Usuario.UsuarioInfoBasicasDTO;
 import com.raoni.chamaja.dto.Usuario.UsuarioInfoPerfilDTO;
 import com.raoni.chamaja.dto.Usuario.UsuarioTrocaSenhaDTO;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -84,5 +86,10 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @GetMapping(path = "/obter-enderecos")
+    @PreAuthorize("hasRole('USUARIO')")
+    public ResponseEntity<List<EnderecoResponseDTO>> obterTodosEnderecos () {
+        List<EnderecoResponseDTO> listDto = usuarioService.listarTodosEnderecosUsuario();
+        return ResponseEntity.status(200).body(listDto);
+    }
 }

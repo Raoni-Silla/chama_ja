@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { UsuarioInfoBasicasDTO } from '../DTOS/Usuario/UsuarioInfoBasica.dto';
 import { UsuarioInfoPerfilDTO } from '../DTOS/Usuario/UsuarioInfoPerfilDTO.dto';
 import { UsuarioTrocaSenhaDTO } from '../DTOS/Usuario/UsuarioTrocaSenhaDTO.dto';
+import { EnderecoResponseDTO } from '../DTOS/Endereco/EnderecoResponseDTO.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -57,6 +58,7 @@ export class UsuarioService {
     return this.http.delete<void>(`${this.apiUrl}/excluir`);
   }
 
- 
-  
+  obterTodosEnderecosUsuarioLogado(): Observable<EnderecoResponseDTO[]> {
+    return this.http.get<EnderecoResponseDTO[]>(`${this.apiUrl}/obter-enderecos`);
+  }
 }
