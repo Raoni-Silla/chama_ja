@@ -7,18 +7,24 @@ import { UsuarioResponseDTO } from '../DTOS/Usuario/UsuarioResponseDTO.dto';
 import { LoginResponseDTO } from '../DTOS/Login/LoginResponseDTO.dto';
 import { LoginRequestDTO } from '../DTOS/Login/LoginRequestDTO.dto';
 import { EnderecoRequestDTO } from '../DTOS/Endereco/EnderecoRequestDTO.dto';
+import { jwtDecode } from 'jwt-decode';
+
+interface PayloadToken {
+  sub: string;
+  exp: number;
+  ROLE?: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-
   apiCadastro = 'http://localhost:8080/registro';
-  apiLogin = 'http://localhost:8080/login';;
+  apiLogin = 'http://localhost:8080/login';
 
   private tokenCadastro: string | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   salvarToken(token: string) {
     this.tokenCadastro = token;
@@ -37,24 +43,36 @@ export class LoginService {
     sessionStorage.removeItem('token_cadastro_chamaja');
   }
 
+  obterRoleUsuario() {
+    const token = this.obterToken();
+
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const payload: PayloadToken = jwtDecode<PayloadToken>(token);
+      return payload.ROLE;
+    } catch (error) {
+      console.error('Erro ao decodificar token:', error);
+      return null;
+    }
+  }
+
   iniciarCadastro(dto: CadastroRequestDTO): Observable<CadastroResponseDTO> {
     return this.http.post<CadastroResponseDTO>(`${this.apiCadastro}/iniciar`, dto);
   }
 
   adicionarTelefone(telefone: string): Observable<CadastroResponseDTO> {
-    return this.http.post<CadastroResponseDTO>(
-      `${this.apiCadastro}/telefone`,
-      null,
-      {
-        params: { telefone: telefone }
-      }
-    );
+    return this.http.post<CadastroResponseDTO>(`${this.apiCadastro}/telefone`, null, {
+      params: { telefone: telefone },
+    });
   }
 
   solicitarEnvioSMS(): Observable<CadastroResponseDTO> {
     return this.http.post<CadastroResponseDTO>(
       `${this.apiCadastro}/telefone/solicitar-envio-sms`,
-      null
+      null,
     );
   }
 
@@ -63,19 +81,15 @@ export class LoginService {
       `${this.apiCadastro}/telefone/confirmar-codigo-sms`,
       null,
       {
-        params: { codigo: codigo }
-      }
+        params: { codigo: codigo },
+      },
     );
   }
 
   tipoUsuario(tipoUsuario: string): Observable<UsuarioResponseDTO> {
-    return this.http.post<UsuarioResponseDTO>(
-      `${this.apiCadastro}/tipo-usuario`,
-      null,
-      {
-        params: { tipoUsuario: tipoUsuario }
-      }
-    );
+    return this.http.post<UsuarioResponseDTO>(`${this.apiCadastro}/tipo-usuario`, null, {
+      params: { tipoUsuario: tipoUsuario },
+    });
   }
 
   autenticar(email: string, senha: string): Observable<LoginResponseDTO> {
@@ -83,8 +97,7 @@ export class LoginService {
     return this.http.post<LoginResponseDTO>(`${this.apiLogin}`, request);
   }
 
-
-   salvarEnderecoCadastroTemporario (dto : EnderecoRequestDTO) : Observable<void> {
-    return this.http.post<void>(`${this.apiCadastro}/confirmar-endereco`,dto)
-   }
+  salvarEnderecoCadastroTemporario(dto: EnderecoRequestDTO): Observable<void> {
+    return this.http.post<void>(`${this.apiCadastro}/confirmar-endereco`, dto);
+  }
 }

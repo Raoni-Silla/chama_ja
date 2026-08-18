@@ -23,4 +23,6 @@ export class CentralChatService {
   obterMensagensChamado (idChamado : number) : Observable<MensagemChatDTO []>{
     return this.http.get<MensagemChatDTO[]>(`${this.api_url}/chamado/${idChamado}/mensagens`);
   }
+
+    
 }
