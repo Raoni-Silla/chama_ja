@@ -38,7 +38,7 @@ public interface PrestadorRepository extends JpaRepository<Prestador, Long> {
             
             LEFT JOIN categoria c
                 ON c.id = pc.categoria_id
-            
+             
             WHERE
                 to_tsvector(
                     'portuguese',

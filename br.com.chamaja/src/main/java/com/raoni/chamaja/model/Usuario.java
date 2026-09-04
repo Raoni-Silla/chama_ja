@@ -71,13 +71,10 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Endereco> enderecos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario",  cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Pagamento> pagamentos;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Proposta> propostas;
-
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente"  ,cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Chamado> chamados;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -96,6 +93,7 @@ public class Usuario {
         if (this.fotoUrl == null || this.fotoUrl.isEmpty()) {
             this.fotoUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=" + this.nome;
         }
+        this.raioDeBusca = 30L;
     }
 }
 

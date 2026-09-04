@@ -2,6 +2,7 @@ package com.raoni.chamaja.enums;
 
 public enum StatusPagamento {
     PENDENTE,
-    APROVADO,
+    RETIDO,
+    LIBERADO,
     RECUSADO
 }

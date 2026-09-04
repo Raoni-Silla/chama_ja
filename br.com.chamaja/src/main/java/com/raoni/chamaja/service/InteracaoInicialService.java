@@ -87,7 +87,7 @@ public class InteracaoInicialService {
     public Long comecarNegociacao(Long idInteracao) {
         InteracaoInicial interacaoInicial = interacaoRepo.findById(idInteracao).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa interação"));
         Prestador prestador = prestadorRepo.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar esse prestador"));
-        if (!interacaoInicial.getDestinatario().getId().equals(prestador.getId())){
+        if (!interacaoInicial.getDestinatario().getId().equals(prestador.getId())) {
             throw new IllegalArgumentException("Você está tentando violar essa interação");
         }
         if (!interacaoInicial.getStatus().equals(StatusInteracao.PENDENTE)) {
@@ -104,6 +104,22 @@ public class InteracaoInicialService {
         interacaoInicial.setChamado(chamado);
 
         return chamado.getId();
+    }
+
+    public void recusarInteracao(Long idInteracao) {
+        InteracaoInicial interacaoInicial = interacaoRepo.findById(idInteracao).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa interação"));
+        Prestador prestador = prestadorRepo.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Prestador não encontrado"));
+        if (!interacaoInicial.getDestinatario().getId().equals(prestador.getId())) {
+            throw new IllegalArgumentException("Essa interação não pertence a você");
+        }
+        if (interacaoInicial.getStatus() != StatusInteracao.PENDENTE) {
+            throw new IllegalArgumentException("Não dá para recusar uma interação ja aceita ou recusada");
+        }
+
+        interacaoInicial.setStatus(StatusInteracao.RECUSADA);
+
+        interacaoRepo.save(interacaoInicial);
+
     }
 
 }

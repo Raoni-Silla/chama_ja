@@ -6,5 +6,8 @@ public record UsuarioInfoPerfilDTO(
         String telefone,
         String urlFoto,
         String cpf,
-        boolean verificado) {
+        boolean verificado,
+        Long raioBusca
+
+) {
 }

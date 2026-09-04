@@ -123,6 +123,13 @@ public class CentralChatService {
 
     public InteracaoInicialResponseDTO obterDetalhesInteracao (Long id) {
         InteracaoInicial interacaoInicial = interacaoInicialRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Não foi possivel encontrar detalhes dessa interação"));
+        Long idLogado = obterIdUsuarioLogado();
+
+        if (!Objects.equals(interacaoInicial.getRemetente().getId(), idLogado) &&
+                !Objects.equals(interacaoInicial.getDestinatario().getId(), idLogado)) {
+            throw new IllegalArgumentException("Impossivel acessar esses detalhes");
+        }
+
         return new InteracaoInicialResponseDTO(
                 interacaoInicial.getId(),
                 interacaoInicial.getTitulo(),

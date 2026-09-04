@@ -39,4 +39,16 @@ public class Carteira {
         if (this.saldoDisponivel == null) this.saldoDisponivel = BigDecimal.ZERO;
         if (this.saldoBloqueado == null) this.saldoBloqueado = BigDecimal.ZERO;
     }
+
+    public void adicionarValorNoSaldoBloqueado (BigDecimal valor){
+        this.saldoBloqueado = this.saldoBloqueado.add(valor);
+    }
+
+    public void adicionarValorSaldoDisponivel (BigDecimal valor){
+        if (valor.compareTo(this.saldoBloqueado) > 0){
+            throw  new RuntimeException("Saldo negativo");
+        }
+        saldoBloqueado = saldoBloqueado.subtract(valor);
+        this.saldoDisponivel = this.saldoDisponivel.add(valor);
+    }
 }

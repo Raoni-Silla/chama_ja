@@ -1,5 +1,5 @@
 package com.raoni.chamaja.enums;
 
 public enum StatusProposta {
-    ABERTO, PENDENTE, ACEITA, RECUSADA, CONCLUIDA
+    ABERTO, PENDENTE, ACEITA, RECUSADA
 }

@@ -3,6 +3,7 @@ package com.raoni.chamaja.model;
 import com.raoni.chamaja.enums.StatusProposta;
 import com.raoni.chamaja.enums.Urgencia;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -19,24 +20,15 @@ public class Proposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Usuario cliente;
-
-    @ManyToOne
-    @JoinColumn(name = "prestador_id", nullable = false)
-    private Prestador prestador;
-
-    @ManyToOne
-    @JoinColumn(name = "autor_id", nullable = false)
-    private Usuario autor; // Quem criou a proposta (pode ser o cliente ou o prestador)
-
+    @NotNull
     private BigDecimal valorOrcado; // Preenchido pelo prestador ou sugerido pelo cliente
 
+    @NotBlank
+    @Size(max = 150)
     private String descricao; // "Preciso disso e disso"
 
-    @Enumerated(EnumType.STRING)
-    private Urgencia urgencia;
+    @Future
+    private LocalDateTime dataHoraServico;
 
     @Enumerated(EnumType.STRING)
     private StatusProposta status; // PENDENTE, ACEITA, RECUSADA, CONCLUIDA

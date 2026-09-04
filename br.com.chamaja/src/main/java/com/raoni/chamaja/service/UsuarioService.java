@@ -72,7 +72,7 @@ public class UsuarioService {
         Long idSeguro = obterIdUsuarioLogado();
         Usuario usuario = userRepo.findById(idSeguro).orElseThrow(() -> new RuntimeException("Impossivel encontrar esse usuario"));
         String ultimosDoisDigitosCpf = usuario.getCpf().substring(usuario.getCpf().length() - 2);
-        return new UsuarioInfoPerfilDTO(usuario.getNome(), usuario.getEmail(), usuario.getTelefone(), usuario.getFotoUrl(), ultimosDoisDigitosCpf, usuario.isVerificado());
+        return new UsuarioInfoPerfilDTO(usuario.getNome(), usuario.getEmail(), usuario.getTelefone(), usuario.getFotoUrl(), ultimosDoisDigitosCpf, usuario.isVerificado(), usuario.getRaioDeBusca());
     }
 
     @Transactional
@@ -84,6 +84,7 @@ public class UsuarioService {
         usuario.setTelefone(dto.telefone());
         usuario.setFotoUrl(dto.urlFoto());
         usuario.setNome(dto.nome());
+        usuario.setRaioDeBusca(dto.raioBusca() * 1000);
         usuario = userRepo.save(usuario);
         return new UsuarioInfoPerfilDTO(
                 usuario.getNome(),
@@ -91,7 +92,8 @@ public class UsuarioService {
                 usuario.getTelefone(),
                 usuario.getFotoUrl(),
                 usuario.getCpf(),
-                usuario.isVerificado());
+                usuario.isVerificado(),
+                usuario.getRaioDeBusca());
     }
 
     @Transactional
@@ -184,6 +186,4 @@ public class UsuarioService {
             );
         }).toList();
     }
-
-
 }

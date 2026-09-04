@@ -41,9 +41,14 @@ public class Prestador extends Usuario {
     @JoinColumn(name = "carteira_id", referencedColumnName = "id")
     private Carteira carteira;
 
-    @OneToMany(mappedBy = "prestador")
-    private List<Proposta> propostas;
 
     @OneToMany(mappedBy = "prestador")
     private List<Chamado> chamados;
+
+    public void concluirServico () {
+        if (servicosConcluidos == null) {
+            servicosConcluidos = 0L;
+        }
+        servicosConcluidos = servicosConcluidos + 1;
+    }
 }

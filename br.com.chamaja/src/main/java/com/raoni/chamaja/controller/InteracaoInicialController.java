@@ -29,17 +29,25 @@ public class InteracaoInicialController {
     }
 
     @GetMapping(path = "/obter-interacoes-pendentes")
-//    @PreAuthorize("hasRole('PRESTADOR')")
+    @PreAuthorize("hasRole('PRESTADOR')")
     public ResponseEntity<List<InteracaoIniciaInfoUteisParaPrestador>> obterInteracoesPendentes (){
         List<InteracaoIniciaInfoUteisParaPrestador> infosList = service.obterListaDeInteracoesPendentes();
         return ResponseEntity.status(200).body(infosList);
     }
 
     @PatchMapping(path = "/comecar-negociacao/{id}")
-//    @PreAuthorize("hasRole('PRESTADOR')")
+    @PreAuthorize("hasRole('PRESTADOR')")
     public ResponseEntity<Long> comecarNegociacao (@PathVariable Long id) {
         Long idChamado = service.comecarNegociacao(id);
         return ResponseEntity.status(201).body(idChamado);
     }
+
+    @PatchMapping(path = "/recusar/{idInteracao}")
+    @PreAuthorize("hasRole('PRESTADOR')")
+    public ResponseEntity<Void> recusarInteracao (@PathVariable(name = "idInteracao") Long idInteracao){
+        service.recusarInteracao(idInteracao);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

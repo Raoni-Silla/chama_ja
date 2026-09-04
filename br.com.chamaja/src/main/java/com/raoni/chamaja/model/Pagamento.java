@@ -34,7 +34,14 @@ public class Pagamento {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
+    private LocalDateTime dataLiberacao;
+
     @ManyToOne
     @JoinColumn(name = "chamado_id", nullable = false)
     private Chamado chamado;
+
+    @PrePersist
+    public void prePersist() {
+      this.status = StatusPagamento.PENDENTE;
+    }
 }
