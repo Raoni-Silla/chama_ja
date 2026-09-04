@@ -762,3 +762,78 @@
     </div>
   </div>
 </p-dialog>
+
+<p-dialog
+  [(visible)]="isModalPagamento"
+  header="Escolha o método de pagamento"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="false"
+  [style]="{ width: '32rem' }"
+  styleClass="modal-pagamento"
+>
+  <div class="pagamento-content">
+
+    <div class="pagamento-intro">
+      <div class="icone-seguranca">
+        <i class="pi pi-lock"></i>
+      </div>
+
+      <div>
+        <h3>Pagamento seguro</h3>
+        <p>
+          O valor ficará retido até que o serviço seja concluído e confirmado
+          pelas duas partes.
+        </p>
+      </div>
+    </div>
+
+    <div class="metodos-pagamento">
+
+      <button
+        type="button"
+        class="metodo-card"
+        (click)="pagar('PIX')"
+      >
+        <div class="metodo-icone pix">
+          <i class="pi pi-qrcode"></i>
+        </div>
+
+        <div class="metodo-info">
+          <strong>PIX</strong>
+          <span>Pagamento instantâneo</span>
+        </div>
+
+        <i class="pi pi-chevron-right seta"></i>
+      </button>
+
+      <button
+        type="button"
+        class="metodo-card"
+        (click)="pagar('CARTAO')"
+      >
+        <div class="metodo-icone">
+          <i class="pi pi-credit-card"></i>
+        </div>
+
+        <div class="metodo-info">
+          <strong>Cartão</strong>
+          <span>Utilize um cartão cadastrado</span>
+        </div>
+
+        <i class="pi pi-chevron-right seta"></i>
+      </button>
+
+    </div>
+
+    <div class="aviso-retencao">
+      <i class="pi pi-shield"></i>
+
+      <span>
+        O prestador só receberá o valor após a confirmação da conclusão do serviço.
+      </span>
+    </div>
+
+  </div>
+</p-dialog>

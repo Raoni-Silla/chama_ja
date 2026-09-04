@@ -5,4 +5,5 @@ export interface UsuarioInfoPerfilDTO {
     urlFoto : string,
     cpf: string,
     verificado : boolean,
+    raioBusca : number
 }

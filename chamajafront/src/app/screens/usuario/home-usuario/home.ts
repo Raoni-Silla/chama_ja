@@ -12,10 +12,11 @@ import { PrestadorService } from '../../../service/prestador-service';
 import { PrestadorResponseDTO } from '../../../DTOS/Prestador/PrestadorResponseDTO.dto';
 import { CategoriaService } from '../../../service/categoria-service';
 import { CategoriaDetalhesDTO } from '../../../DTOS/Categoria/CategoriaDetalhesDTO.dto';
+import { BotaoLogout } from '../../../components/botao-logout/botao-logout';
 
 @Component({
   selector: 'app-home',
-  imports: [Navbarlogged, FormsModule, CardBestOfMonth, HighlightAreas, CommonModule],
+  imports: [ FormsModule, CardBestOfMonth, HighlightAreas, CommonModule, BotaoLogout],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

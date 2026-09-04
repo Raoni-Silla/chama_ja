@@ -38,6 +38,22 @@ export class LoginService {
     return this.tokenCadastro;
   }
 
+  get isLoggedIn(): boolean {
+    const token = sessionStorage.getItem('token_cadastro_chamaja');
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const payload: any = jwtDecode(token);
+
+      return payload.ROLE === 'USUARIO' || payload.ROLE === 'PRESTADOR';
+    } catch {
+      return false;
+    }
+  }
+
   limparToken() {
     this.tokenCadastro = null;
     sessionStorage.removeItem('token_cadastro_chamaja');

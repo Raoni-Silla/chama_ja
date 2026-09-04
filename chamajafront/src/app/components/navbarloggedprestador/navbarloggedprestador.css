@@ -1,0 +1,171 @@
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  display: block;
+  width: 260px;
+  height: 100dvh;
+}
+
+nav {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 260px;
+  min-height: 100dvh;
+  padding: 28px 18px;
+
+  background-color: #1f2937;
+  border-right: 1px solid rgb(255 255 255 / 6%);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 90px;
+  margin-bottom: 34px;
+}
+
+.logo {
+  width: 170px;
+  height: auto;
+  max-height: 85px;
+  object-fit: contain;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.nav-link {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  width: 100%;
+  padding: 14px 16px;
+
+  color: #cbd5e1;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+
+  border-radius: 12px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-link i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  font-size: 17px;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background-color: rgb(255 255 255 / 8%);
+  transform: translateX(3px);
+}
+
+/* Rota atual */
+.nav-link.active-link {
+  color: #ffffff;
+  font-weight: 600;
+
+  background-color: #4f46e5;
+  box-shadow: 0 8px 20px rgb(79 70 229 / 28%);
+}
+
+/* Marcador adicional da rota atual */
+.nav-link.active-link::before {
+  content: "";
+
+  position: absolute;
+  left: -18px;
+
+  width: 4px;
+  height: 26px;
+
+  background-color: #a5b4fc;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Versão mobile: navbar inferior */
+@media (max-width: 700px) {
+  :host {
+    flex: 0;
+  }
+
+  .sidebar {
+    position: fixed;
+    z-index: 1000;
+    inset: auto 0 0;
+
+    width: 100%;
+    min-height: auto;
+    padding: 8px 12px;
+
+    border-top: 1px solid rgb(255 255 255 / 8%);
+    border-right: none;
+  }
+
+  .logo-container {
+    display: none;
+  }
+
+  .nav-list {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 4px;
+  }
+
+  .nav-list li {
+    flex: 1;
+  }
+
+  .nav-link {
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+
+    padding: 8px 4px;
+    font-size: 11px;
+  }
+
+  .nav-link:hover {
+    transform: none;
+  }
+
+  .nav-link.active-link::before {
+    display: none;
+  }
+}

@@ -1,7 +1,45 @@
-<nav>
-  <h2>ChamaJá</h2>
-  <div>
-    <app-defaultbutton type="login" [routerLink]="['/login']">Entrar</app-defaultbutton>
-    <app-defaultbutton type="register" [routerLink]="['/register']">Criar Conta</app-defaultbutton>
-  </div>
-</nav>
+<header class="navbar">
+  <nav class="navbarContainer" aria-label="Navegação principal">
+    <a
+      class="brand"
+      [routerLink]="['/']"
+      aria-label="Ir para a página inicial"
+    >
+      <span class="brandIcon" aria-hidden="true">
+        <i class="pi pi-bolt"></i>
+      </span>
+
+      <span class="brandName">ChamaJá</span>
+    </a>
+
+    <div class="navigationLinks">
+      <a [routerLink]="['/']" fragment="como-funciona">
+        Como funciona
+      </a>
+
+      <a [routerLink]="['/']" fragment="seguranca">
+        Segurança
+      </a>
+
+      <a [routerLink]="['/']" fragment="profissionais">
+        Para profissionais
+      </a>
+    </div>
+
+    <div class="navbarActions">
+      <app-defaultbutton
+        type="login"
+        [routerLink]="['/login']"
+      >
+        Entrar
+      </app-defaultbutton>
+
+      <app-defaultbutton
+        type="register"
+        [routerLink]="['/register']"
+      >
+        Criar conta
+      </app-defaultbutton>
+    </div>
+  </nav>
+</header>

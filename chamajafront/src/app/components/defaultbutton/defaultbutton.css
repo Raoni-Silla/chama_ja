@@ -1,147 +1,243 @@
 :host {
-  display: inline-block;
+  display: inline-flex;
+  vertical-align: middle;
 }
 
-button.login {
-  border: none;
-  color: #0f172b;
+.defaultButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 48px;
+  padding: 0 22px;
+
+  border: 1px solid transparent;
+  border-radius: 11px;
   cursor: pointer;
-  background-color: transparent;
-  font-size: 1rem;
-}
 
-button.login:hover {
-  color: #0a1020;
-}
+  font: inherit;
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
 
-button.register {
-  border: none;
-  background-color: #4f46e5;
-  color: white;
-  padding: 0.75rem 2.5rem;
-  border-radius: 9999px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-button.register:hover {
-  background-color: #1e40af;
-}
-
-button.btn-primary {
-  background-color: #4f46e5;
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    transform 170ms ease,
+    color 170ms ease,
+    background-color 170ms ease,
+    border-color 170ms ease,
+    box-shadow 170ms ease;
 }
 
-button.btn-primary:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+.buttonContent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-button.btn-secundary {
-  background-color: white;
-  color: #374151;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+/* =========================================================
+   BOTÃO ENTRAR DA NAVBAR
+========================================================= */
+
+.defaultButton.login {
+  min-height: 44px;
+  padding: 0 16px;
+
+  color: #514b5f;
+  background: transparent;
+  border-color: transparent;
 }
 
-button.btn-secundary:hover {
-  box-shadow: 0 5px 15px rgba(5, 1, 230, 0.3);
+.defaultButton.login:hover {
+  color: #5b27c4;
+  background: #faf7ff;
 }
 
-button.callActionButtonPrimary {
-  background-color: white;
-  color: #4f46e5;
-  padding: 0.8rem 1.5rem;
-  border-radius: 50px;
-  border: 1px solid #e5e7eb;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+.defaultButton.login:active {
+  background: #f3ecff;
 }
 
-button.callActionButtonPrimary:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+/* =========================================================
+   BOTÃO CRIAR CONTA DA NAVBAR
+========================================================= */
+
+.defaultButton.register {
+  min-height: 44px;
+  padding: 0 21px;
+
+  color: #ffffff;
+  background: linear-gradient(135deg, #8b4ff8, #5b27c4);
+  border-color: #7135e8;
+  box-shadow: 0 8px 20px rgba(113, 53, 232, 0.24);
 }
 
+.defaultButton.register:hover {
+  transform: translateY(-2px);
 
-button.btn-entrar {
+  background: linear-gradient(135deg, #7c3aed, #481f99);
+  box-shadow: 0 12px 26px rgba(113, 53, 232, 0.32);
+}
+
+/* =========================================================
+   BOTÃO PRINCIPAL
+========================================================= */
+
+.defaultButton.btn-primary {
+  min-height: 52px;
+  padding: 0 25px;
+
+  color: #ffffff;
+  background: linear-gradient(135deg, #8b4ff8, #5b27c4);
+  border-color: #7135e8;
+  box-shadow: 0 12px 28px rgba(113, 53, 232, 0.28);
+}
+
+.defaultButton.btn-primary:hover {
+  transform: translateY(-2px);
+
+  background: linear-gradient(135deg, #7c3aed, #481f99);
+  box-shadow: 0 16px 34px rgba(113, 53, 232, 0.36);
+}
+
+/* =========================================================
+   BOTÃO SECUNDÁRIO
+========================================================= */
+
+.defaultButton.btn-secundary {
+  min-height: 52px;
+  padding: 0 25px;
+
+  color: #5b27c4;
+  background: #ffffff;
+  border-color: #cfb4ff;
+  box-shadow: 0 5px 15px rgba(55, 24, 115, 0.06);
+}
+
+.defaultButton.btn-secundary:hover {
+  transform: translateY(-2px);
+
+  color: #481f99;
+  background: #faf7ff;
+  border-color: #ad7cff;
+  box-shadow: 0 11px 27px rgba(55, 24, 115, 0.14);
+}
+
+/* =========================================================
+   BOTÃO SOBRE FUNDO ROXO
+========================================================= */
+
+.defaultButton.btn-light,
+.defaultButton.callActionButtonPrimary {
+  min-height: 52px;
+  padding: 0 25px;
+
+  color: #481f99;
+  background: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 12px 30px rgba(25, 10, 50, 0.2);
+}
+
+.defaultButton.btn-light:hover,
+.defaultButton.callActionButtonPrimary:hover {
+  transform: translateY(-2px);
+
+  color: #341568;
+  background: #f3ecff;
+  box-shadow: 0 16px 36px rgba(25, 10, 50, 0.27);
+}
+
+/* =========================================================
+   BOTÃO DE FORMULÁRIO
+========================================================= */
+
+.defaultButton.btn-entrar {
   width: 100%;
-  padding: 16px;
-  background-color: #554AF0;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-bottom: 15px;
-  transition: 0.5s ease-in;
+  min-height: 52px;
+  padding: 0 24px;
+
+  color: #ffffff;
+  background: linear-gradient(135deg, #8b4ff8, #5b27c4);
+  border-color: #7135e8;
+  box-shadow: 0 10px 25px rgba(113, 53, 232, 0.25);
 }
 
-button.btn-entrar:hover{
-  background-color: #2619de;
+.defaultButton.btn-entrar:hover {
+  transform: translateY(-2px);
+
+  background: linear-gradient(135deg, #7c3aed, #481f99);
+  box-shadow: 0 14px 30px rgba(113, 53, 232, 0.34);
 }
 
-button:disabled {
-  opacity: 0.5;
+/* =========================================================
+   ESTADOS GERAIS
+========================================================= */
+
+.defaultButton:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 14px rgba(55, 24, 115, 0.16);
+}
+
+.defaultButton:focus-visible {
+  outline: 4px solid rgba(113, 53, 232, 0.2);
+  outline-offset: 3px;
+}
+
+.defaultButton:disabled {
+  color: #888391;
+  background: #e9e7ec;
+  border-color: #e0dde4;
   cursor: not-allowed;
-  background-color: #ccc;
+  box-shadow: none;
+  opacity: 0.7;
 }
 
-button:disabled:hover {
-  background-color: #ccc;
+.defaultButton:disabled:hover {
   transform: none;
+
+  color: #888391;
+  background: #e9e7ec;
+  border-color: #e0dde4;
   box-shadow: none;
 }
 
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
 
-/* =========================================
-   Responsividade Botões (Tablets e Celulares)
-   ========================================= */
-@media (max-width: 768px) {
- 
-  button {
+@media (max-width: 600px) {
+  .defaultButton {
+    min-height: 46px;
+    padding-inline: 17px;
+    font-size: 0.88rem;
+  }
+
+  .defaultButton.login {
+    min-height: 40px;
+    padding-inline: 9px;
+    background: transparent;
+  }
+
+  .defaultButton.register {
+    min-height: 40px;
+    padding-inline: 14px;
+    font-size: 0.84rem;
+  }
+
+  .defaultButton.btn-primary,
+  .defaultButton.btn-secundary,
+  .defaultButton.btn-light,
+  .defaultButton.callActionButtonPrimary,
+  .defaultButton.btn-entrar {
     width: 100%;
-    box-sizing: border-box; 
+    min-height: 50px;
+    font-size: 0.94rem;
   }
+}
 
- 
-  button.register {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.95rem;
-  }
-
-  button.login {
-    font-size: 0.95rem;
-  }
-
-
-  button.btn-primary,
-  button.btn-secundary,
-  button.callActionButtonPrimary {
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
+@media (prefers-reduced-motion: reduce) {
+  .defaultButton,
+  .brandIcon {
+    transition-duration: 0.01ms;
   }
 }

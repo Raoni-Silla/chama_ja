@@ -1,4 +1,16 @@
-<main>
+<main
+  [class.main-usuario]="
+    loginService.isLoggedIn && role === 'USUARIO'
+  "
+  [class.main-prestador]="
+    loginService.isLoggedIn && role === 'PRESTADOR'
+  "
+>
   <router-outlet></router-outlet>
-  <app-navbarlogged></app-navbarlogged>
 </main>
+
+@if (loginService.isLoggedIn && role === 'USUARIO') {
+  <app-navbarlogged></app-navbarlogged>
+} @else if (loginService.isLoggedIn && role === 'PRESTADOR') {
+  <app-navbarloggedprestador></app-navbarloggedprestador>
+}

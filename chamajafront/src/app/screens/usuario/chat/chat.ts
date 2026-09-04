@@ -17,6 +17,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { PropostaRequestDTO } from '../../../DTOS/Proposta/PropostaRequestDTO.dto';
 import { PropostaResponseDTO } from '../../../DTOS/Proposta/PropostaResponseDTO.dto';
+import { PagamentoService } from '../../../service/pagamento-service';
+import { PagamentoRequestDTO } from '../../../DTOS/Pagamento/PagamentoRequestDTO.dto';
 
 @Component({
   selector: 'app-chat',
@@ -55,6 +57,9 @@ export class Chat implements OnInit, OnDestroy {
   dataHora: string = '';
   propostaCriada: PropostaResponseDTO | null = null;
   propostaPendente: PropostaResponseDTO | null = null;
+  isModalPagamento: boolean = false;
+  idChamadoAtual: number = 0;
+  pagamentoService = inject(PagamentoService);
 
   ngOnInit(): void {
     this.carregandoContatos = true;
@@ -280,6 +285,7 @@ export class Chat implements OnInit, OnDestroy {
           life: 3000,
         });
         this.propostaPendente = res;
+        this.isModalProposta = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -358,6 +364,7 @@ export class Chat implements OnInit, OnDestroy {
     }
 
     const id: number = this.propostaPendente?.id;
+    this.idChamadoAtual = this.propostaPendente.idChamado;
 
     this.propostaService.aceitarProposta(id).subscribe({
       next: (res) => {
@@ -373,6 +380,7 @@ export class Chat implements OnInit, OnDestroy {
             this.listaContatos = res;
             this.carregandoContatos = false;
             this.cdr.detectChanges();
+            this.isModalPagamento = true;
           },
           error: (err) => {
             console.error(err);
@@ -390,6 +398,34 @@ export class Chat implements OnInit, OnDestroy {
         this.messageService.add({
           severity: 'error',
           detail: 'Ops, não conseguimos aceitar essa proposta',
+          life: 3000,
+        });
+      },
+    });
+  }
+
+  pagar(metodoPagamento: string) {
+    if (!metodoPagamento) {
+      return;
+    }
+    const dto: PagamentoRequestDTO = {
+      idChamado: this.idChamadoAtual,
+      metodoPagamento: metodoPagamento,
+    };
+    this.pagamentoService.pagar(dto).subscribe({
+      next: (res) => {
+        this.isModalPagamento = false;
+        this.messageService.add({
+          severity: 'success',
+          detail: 'Pagamento realizado com sucesso',
+          life: 3000,
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        this.messageService.add({
+          severity: 'error',
+          detail: 'Algo deu errado no seu pagamento',
           life: 3000,
         });
       },

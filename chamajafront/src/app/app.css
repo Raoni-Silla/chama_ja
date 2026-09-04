@@ -1,0 +1,17 @@
+main {
+  width: 100%;
+  min-width: 0;
+}
+
+
+main.main-usuario {
+  height: calc(100dvh - 80px);
+  overflow-y: auto;
+}
+
+main.main-prestador {
+  width: calc(100% - 260px);
+  height: 100dvh;
+  margin-left: 260px;
+  overflow: hidden;
+}

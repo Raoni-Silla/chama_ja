@@ -1,0 +1,243 @@
+@if (carregando) {
+  <div class="estado-pagina">
+    <p-progress-spinner ariaLabel="carregando" />
+
+    <div>
+      <h2>Carregando seus serviços</h2>
+      <p>Estamos buscando seus atendimentos.</p>
+    </div>
+  </div>
+} @else {
+  @if (listaServicos.length === 0) {
+    <div class="estado-pagina vazio">
+      <div class="estado-icon">
+        <i class="pi pi-briefcase"></i>
+      </div>
+
+      <div>
+        <h1>Nenhum serviço por aqui</h1>
+
+        <p>Você ainda não possui serviços em andamento ou concluídos.</p>
+      </div>
+    </div>
+  } @else {
+    <main class="servicos-page">
+      <!-- =====================================================
+           CABEÇALHO
+      ====================================================== -->
+
+      <section class="page-header">
+        <div class="page-header-text">
+          <span class="page-eyebrow"> ATENDIMENTOS </span>
+
+          <h1>Meus serviços</h1>
+
+          <p>Acompanhe os serviços em andamento e consulte seus atendimentos já concluídos.</p>
+        </div>
+
+        <div class="quantidade-servicos">
+          <div class="quantidade-icon">
+            <i class="pi pi-briefcase"></i>
+          </div>
+
+          <div class="quantidade-info">
+            <strong>
+              {{ listaServicos.length }}
+            </strong>
+
+            <span>
+              {{ listaServicos.length === 1 ? 'serviço' : 'serviços' }}
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           GRID
+      ====================================================== -->
+
+      <section class="servicos-grid">
+        @for (servico of listaServicos; track servico.idChamado) {
+          <article
+            class="servico-card"
+            [class.card-concluido]="servico.statusChamado === 'CONCLUIDO'"
+            [class.card-andamento]="servico.statusChamado === 'EM_ANDAMENTO'"
+          >
+            <!-- =================================================
+                 HEADER CARD
+            ================================================== -->
+
+            <header class="card-header">
+              <div class="pessoa">
+                @if (servico.fotoOutraPessoa) {
+                  <img
+                    [src]="servico.fotoOutraPessoa"
+                    [alt]="servico.nomeOutraPessoa"
+                    class="avatar"
+                  />
+                } @else {
+                  <div class="avatar-placeholder">
+                    {{ servico.nomeOutraPessoa.charAt(0) }}
+                  </div>
+                }
+
+                <div class="pessoa-info">
+                  <span> Serviço com </span>
+
+                  <strong>
+                    {{ servico.nomeOutraPessoa }}
+                  </strong>
+                </div>
+              </div>
+
+              <span class="status" [class.concluido]="servico.statusChamado === 'CONCLUIDO'">
+                <i
+                  class="pi"
+                  [class.pi-clock]="servico.statusChamado === 'EM_ANDAMENTO'"
+                  [class.pi-check-circle]="servico.statusChamado === 'CONCLUIDO'"
+                ></i>
+
+                {{ servico.statusChamado === 'EM_ANDAMENTO' ? 'Em andamento' : 'Concluído' }}
+              </span>
+            </header>
+
+            <!-- =================================================
+                 CONTEÚDO
+            ================================================== -->
+
+            <div class="card-body">
+              <div class="titulo-servico">
+                <span> Serviço contratado </span>
+
+                <h2>
+                  {{ servico.titulo }}
+                </h2>
+              </div>
+
+              <div class="informacoes">
+                <!-- DATA -->
+
+                <div class="info">
+                  <div class="info-icon">
+                    <i class="pi pi-calendar"></i>
+                  </div>
+
+                  <div class="info-content">
+                    <span> Data do serviço </span>
+
+                    <strong>
+                      {{ servico.dataHoraServico | date: 'dd/MM/yyyy' }}
+                    </strong>
+
+                    <small> às {{ servico.dataHoraServico | date: 'HH:mm' }} </small>
+                  </div>
+                </div>
+
+                <!-- VALOR -->
+
+                <div class="info">
+                  <div class="info-icon">
+                    <i class="pi pi-wallet"></i>
+                  </div>
+
+                  <div class="info-content">
+                    <span> Valor combinado </span>
+
+                    <strong>
+                      {{ servico.valorServico | currency: 'BRL' : 'symbol' : '1.2-2' }}
+                    </strong>
+                  </div>
+                </div>
+
+                <!-- FINALIZAÇÃO -->
+
+                @if (servico.horaFinalizacao) {
+                  <div class="info info-finalizado">
+                    <div class="info-icon">
+                      <i class="pi pi-check"></i>
+                    </div>
+
+                    <div class="info-content">
+                      <span> Finalizado em </span>
+
+                      <strong>
+                        {{ servico.horaFinalizacao | date: 'dd/MM/yyyy' }}
+                      </strong>
+
+                      <small> às {{ servico.horaFinalizacao | date: 'HH:mm' }} </small>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <footer class="card-footer">
+              <div class="confirmacao-section">
+                <span class="confirmacao-titulo"> Confirmação de conclusão </span>
+
+                <div class="confirmacoes">
+                  <!-- CLIENTE -->
+
+                  <span class="confirmacao" [class.confirmado]="servico.concluidoPeloCliente">
+                    <i
+                      class="pi"
+                      [class.pi-check-circle]="servico.concluidoPeloCliente"
+                      [class.pi-clock]="!servico.concluidoPeloCliente"
+                    ></i>
+
+                    Cliente
+                  </span>
+
+                  <!-- PRESTADOR -->
+
+                  <span class="confirmacao" [class.confirmado]="servico.concluidoPeloPrestador">
+                    <i
+                      class="pi"
+                      [class.pi-check-circle]="servico.concluidoPeloPrestador"
+                      [class.pi-clock]="!servico.concluidoPeloPrestador"
+                    ></i>
+
+                    Prestador
+                  </span>
+                </div>
+              </div>
+
+              <!-- ===============================================
+                   AÇÃO
+              ================================================ -->
+
+              @if (servico.statusChamado === 'EM_ANDAMENTO') {
+                @if (
+                  (role === 'USUARIO' && !servico.concluidoPeloCliente) ||
+                  (role === 'PRESTADOR' && !servico.concluidoPeloPrestador)
+                ) {
+                  <button
+                    type="button"
+                    class="btn-concluir"
+                    (click)="concluirServico(servico.idChamado)"
+                  >
+                    <i class="pi pi-check-circle"></i>
+
+                    <span> Confirmar conclusão </span>
+                  </button>
+                }
+              } @else {
+                <div class="servico-finalizado">
+                  <i class="pi pi-verified"></i>
+
+                  <span> Serviço concluído </span>
+                </div>
+              }
+            </footer>
+          </article>
+        }
+      </section>
+    </main>
+  }
+}
+
+<p-toast />

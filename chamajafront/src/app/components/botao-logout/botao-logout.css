@@ -1,0 +1,118 @@
+:host {
+  display: inline-block;
+}
+
+.logoutButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+
+  min-height: 42px;
+  padding: 0.45rem 0.85rem 0.45rem 0.55rem;
+
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.13);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  cursor: pointer;
+
+  box-shadow: 0 12px 30px rgba(30, 20, 90, 0.12);
+
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 650;
+  white-space: nowrap;
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.logoutIcon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  width: 29px;
+  height: 29px;
+
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.13);
+  border-radius: 50%;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.logoutIcon i {
+  font-size: 0.82rem;
+}
+
+.logoutButton:hover {
+  color: #4f46e5;
+  background: #ffffff;
+  border-color: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 15px 32px rgba(30, 20, 90, 0.18),
+    0 4px 10px rgba(30, 20, 90, 0.08);
+}
+
+.logoutButton:hover .logoutIcon {
+  color: #ffffff;
+  background: #4f46e5;
+  transform: rotate(-5deg);
+}
+
+.logoutButton:active {
+  transform: translateY(0);
+
+  box-shadow: 0 7px 18px rgba(30, 20, 90, 0.14);
+}
+
+.logoutButton:focus-visible {
+  outline: 4px solid rgba(250, 204, 21, 0.28);
+  outline-offset: 3px;
+}
+
+.logoutButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+/* Celulares */
+
+@media (max-width: 480px) {
+  :host {
+    display: block;
+    width: 100%;
+  }
+
+  .logoutButton {
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
+/* Acessibilidade */
+
+@media (prefers-reduced-motion: reduce) {
+  .logoutButton,
+  .logoutIcon {
+    transition-duration: 0.01ms;
+  }
+}

@@ -1,53 +1,103 @@
-<app-navbarlogged></app-navbarlogged>
-
-<div class="config-layout">
-
-  <!-- Sidebar de Navegação -->
+<div class="config-layout" [class.modo-prestador]="isPrestador">
   <aside class="config-sidebar">
     <nav class="nav-abas">
-      <button class="aba-btn" [class.active]="abaAtiva === 'perfil'" (click)="mudarAba('perfil')">Perfil
-        Público</button>
-      <button class="aba-btn" [class.active]="abaAtiva === 'conta'" (click)="mudarAba('conta')">Conta</button>
-      <button class="aba-btn" [class.active]="abaAtiva === 'enderecos'"
-        (click)="mudarAba('enderecos')">Endereços</button>
-      <button class="aba-btn" [class.active]="abaAtiva === 'cartoes'" (click)="mudarAba('cartoes')">Cartões</button>
+      <button
+        type="button"
+        class="aba-btn"
+        [class.active]="abaAtiva === 'perfil'"
+        (click)="mudarAba('perfil')"
+      >
+        <i class="pi pi-user"></i>
+        <span>Perfil Público</span>
+      </button>
+
+      <button
+        type="button"
+        class="aba-btn"
+        [class.active]="abaAtiva === 'conta'"
+        (click)="mudarAba('conta')"
+      >
+        <i class="pi pi-cog"></i>
+        <span>Conta</span>
+      </button>
+
+      <button
+        type="button"
+        class="aba-btn"
+        [class.active]="abaAtiva === 'enderecos'"
+        (click)="mudarAba('enderecos')"
+      >
+        <i class="pi pi-map-marker"></i>
+        <span>Endereços</span>
+      </button>
+
+      @if (!isPrestador) {
+        <button
+          type="button"
+          class="aba-btn"
+          [class.active]="abaAtiva === 'cartoes'"
+          (click)="mudarAba('cartoes')"
+        >
+          <i class="pi pi-credit-card"></i>
+          <span>Cartões</span>
+        </button>
+      }
+
+      @if (isPrestador) {
+        <button
+          type="button"
+          class="aba-btn"
+          [class.active]="abaAtiva === 'areas'"
+          (click)="mudarAba('areas')"
+        >
+          <i class="pi pi-briefcase"></i>
+          <span>Áreas de atuação</span>
+        </button>
+
+        <button
+          type="button"
+          class="aba-btn"
+          [class.active]="abaAtiva === 'carteira'"
+          (click)="mudarAba('carteira')"
+        >
+          <i class="pi pi-wallet"></i>
+          <span>Carteira</span>
+        </button>
+      }
     </nav>
   </aside>
 
   <main class="config-content">
-
     @switch (abaAtiva) {
+      @case ('perfil') {
+        <app-aba-perfil-publico></app-aba-perfil-publico>
+      }
 
-    <!-- ========================================== -->
-    <!-- TELA 1: PERFIL PÚBLICO          -->
-    <!-- ========================================== -->
-    @case ('perfil') {
-    <app-aba-perfil-publico></app-aba-perfil-publico>
-    }
+      @case ('conta') {
+        <app-aba-conta></app-aba-conta>
+      }
 
-    <!-- ========================================== -->
-    <!-- TELA 2: CONTA                              -->
-    <!-- ========================================== -->
-    @case ('conta') { 
-    <app-aba-conta></app-aba-conta>
-    }
+      @case ('enderecos') {
+        <app-aba-enderecos></app-aba-enderecos>
+      }
 
-    <!-- ========================================== -->
-    <!-- TELA 3: ENDEREÇOS                          -->
-    <!-- ========================================== -->
-    @case ('enderecos') {
-    <app-aba-enderecos></app-aba-enderecos>
-    }
+      @case ('cartoes') {
+        @if (!isPrestador) {
+          <app-aba-cartoes></app-aba-cartoes>
+        }
+      }
 
-    <!-- ========================================== -->
-    <!-- TELA 4: CARTÕES                            -->
-    <!-- ========================================== -->
-    @case ('cartoes') {
-    <div class="tela-cartoes">
-      <app-aba-cartoes></app-aba-cartoes>
-    </div>
-    }
-    }
+      @case ('areas') {
+        @if (isPrestador) {
+          <app-aba-areas></app-aba-areas>
+        }
+      }
 
+      @case ('carteira') {
+        @if (isPrestador) {
+          <app-aba-carteira></app-aba-carteira>
+        }
+      }
+    }
   </main>
 </div>

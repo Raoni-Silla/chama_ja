@@ -1,0 +1,60 @@
+<nav class="sidebar">
+  <div class="logo-container">
+    <img
+      src="/logo-removebg-preview.png"
+      alt="Logo ChamaJá"
+      class="logo"
+    />
+  </div>
+
+  <ul class="nav-list">
+    <li>
+      <a
+        routerLink="/homepageprestador"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page"
+        class="nav-link"
+      >
+        <i class="pi pi-home"></i>
+        <span>Home</span>
+      </a>
+    </li>
+
+    <li>
+      <a
+        routerLink="/chat"
+        routerLinkActive="active-link"
+        ariaCurrentWhenActive="page"
+        class="nav-link"
+      >
+        <i class="pi pi-comments"></i>
+        <span>Chat</span>
+      </a>
+    </li>
+
+    <li>
+      <a
+        routerLink="/servicos"
+        routerLinkActive="active-link"
+        ariaCurrentWhenActive="page"
+        class="nav-link"
+      >
+        <i class="pi pi-briefcase"></i>
+        <span>Serviços</span>
+      </a>
+    </li>
+
+    <li>
+      <a
+        routerLink="/perfil-usuario"
+        routerLinkActive="active-link"
+        ariaCurrentWhenActive="page"
+        class="nav-link"
+      >
+        <i class="pi pi-user"></i>
+        <span>Perfil</span>
+      </a>
+    </li>
+  </ul>
+</nav>

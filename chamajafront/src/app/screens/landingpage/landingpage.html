@@ -1,99 +1,690 @@
 <app-navbar></app-navbar>
 
-<section class="gridContainer">
-  <div class="gridContent" data-aos="fade-right">
-    <app-cardinfo></app-cardinfo>
-    <h1 style="margin-top: 10px">Conectamos você aos <span>melhores profissionais</span></h1>
-    <p>
-      Encontre prestadores de serviços confiáveis perto de você ou ofereça seus serviços para
-      milhares de clientes. Rápido, seguro e profissional.
-    </p>
+<main>
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="heroDecoration heroDecorationOne"></div>
+    <div class="heroDecoration heroDecorationTwo"></div>
 
-    <div class="buttonGroup">
-      <app-defaultbutton type="btn-primary">Encontrar Profissionais</app-defaultbutton>
-      <app-defaultbutton type="btn-secundary">Oferecer Serviços</app-defaultbutton>
+    <div class="container heroGrid">
+      <div class="heroContent" data-aos="fade-right">
+        <div class="eyebrow">
+          <span class="eyebrowDot"></span>
+          Profissionais avaliados perto de você
+        </div>
+
+        <h1 id="hero-title">
+          Encontre o profissional certo
+          <span>sem complicação.</span>
+        </h1>
+
+        <p class="heroDescription">
+          Compare profissionais, consulte avaliações e converse diretamente
+          antes de contratar. Mais segurança para você e mais oportunidades
+          para quem presta serviços.
+        </p>
+
+        <div class="buttonGroup">
+          <app-defaultbutton type="btn-primary">
+            Encontrar profissionais
+          </app-defaultbutton>
+
+          <app-defaultbutton type="btn-secundary">
+            Oferecer meus serviços
+          </app-defaultbutton>
+        </div>
+
+        <ul class="trustList" aria-label="Benefícios da plataforma">
+          <li>
+            <i class="pi pi-check" aria-hidden="true"></i>
+            Cadastro gratuito
+          </li>
+
+          <li>
+            <i class="pi pi-check" aria-hidden="true"></i>
+            Avaliações de clientes
+          </li>
+
+          <li>
+            <i class="pi pi-check" aria-hidden="true"></i>
+            Contato direto
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="heroVisual"
+        data-aos="fade-left"
+        data-aos-delay="100"
+      >
+        <div class="imageGlow"></div>
+
+        <div class="imageWrapper">
+          <img
+            src="eletricista.jpg"
+            alt="Eletricista profissional realizando um serviço"
+            class="mainImg"
+          />
+
+          <div class="imageOverlay"></div>
+
+          <div class="securityBadge">
+            <span class="securityBadgeIcon">
+              <i class="pi pi-shield" aria-hidden="true"></i>
+            </span>
+
+            <div>
+              <strong>Perfil verificado</strong>
+              <span>Informações conferidas</span>
+            </div>
+          </div>
+
+          <article class="professionalCard">
+            <div class="professionalAvatar" aria-hidden="true">
+              CM
+            </div>
+
+            <div class="professionalInfo">
+              <div class="professionalName">
+                <strong>Carlos Mendes</strong>
+
+                <span
+                  class="verifiedIcon"
+                  title="Profissional verificado"
+                  aria-label="Profissional verificado"
+                >
+                  <i class="pi pi-check"></i>
+                </span>
+              </div>
+
+              <span class="professionalJob">
+                Eletricista profissional
+              </span>
+
+              <div class="rating">
+                <span class="ratingStars" aria-label="5 estrelas">
+                  <i class="pi pi-star-fill"></i>
+                  <i class="pi pi-star-fill"></i>
+                  <i class="pi pi-star-fill"></i>
+                  <i class="pi pi-star-fill"></i>
+                  <i class="pi pi-star-fill"></i>
+                </span>
+
+                <small>4,9 · 48 avaliações</small>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       FAIXA DE CONFIANÇA
+  ====================================================== -->
+  <section class="trustBar" aria-label="Diferenciais da plataforma">
+    <div class="container trustBarGrid">
+      <article class="trustItem">
+        <div class="trustItemIcon">
+          <i class="pi pi-shield" aria-hidden="true"></i>
+        </div>
+
+        <div>
+          <strong>Mais segurança</strong>
+          <span>Consulte informações antes de contratar</span>
+        </div>
+      </article>
+
+      <article class="trustItem">
+        <div class="trustItemIcon">
+          <i class="pi pi-comments" aria-hidden="true"></i>
+        </div>
+
+        <div>
+          <strong>Contato direto</strong>
+          <span>Converse e alinhe todos os detalhes</span>
+        </div>
+      </article>
+
+      <article class="trustItem">
+        <div class="trustItemIcon">
+          <i class="pi pi-star" aria-hidden="true"></i>
+        </div>
+
+        <div>
+          <strong>Avaliações da comunidade</strong>
+          <span>Conheça experiências de outros clientes</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       PLATAFORMA PARA CLIENTES E PROFISSIONAIS
+  ====================================================== -->
+  <section
+    class="section audiences"
+    aria-labelledby="audiences-title"
+  >
+    <div class="container">
+      <header class="sectionHeading">
+        <span class="sectionLabel">Uma conexão que funciona</span>
+
+        <h2 id="audiences-title">
+          Uma plataforma feita para os dois lados
+        </h2>
+
+        <p>
+          Quem precisa de um serviço encontra profissionais com mais
+          facilidade. Quem trabalha encontra novas oportunidades.
+        </p>
+      </header>
+
+      <div class="audiencesGrid">
+        <!-- CLIENTES -->
+        <article
+          class="audienceCard audienceCardClient"
+          data-aos="fade-up"
+        >
+          <div class="audienceCardHeader">
+            <div class="audienceIcon">
+              <i class="pi pi-search" aria-hidden="true"></i>
+            </div>
+
+            <div>
+              <span class="audienceTag">Para clientes</span>
+              <h3>Encontre ajuda com mais confiança</h3>
+            </div>
+          </div>
+
+          <p class="audienceDescription">
+            Pesquise profissionais, analise as informações disponíveis
+            e converse antes de tomar sua decisão.
+          </p>
+
+          <ul class="audienceBenefits">
+            <li>
+              <span>
+                <i class="pi pi-check" aria-hidden="true"></i>
+              </span>
+
+              <div>
+                <strong>Busca mais simples</strong>
+                <p>
+                  Encontre profissionais de acordo com o serviço
+                  que você precisa.
+                </p>
+              </div>
+            </li>
+
+            <li>
+              <span>
+                <i class="pi pi-check" aria-hidden="true"></i>
+              </span>
+
+              <div>
+                <strong>Perfis detalhados</strong>
+                <p>
+                  Consulte experiências, informações e avaliações
+                  disponíveis.
+                </p>
+              </div>
+            </li>
+
+            <li>
+              <span>
+                <i class="pi pi-check" aria-hidden="true"></i>
+              </span>
+
+              <div>
+                <strong>Contato direto</strong>
+                <p>
+                  Tire dúvidas e combine os detalhes diretamente
+                  com o profissional.
+                </p>
+              </div>
+            </li>
+          </ul>
+
+          <div class="audienceCardAction">
+            <app-defaultbutton type="btn-primary">
+              Quero contratar
+            </app-defaultbutton>
+          </div>
+
+          <i
+            class="pi pi-search audienceBackgroundIcon"
+            aria-hidden="true"
+          ></i>
+        </article>
+
+        <!-- PROFISSIONAIS -->
+        <article
+          class="audienceCard audienceCardProfessional"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <div class="audienceCardHeader">
+            <div class="audienceIcon">
+              <i class="pi pi-briefcase" aria-hidden="true"></i>
+            </div>
+
+            <div>
+              <span class="audienceTag">Para profissionais</span>
+              <h3>Transforme experiência em oportunidade</h3>
+            </div>
+          </div>
+
+          <p class="audienceDescription">
+            Crie seu perfil profissional, apresente suas habilidades
+            e seja encontrado por novos clientes.
+          </p>
+
+          <ul class="audienceBenefits">
+            <li>
+              <span>
+                <i class="pi pi-check" aria-hidden="true"></i>
+              </span>
+
+              <div>
+                <strong>Perfil profissional</strong>
+                <p>
+                  Apresente seus serviços e destaque suas principais
+                  habilidades.
+                </p>
+              </div>
+            </li>
+
+            <li>
+              <span>
+                <i class="pi pi-check" aria-hidden="true"></i>
+              </span>
+
+              <div>
+                <strong>Novas oportunidades</strong>
+                <p>
+                  Aumente sua presença e seja encontrado por pessoas
+                  da sua região.
+                </p>
+              </div>
+            </li>
+
+            <li>
+              <span>
+                <i class="pi pi-check" aria-hidden="true"></i>
+              </span>
+
+              <div>
+                <strong>Construa sua reputação</strong>
+                <p>
+                  Receba avaliações e fortaleça a confiança no
+                  seu trabalho.
+                </p>
+              </div>
+            </li>
+          </ul>
+
+          <div class="audienceCardAction">
+            <app-defaultbutton type="btn-secundary">
+              Quero oferecer serviços
+            </app-defaultbutton>
+          </div>
+
+          <i
+            class="pi pi-briefcase audienceBackgroundIcon"
+            aria-hidden="true"
+          ></i>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       COMO FUNCIONA
+  ====================================================== -->
+  <section
+    class="section howItWorks"
+    aria-labelledby="how-it-works-title"
+  >
+    <div class="container howItWorksGrid">
+      <div class="howItWorksContent" data-aos="fade-right">
+        <span class="sectionLabel">Simples e transparente</span>
+
+        <h2 id="how-it-works-title">Como funciona?</h2>
+
+        <p class="howItWorksIntroduction">
+          Em poucos passos você encontra, compara e escolhe o profissional
+          que melhor atende às suas necessidades.
+        </p>
+
+        <ol class="steps">
+          <li>
+            <span class="stepNumber">1</span>
+
+            <div>
+              <h3>Conte o que você precisa</h3>
+
+              <p>
+                Informe o tipo de serviço, sua localização e quando
+                precisa do atendimento.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <span class="stepNumber">2</span>
+
+            <div>
+              <h3>Compare os profissionais</h3>
+
+              <p>
+                Consulte perfis, experiências, especialidades e
+                avaliações de outros clientes.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <span class="stepNumber">3</span>
+
+            <div>
+              <h3>Converse antes de contratar</h3>
+
+              <p>
+                Tire suas dúvidas, combine valores e alinhe os detalhes
+                diretamente com o profissional.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <span class="stepNumber">4</span>
+
+            <div>
+              <h3>Avalie o serviço</h3>
+
+              <p>
+                Depois da conclusão, compartilhe sua experiência e
+                ajude outros clientes.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <aside
+        class="safetyPanel"
+        data-aos="fade-left"
+        data-aos-delay="100"
+      >
+        <div class="safetyPanelDecoration"></div>
+
+        <div class="safetyPanelIcon">
+          <i class="pi pi-shield" aria-hidden="true"></i>
+        </div>
+
+        <span class="sectionLabel">Sua segurança importa</span>
+
+        <h3>Mais informações para você decidir melhor</h3>
+
+        <p>
+          Consulte os dados disponíveis no perfil e converse com o
+          profissional antes de fechar o serviço.
+        </p>
+
+        <ul>
+          <li>
+            <span>
+              <i class="pi pi-check" aria-hidden="true"></i>
+            </span>
+            Histórico de avaliações
+          </li>
+
+          <li>
+            <span>
+              <i class="pi pi-check" aria-hidden="true"></i>
+            </span>
+            Informações profissionais
+          </li>
+
+          <li>
+            <span>
+              <i class="pi pi-check" aria-hidden="true"></i>
+            </span>
+            Comunicação direta
+          </li>
+
+          <li>
+            <span>
+              <i class="pi pi-check" aria-hidden="true"></i>
+            </span>
+            Suporte da plataforma
+          </li>
+        </ul>
+
+        <a href="#" class="safetyLink">
+          Saiba como cuidamos da sua segurança
+          <i class="pi pi-arrow-right" aria-hidden="true"></i>
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       AVALIAÇÕES
+  ====================================================== -->
+  <section
+    class="section testimonials"
+    aria-labelledby="testimonials-title"
+  >
+    <div class="container">
+      <header class="sectionHeading">
+        <span class="sectionLabel">Experiências na plataforma</span>
+
+        <h2 id="testimonials-title">Quem contrata recomenda</h2>
+
+        <p>
+          Conheça a experiência de clientes e profissionais que
+          utilizaram a plataforma.
+        </p>
+      </header>
+
+      <div class="testimonialsGrid">
+        <article
+          class="testimonialCard"
+          data-aos="fade-up"
+        >
+          <i
+            class="pi pi-comments quoteIcon"
+            aria-hidden="true"
+          ></i>
+
+          <div
+            class="testimonialRating"
+            aria-label="5 de 5 estrelas"
+          >
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+          </div>
+
+          <blockquote>
+            Encontrei um eletricista rapidamente e pude consultar as
+            avaliações antes de entrar em contato. Isso me deixou muito
+            mais tranquila.
+          </blockquote>
+
+          <footer>
+            <div class="testimonialAvatar">AS</div>
+
+            <div>
+              <strong>Ana Souza</strong>
+              <span>Cliente da plataforma</span>
+            </div>
+          </footer>
+        </article>
+
+        <article
+          class="testimonialCard"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <i
+            class="pi pi-comments quoteIcon"
+            aria-hidden="true"
+          ></i>
+
+          <div
+            class="testimonialRating"
+            aria-label="5 de 5 estrelas"
+          >
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+          </div>
+
+          <blockquote>
+            O perfil tinha informações claras e o profissional respondeu
+            todas as minhas dúvidas antes de iniciar o serviço.
+          </blockquote>
+
+          <footer>
+            <div class="testimonialAvatar">RM</div>
+
+            <div>
+              <strong>Ricardo Martins</strong>
+              <span>Cliente da plataforma</span>
+            </div>
+          </footer>
+        </article>
+
+        <article
+          class="testimonialCard"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          <i
+            class="pi pi-comments quoteIcon"
+            aria-hidden="true"
+          ></i>
+
+          <div
+            class="testimonialRating"
+            aria-label="5 de 5 estrelas"
+          >
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+            <i class="pi pi-star-fill"></i>
+          </div>
+
+          <blockquote>
+            Como prestadora, consegui apresentar meu trabalho de maneira
+            profissional e receber novas solicitações de clientes.
+          </blockquote>
+
+          <footer>
+            <div class="testimonialAvatar">JC</div>
+
+            <div>
+              <strong>Juliana Costa</strong>
+              <span>Profissional cadastrada</span>
+            </div>
+          </footer>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       CTA FINAL
+  ====================================================== -->
+  <section class="finalCta">
+    <div class="container">
+      <div class="finalCtaContent">
+        <div class="finalCtaCircle finalCtaCircleOne"></div>
+        <div class="finalCtaCircle finalCtaCircleTwo"></div>
+
+        <div class="finalCtaText">
+          <span class="sectionLabel sectionLabelLight">
+            Comece gratuitamente
+          </span>
+
+          <h2>Pronto para encontrar o profissional ideal?</h2>
+
+          <p>
+            Publique o que você precisa e encontre profissionais
+            disponíveis na sua região.
+          </p>
+        </div>
+
+        <app-defaultbutton type="btn-light">
+          Encontrar profissionais
+        </app-defaultbutton>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- =====================================================
+     RODAPÉ
+====================================================== -->
+<footer class="pageFooter">
+  <div class="container">
+    <div class="footerGrid">
+      <div class="footerBrand">
+        <a href="/" class="footerLogo" aria-label="Página inicial">
+          <span class="footerLogoIcon">
+            <i class="pi pi-bolt" aria-hidden="true"></i>
+          </span>
+
+          <span>Chama Já</span>
+        </a>
+
+        <p>
+          Conectando pessoas a profissionais preparados para transformar
+          necessidades em soluções.
+        </p>
+      </div>
+
+      <div class="footerColumn">
+        <h3>Plataforma</h3>
+
+        <a href="#">Encontrar profissionais</a>
+        <a href="#">Oferecer serviços</a>
+        <a href="#">Como funciona</a>
+        <a href="#">Sobre a plataforma</a>
+      </div>
+
+      <div class="footerColumn">
+        <h3>Segurança</h3>
+
+        <a href="#">Central de ajuda</a>
+        <a href="#">Dicas de segurança</a>
+        <a href="#">Política de privacidade</a>
+        <a href="#">Termos de uso</a>
+      </div>
+
+      <div class="footerColumn">
+        <h3>Atendimento</h3>
+
+        <a href="#">Fale conosco</a>
+        <a href="#">Perguntas frequentes</a>
+        <a href="#">Suporte</a>
+      </div>
+    </div>
+
+    <div class="footerBottom">
+      <p>© 2026 Sua marca. Todos os direitos reservados.</p>
+
+      <span>Desenvolvido para conectar com confiança.</span>
     </div>
   </div>
-
-  <div class="imageWrapper" data-aos="fade-left">
-    <img src="mascoteLandingpage.png" alt="Profissional" class="mainImg" />
-    <app-floatingcard title="15.000+" subtitle="Serviços realizados"></app-floatingcard>
-  </div>
-
-  <div class="gridContainerCards" data-aos="fade-up" data-aos-delay="200">
-    <app-card-information-mini imageSrc="lock.svg" label="Pagamento Seguro"></app-card-information-mini>
-    <app-card-information-mini imageSrc="certified.svg" label="Profissionais Verificados"></app-card-information-mini>
-    <app-card-information-mini imageSrc="medal.svg" label="Satisfação Garantida"></app-card-information-mini>
-  </div>
-</section>
-
-<section class="card-section">
-  <app-card-information-plus data-aos="fade-up" data-aos-delay="0"
-    imageSrc="users.svg" label="50.000+" describe="Usuários ativos">
-  </app-card-information-plus>
-  
-  <app-card-information-plus data-aos="fade-up" data-aos-delay="150"
-    imageSrc="certified.svg" label="15.000+" describe="Serviços concluídos">
-  </app-card-information-plus>
-  
-  <app-card-information-plus data-aos="fade-up" data-aos-delay="300"
-    imageSrc="stars.svg" label="4.8/5" describe="Avaliação média">
-  </app-card-information-plus>
-  
-  <app-card-information-plus data-aos="fade-up" data-aos-delay="450"
-    imageSrc="profit.svg" label="98%" describe="Taxa de satisfação">
-  </app-card-information-plus>
-</section>
-
-<section class="comofunciona">
-  <h2 data-aos="fade-up">Como funciona?</h2>
-  <p class="subtitle" data-aos="fade-up" data-aos-delay="100">
-    Em poucos passos, você encontra o profissional ideal ou começa a oferecer seus serviços
-  </p>
-  
-  <div class="gridContainer">
-    <div class="gridContent" data-aos="fade-right">
-      <ol class="lista-estilizada">
-        <li>
-          <div class="li-header">Crie sua conta gratuitamente</div>
-          <p>Cadastre-se em menos de 2 minutos. É rápido, fácil e totalmente gratuito.</p>
-        </li>
-        <li>
-          <div class="li-header">Encontre ou ofereça serviços</div>
-          <p>Busque profissionais perto de você ou crie seu perfil de prestador.</p>
-        </li>
-        <li>
-          <div class="li-header">Combine os detalhes</div>
-          <p>Converse diretamente, agende e acerte todos os detalhes do serviço.</p>
-        </li>
-        <li>
-          <div class="li-header">Pague com segurança</div>
-          <p>Pagamento protegido e garantia de satisfação em todas as transações.</p>
-        </li>
-      </ol>
-    </div>
-    
-    <div class="imageWrapper" data-aos="fade-left">
-      <img src="eletricista.jpg" alt="Profissional" class="mainImg" />
-    </div>
-  </div>
-</section>
-
-<section class="avaliacoes">
-  <h2 data-aos="fade-up">O que nossos clientes dizem</h2>
-  <p class="subtitle" data-aos="fade-up" data-aos-delay="100">
-    Milhares de pessoas confiam no ChamaJá todos os dias
-  </p>
-  
-  <div class="container-avaliacao">
-    <app-card-avaliation data-aos="fade-up" data-aos-delay="0" avaliation="Encontrei um eletricista excelente em menos de 1 hora. Serviço rápido, profissional e com preço justo. Recomendo!" nameUser="nobara" userType="Cliente" imageSrc="icon.jpg"></app-card-avaliation>
-    <app-card-avaliation data-aos="fade-up" data-aos-delay="150" avaliation="Consegui oferecer meus serviços de forma rápida e pratica, muito facil de se usar esse aplicativo" nameUser="gojo" userType="Prestador" imageSrc="gojo.jpg"></app-card-avaliation>
-    <app-card-avaliation data-aos="fade-up" data-aos-delay="300" avaliation="Encontrei um eletricista excelente em menos de 1 hora. Serviço rápido, profissional e com preço justo. Recomendo!" nameUser="nobara" userType="Cliente" imageSrc="icon.jpg"></app-card-avaliation>
-  </div>
-</section>
-
-<div>
-  <app-callaction></app-callaction>
-</div>
-
-<app-footer></app-footer>
+</footer>

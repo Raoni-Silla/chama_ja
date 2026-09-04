@@ -21,7 +21,6 @@ import { InteracaoInicialResponseDTO } from '../../../DTOS/InteracaoInicial/Inte
 @Component({
   selector: 'app-perfil-prestador',
   imports: [
-    Navbarlogged,
     CommonModule,
     ProgressSpinnerModule,
     DialogModule,

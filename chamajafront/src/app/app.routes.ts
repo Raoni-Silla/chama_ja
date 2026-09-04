@@ -12,19 +12,24 @@ import { ResultadosProcuraPrestadores } from './screens/usuario/resultados-procu
 import { PerfilUsuario } from './screens/usuario/perfil-usuario/perfil-usuario';
 import { Localizacao } from './screens/Registro/localizacao/localizacao';
 import { Chat } from './screens/usuario/chat/chat';
+import { Servico } from './screens/comum/servico/servico';
+import { guestGuardGuard } from './core/guards/guest-guard-guard';
 
 export const routes: Routes = [
   {
     path: '',
-    component: Landingpage
+    component: Landingpage,
+    canActivate: [guestGuardGuard]
   },
   {
     path: 'login',
-    component: Login
+    component: Login,
+    canActivate: [guestGuardGuard]
   },
   {
     path: 'register',
-    component: Register
+    component: Register,
+    canActivate: [guestGuardGuard]
   },
   {
     path: 'register/telefone',
@@ -80,7 +85,7 @@ export const routes: Routes = [
     component: PerfilUsuario,
     canActivate: [roleGuard],
     data: {
-      roles: ['USUARIO']
+      roles: ['USUARIO', 'PRESTADOR']
     }
   },
 
@@ -90,6 +95,14 @@ export const routes: Routes = [
     canActivate: [roleGuard],
     data: {
       roles: ['USUARIO', 'PRESTADOR']
+    }
+  },
+  {
+    path: 'servicos',
+    component: Servico,
+    canActivate: [roleGuard],
+    data: {
+      roles:['USUARIO','PRESTADOR']
     }
   }
 ];

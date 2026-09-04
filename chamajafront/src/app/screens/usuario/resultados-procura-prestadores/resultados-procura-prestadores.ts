@@ -8,7 +8,7 @@ import { Navbarlogged } from '../../../components/navbarlogged/navbarlogged';
 
 @Component({
   selector: 'app-resultados-procura-prestadores',
-  imports: [ProgressSpinnerModule, CommonModule, Navbarlogged],
+  imports: [ProgressSpinnerModule, CommonModule],
   templateUrl: './resultados-procura-prestadores.html',
   styleUrl: './resultados-procura-prestadores.css',
 })

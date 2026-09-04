@@ -2,87 +2,80 @@
   <div class="spinnerDiv">
     <p-progressSpinner ariaLabel="loading" />
   </div>
-} @else{
-
-
-<div class="perfil-header">
-  <div class="foto-container">
-    <img [src]="urlFoto" alt="Sua foto de perfil" class="foto-perfil">
-    <button class="btn-editar-foto">
-      <i class="pi pi-pencil icone-lapis"></i> Editar
-    </button>
-  </div>
-</div>
-
-<form [formGroup]="perfilForm" (ngSubmit)="salvarAlteracoes()" class="form-perfil">
-
-  <div class="form-group">
-    <label for="nome">Nome Completo</label>
-    <input type="text" id="nome" formControlName="nome" class="form-input">
-
-    <span class="helper-text">Seu Nome Público que os Prestadores irão ver</span>
+} @else {
+  <div class="perfil-header">
+    <div class="foto-container">
+      <img [src]="urlFoto" alt="Sua foto de perfil" class="foto-perfil" />
+      <button class="btn-editar-foto"><i class="pi pi-pencil icone-lapis"></i> Editar</button>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" id="email" formControlName="email" class="form-input">
-  </div>
+  <form [formGroup]="perfilForm" (ngSubmit)="salvarAlteracoes()" class="form-perfil">
+    <div class="form-group">
+      <label for="nome">Nome Completo</label>
+      <input type="text" id="nome" formControlName="nome" class="form-input" />
 
-  <div class="form-group">
-    <label for="telefone">Telefone</label>
-    <input type="text" id="telefone" formControlName="telefone" class="form-input">
-  </div>
+      <span class="helper-text">Seu Nome Público que os Prestadores irão ver</span>
+    </div>
 
-  <div class="form-acoes">
-    <button type="submit" class="btn-salvar" [disabled]="perfilForm.invalid || !perfilForm.dirty">
-      Salvar Alterações
-    </button>
-  </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email" class="form-input" />
+    </div>
 
-</form>
+    <div class="form-group">
+      <label for="telefone">Telefone</label>
+      <input type="text" id="telefone" formControlName="telefone" class="form-input" />
+    </div>
 
-<p-toast></p-toast>
+    <div class="form-group">
+      <label for="raioBusca"> Raio para busca (KM)</label>
+      <input type="number" id="raioBusca" formControlName="raioBusca" min="1" max="100" class="form-input"/>
+    </div>
 
+    <div class="form-acoes">
+      <button type="submit" class="btn-salvar" [disabled]="perfilForm.invalid || !perfilForm.dirty">
+        Salvar Alterações
+      </button>
+    </div>
+  </form>
 
-<p-dialog
+  <p-toast></p-toast>
+
+  <p-dialog
     header="Confirme seu código"
     [(visible)]="modalVisivel"
     [modal]="true"
     [closable]="false"
-    styleClass="modalConfirmacaoSms">
-
+    styleClass="modalConfirmacaoSms"
+  >
     <div class="sms-container">
+      <i class="pi pi-mobile sms-icon"></i>
 
-        <i class="pi pi-mobile sms-icon"></i>
+      <p class="sms-texto">
+        Enviamos um código de confirmação por SMS. Digite-o abaixo para continuar.
+      </p>
 
-        <p class="sms-texto">
-            Enviamos um código de confirmação por SMS.
-            Digite-o abaixo para continuar.
-        </p>
+      <div class="campo">
+        <label for="codigo">Código de confirmação</label>
+        <input
+          pInputText
+          id="codigo"
+          class="w-full"
+          autocomplete="off"
+          placeholder="Ex: 123456"
+          [(ngModel)]="codigoSms"
+        />
+      </div>
 
-        <div class="campo">
-            <label for="codigo">Código de confirmação</label>
-            <input
-                pInputText
-                id="codigo"
-                class="w-full"
-                autocomplete="off"
-                placeholder="Ex: 123456"
-                [(ngModel)]="codigoSms"
-                />         
-        </div>
-
-        <p-button
-            label="Validar código"
-            icon="pi pi-check"
-            styleClass="btn-validar"
-            [disabled]="codigoSms.length < 6"
-            (click)="validarSms()"
-            >
-        </p-button>
-
+      <p-button
+        label="Validar código"
+        icon="pi pi-check"
+        styleClass="btn-validar"
+        [disabled]="codigoSms.length < 6"
+        (click)="validarSms()"
+      >
+      </p-button>
     </div>
-
-</p-dialog>
-
+  </p-dialog>
 }

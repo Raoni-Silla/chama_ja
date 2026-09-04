@@ -61,4 +61,8 @@ export class UsuarioService {
   obterTodosEnderecosUsuarioLogado(): Observable<EnderecoResponseDTO[]> {
     return this.http.get<EnderecoResponseDTO[]>(`${this.apiUrl}/obter-enderecos`);
   }
+
+  alterarRaioDeBusca(raioBusca : number) : Observable<void>{
+    return this.http.patch<void>(`${this.apiUrl}/alterar-raio-busca/${raioBusca}`, null)
+  }
 }
