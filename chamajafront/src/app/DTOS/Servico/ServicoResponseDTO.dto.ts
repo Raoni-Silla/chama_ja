@@ -1,3 +1,5 @@
+import { EnderecoResponseDTO } from "../Endereco/EnderecoResponseDTO.dto";
+
 export interface ServicoResponseDTO {
     idChamado: number;
     titulo: string;
@@ -11,4 +13,5 @@ export interface ServicoResponseDTO {
     valorServico: number;
     concluidoPeloCliente: boolean;
     concluidoPeloPrestador: boolean;
+    endereco : EnderecoResponseDTO
 }

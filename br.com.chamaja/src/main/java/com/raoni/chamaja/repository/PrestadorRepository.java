@@ -1,7 +1,5 @@
 package com.raoni.chamaja.repository;
 
-import com.raoni.chamaja.enums.StatusInteracao;
-import com.raoni.chamaja.model.InteracaoInicial;
 import com.raoni.chamaja.model.Prestador;
 import com.raoni.chamaja.projection.PrestadorProximoProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -97,10 +95,10 @@ public interface PrestadorRepository extends JpaRepository<Prestador, Long> {
 
         ORDER BY u.nota_media DESC
 
-        LIMIT 5
+        LIMIT 4
         """,
             nativeQuery = true)
-    List<PrestadorProximoProjection> findTop5Melhores(
+    List<PrestadorProximoProjection> findTop4Melhores(
             @Param("usuarioId") Long usuarioId
     );
 

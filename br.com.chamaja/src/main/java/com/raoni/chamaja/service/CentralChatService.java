@@ -3,6 +3,7 @@ package com.raoni.chamaja.service;
 import com.raoni.chamaja.dto.Central.CentralGenericDTO;
 import com.raoni.chamaja.dto.Chat.MensagemChatConteudoDTO;
 import com.raoni.chamaja.dto.Chat.MensagemChatDTO;
+import com.raoni.chamaja.dto.Endereco.EnderecoResponseDTO;
 import com.raoni.chamaja.dto.InteracaoInicial.InteracaoInicialResponseDTO;
 import com.raoni.chamaja.enums.EstadoCentral;
 import com.raoni.chamaja.enums.StatusChamado;
@@ -136,7 +137,19 @@ public class CentralChatService {
                 interacaoInicial.getMensagem(),
                 interacaoInicial.getValorSugerido(),
                 interacaoInicial.getDataCriacao(),
-                interacaoInicial.getStatus()
+                interacaoInicial.getStatus(),
+                new EnderecoResponseDTO(
+                        interacaoInicial.getEnderecoCombinado().getId(),
+                        interacaoInicial.getEnderecoCombinado().getLogradouro(),
+                        interacaoInicial.getEnderecoCombinado().getNumero(),
+                        interacaoInicial.getEnderecoCombinado().getComplemento(),
+                        interacaoInicial.getEnderecoCombinado().getNomeCidade(),
+                        interacaoInicial.getEnderecoCombinado().getSiglaEstado(),
+                        interacaoInicial.getEnderecoCombinado().getCep(),
+                        interacaoInicial.getEnderecoCombinado().getLatitude(),
+                        interacaoInicial.getEnderecoCombinado().getLongitude(),
+                        interacaoInicial.getEnderecoCombinado().isEnderecoPrincipal()
+                )
         );
     }
 

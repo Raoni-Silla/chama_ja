@@ -133,6 +133,27 @@
                   </div>
                 </div>
 
+                <!-- ENDEREÇO -->
+
+                <div class="info info-endereco">
+                  <div class="info-icon">
+                    <i class="pi pi-map-marker"></i>
+                  </div>
+
+                  <div class="info-content">
+                    <span> Endereço do serviço </span>
+
+                    <strong>
+                      {{ servico.endereco.logradouro }}, {{ servico.endereco.numero }}
+                      @if (servico.endereco.complemento) {
+                        - {{ servico.endereco.complemento }}
+                      }
+                    </strong>
+
+                    <small> {{ servico.endereco.nomeCidade }} - {{ servico.endereco.siglaEstado }} </small>
+                  </div>
+                </div>
+
                 <!-- VALOR -->
 
                 <div class="info">

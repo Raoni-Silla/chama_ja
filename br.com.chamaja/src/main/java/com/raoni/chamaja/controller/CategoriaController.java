@@ -18,10 +18,10 @@ public class CategoriaController {
 
     private final CategoriaService categoriaService;
 
-    @GetMapping(path = "/obter-6-categorias")
+    @GetMapping(path = "/obter-8-categorias")
     @PreAuthorize("hasRole('USUARIO')")
-    public ResponseEntity<List<CategoriaDetalhesDTO>> obterSeisCategorias (){
-        List<CategoriaDetalhesDTO> responseDTOS = categoriaService.obterSeisCategoriasAleatorias();
+    public ResponseEntity<List<CategoriaDetalhesDTO>> obterOitoCategorias (){
+        List<CategoriaDetalhesDTO> responseDTOS = categoriaService.obterOitoCategoriasAleatorias();
         return ResponseEntity.ok(responseDTOS);
     }
 

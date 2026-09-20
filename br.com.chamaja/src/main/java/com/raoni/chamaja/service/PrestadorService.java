@@ -1,12 +1,18 @@
 package com.raoni.chamaja.service;
 
+import com.raoni.chamaja.dto.Categoria.CategoriaDetalhesDTO;
+import com.raoni.chamaja.dto.InteracaoInicial.InteracaoIniciaInfoUteisParaPrestador;
+import com.raoni.chamaja.dto.Prestador.CarregarAreasAtuacaoPrestador;
+import com.raoni.chamaja.dto.Prestador.CarregarHomePrestadorDTO;
 import com.raoni.chamaja.dto.Prestador.MelhoresDoMesDTO;
 import com.raoni.chamaja.dto.Prestador.PrestadorResponseDTO;
+import com.raoni.chamaja.dto.Servico.ServicoSimplificadoDTO;
 import com.raoni.chamaja.model.Categoria;
 import com.raoni.chamaja.model.Endereco;
 import com.raoni.chamaja.model.Prestador;
 import com.raoni.chamaja.model.Usuario;
 import com.raoni.chamaja.projection.PrestadorProximoProjection;
+import com.raoni.chamaja.repository.CategoriaRepository;
 import com.raoni.chamaja.repository.EnderecoRepository;
 import com.raoni.chamaja.repository.PrestadorRepository;
 import com.raoni.chamaja.repository.UsuarioRepository;
@@ -27,6 +33,9 @@ public class PrestadorService {
     private final PrestadorRepository prestadorRepository;
     private final UsuarioRepository usuarioRepository;
     private final EnderecoRepository enderecoRepository;
+    private final ServicoService servicoService;
+    private final InteracaoInicialService interacaoInicialService;
+    private final CategoriaRepository categoriaRepository;
 
     private PrestadorResponseDTO converterParaDTO(
             Prestador prestador,
@@ -56,12 +65,12 @@ public class PrestadorService {
         );
     }
 
-    private Long obterIdUsuarioLogado (){
+    private Long obterIdUsuarioLogado() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         return Long.parseLong(authentication.getName());
     }
 
-    private MelhoresDoMesDTO converterDtoMelhorMes (Prestador prestador, Double distanciaKm){
+    private MelhoresDoMesDTO converterDtoMelhorMes(Prestador prestador, Double distanciaKm) {
 
         List<String> nomeCategorias = prestador.getCategorias().stream()
                 .map(Categoria::getNome)
@@ -174,12 +183,12 @@ public class PrestadorService {
         );
     }
 
-    public List<MelhoresDoMesDTO> top5MelhoresPrestadores() {
+    public List<MelhoresDoMesDTO> top4MelhoresPrestadores() {
 
         Long usuarioId = obterIdUsuarioLogado();
 
         List<PrestadorProximoProjection> melhores =
-                prestadorRepository.findTop5Melhores(usuarioId);
+                prestadorRepository.findTop4Melhores(usuarioId);
 
         if (melhores.isEmpty()) {
             return List.of();
@@ -215,5 +224,61 @@ public class PrestadorService {
                     );
                 })
                 .toList();
+    }
+
+
+    public CarregarHomePrestadorDTO carregarHomePrestador() {
+        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar algum prestador logado"));
+        ServicoSimplificadoDTO servicoSimplificadoDTO = servicoService.obterProximoServico(prestador);
+        List<InteracaoIniciaInfoUteisParaPrestador> interacoesPendentes = interacaoInicialService.obterListaDeInteracoesPendentes();
+        String nomeCidadeEnderecoPrincipal = prestador.getEnderecos().stream().filter(Endereco::isEnderecoPrincipal).toList().getFirst().getNomeCidade();
+        return new CarregarHomePrestadorDTO(
+                prestador.getNome(),
+                nomeCidadeEnderecoPrincipal,
+                servicoSimplificadoDTO,
+                interacoesPendentes
+        );
+    }
+
+    public CarregarAreasAtuacaoPrestador carregarAreasAtuacaoPrestador () {
+        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar algum prestador logado"));
+        List<CategoriaDetalhesDTO> listaCategoriasPrestador = prestador.getCategorias().stream().map(c -> {
+            return new CategoriaDetalhesDTO(
+                    c.getId(),
+                    c.getNome(),
+                    c.getIconUrl()
+            );
+        }).toList();
+        List<CategoriaDetalhesDTO> listaCategoriasDisponiveis = categoriaRepository.findByIdNotIn(prestador.getCategorias().stream().map(Categoria::getId).toList()).stream().map(c -> {
+            return new CategoriaDetalhesDTO(
+                    c.getId(),
+                    c.getNome(),
+                    c.getIconUrl()
+            );
+        }).toList();
+        return  new CarregarAreasAtuacaoPrestador(
+                listaCategoriasPrestador,
+                listaCategoriasDisponiveis
+        );
+    }
+
+    public void adicionarCategoria(Long idCategoria) {
+        if (idCategoria == null || idCategoria <= 0) {
+            throw new IllegalArgumentException("Id inválido");
+        }
+        Categoria categoria = categoriaRepository.findById(idCategoria).orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada por id"));
+        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar algum prestador logado"));
+        prestador.getCategorias().add(categoria);
+        prestadorRepository.save(prestador);
+    }
+
+    public void removerCategoria(Long idCategoria) {
+        if (idCategoria == null || idCategoria <= 0) {
+            throw new IllegalArgumentException("Id inválido");
+        }
+        Categoria categoria = categoriaRepository.findById(idCategoria).orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada por id"));
+        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar algum prestador logado"));
+        prestador.getCategorias().remove(categoria);
+        prestadorRepository.save(prestador);
     }
 }

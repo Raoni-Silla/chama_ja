@@ -1,6 +1,8 @@
 package com.raoni.chamaja.service;
 
+import com.raoni.chamaja.dto.Endereco.EnderecoResponseDTO;
 import com.raoni.chamaja.dto.Servico.ServicoResponseDTO;
+import com.raoni.chamaja.dto.Servico.ServicoSimplificadoDTO;
 import com.raoni.chamaja.enums.StatusChamado;
 import com.raoni.chamaja.enums.StatusPagamento;
 import com.raoni.chamaja.enums.StatusProposta;
@@ -10,6 +12,7 @@ import com.raoni.chamaja.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +39,18 @@ public class ServicoService {
     private List<ServicoResponseDTO> listarServicosUsuarioLogado() {
         Usuario usuario = usuarioRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa usuario logado"));
         List<Chamado> chamados = chamadoRepository.findByClienteAndStatusChamadoIn(usuario, List.of(StatusChamado.EM_ANDAMENTO, StatusChamado.CONCLUIDO));
+        return getServicoResponseDTOS(chamados);
+    }
+
+
+    private List<ServicoResponseDTO> listarServicosPrestadorLogado() {
+        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa usuario logado"));
+        List<Chamado> chamados = chamadoRepository.findByPrestadorAndStatusChamadoIn(prestador, List.of(StatusChamado.EM_ANDAMENTO, StatusChamado.CONCLUIDO));
+        return getServicoResponseDTOS(chamados);
+    }
+
+    @NonNull
+    private List<ServicoResponseDTO> getServicoResponseDTOS(List<Chamado> chamados) {
         return chamados.stream().map(c -> {
             Proposta proposta = propostaRepository.findByChamadoAndStatus(c, StatusProposta.ACEITA).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar esse proposta"));
             return new ServicoResponseDTO(
@@ -50,30 +65,19 @@ public class ServicoService {
                     c.getDataFinalizacao(),
                     proposta.getValorOrcado(),
                     c.isConcluidoPeloCliente(),
-                    c.isConcluidoPeloPrestador()
-            );
-        }).toList();
-    }
-
-
-    private List<ServicoResponseDTO> listarServicosPrestadorLogado() {
-        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa usuario logado"));
-        List<Chamado> chamados = chamadoRepository.findByPrestadorAndStatusChamadoIn(prestador, List.of(StatusChamado.EM_ANDAMENTO, StatusChamado.CONCLUIDO));
-        return chamados.stream().map(c -> {
-            Proposta proposta = propostaRepository.findByChamadoAndStatus(c, StatusProposta.ACEITA).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar esse proposta"));
-            return new ServicoResponseDTO(
-                    c.getId(),
-                    c.getTitulo(),
-                    c.getStatusChamado(),
-                    c.getCliente().getId(),
-                    c.getCliente().getNome(),
-                    c.getCliente().getFotoUrl(),
-                    c.getDataCriacaoChamado(),
-                    c.getPraQuandoFoiAgendado(),
-                    c.getDataFinalizacao(),
-                    proposta.getValorOrcado(),
-                    c.isConcluidoPeloCliente(),
-                    c.isConcluidoPeloPrestador()
+                    c.isConcluidoPeloPrestador(),
+                    new EnderecoResponseDTO(
+                            c.getEndereco().getId(),
+                            c.getEndereco().getLogradouro(),
+                            c.getEndereco().getNumero(),
+                            c.getEndereco().getComplemento(),
+                            c.getEndereco().getNomeCidade(),
+                            c.getEndereco().getSiglaEstado(),
+                            c.getEndereco().getCep(),
+                            c.getEndereco().getLatitude(),
+                            c.getEndereco().getLongitude(),
+                            c.getEndereco().isEnderecoPrincipal()
+                    )
             );
         }).toList();
     }
@@ -114,7 +118,7 @@ public class ServicoService {
         if (chamado.isConcluidoPeloCliente() && chamado.isConcluidoPeloPrestador()) {
 
             Pagamento pagamento = pagamentoRepository.findByChamado(chamado).orElseThrow(() -> new EntityNotFoundException("Impossível encontrar o pagamento deste chamado"));
-            if (!pagamento.getStatus().equals(StatusPagamento.RETIDO)) {
+            if (!pagamento.getStatus().equals(StatusPagamento.PENDENTE)) {
                 throw new IllegalArgumentException("Pagamento deve ter status retido para liberação");
             }
             chamado.setStatusChamado(StatusChamado.CONCLUIDO);
@@ -138,5 +142,47 @@ public class ServicoService {
 
     }
 
+    public ServicoSimplificadoDTO obterProximoServico(Prestador prestador) {
+        Chamado chamado = chamadoRepository
+                .findFirstByPraQuandoFoiAgendadoGreaterThanEqualAndPrestadorOrderByPraQuandoFoiAgendadoAsc(
+                        LocalDateTime.now(), prestador
+                )
+                .orElse(null);
+
+        if (chamado == null) {
+            return null;
+        }
+
+        Proposta proposta = propostaRepository
+                .findByChamadoAndStatus(chamado, StatusProposta.ACEITA)
+                .orElse(null);
+
+        if (proposta == null) {
+            return null; // dado inconsistente — não derruba a home inteira por causa disso
+        }
+
+        return new ServicoSimplificadoDTO(
+                chamado.getId(),
+                chamado.getTitulo(),
+                chamado.getStatusChamado(),
+                chamado.getCliente().getId(),
+                chamado.getCliente().getNome(),
+                chamado.getCliente().getFotoUrl(),
+                chamado.getPraQuandoFoiAgendado(),
+                proposta.getValorOrcado(),
+                new EnderecoResponseDTO(
+                        chamado.getEndereco().getId(),
+                        chamado.getEndereco().getLogradouro(),
+                        chamado.getEndereco().getNumero(),
+                        chamado.getEndereco().getComplemento(),
+                        chamado.getEndereco().getNomeCidade(),
+                        chamado.getEndereco().getSiglaEstado(),
+                        chamado.getEndereco().getCep(),
+                        chamado.getEndereco().getLatitude(),
+                        chamado.getEndereco().getLongitude(),
+                        chamado.getEndereco().isEnderecoPrincipal()
+                )
+        );
+    }
 
 }

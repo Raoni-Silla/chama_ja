@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -50,6 +51,10 @@ public class Chamado {
     @Future(message = "O agendamento deve ser para uma data futura")
     private LocalDateTime praQuandoFoiAgendado;
 
+    @ManyToOne
+    @JoinColumn(name = "endereco_id")
+    private Endereco endereco;
+
     @OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FotoChamado> fotos;
 
@@ -60,6 +65,13 @@ public class Chamado {
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
     private List<Categoria> categorias;
+
+    @OneToMany(
+            mappedBy = "chamado",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true
+    )
+    private List<Pagamento> pagamentos = new ArrayList<>();
 
     // Campos para controle de conclusão (O "Double Check")
     private boolean concluidoPeloCliente;

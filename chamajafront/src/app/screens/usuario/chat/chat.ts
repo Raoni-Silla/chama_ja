@@ -19,6 +19,7 @@ import { PropostaRequestDTO } from '../../../DTOS/Proposta/PropostaRequestDTO.dt
 import { PropostaResponseDTO } from '../../../DTOS/Proposta/PropostaResponseDTO.dto';
 import { PagamentoService } from '../../../service/pagamento-service';
 import { PagamentoRequestDTO } from '../../../DTOS/Pagamento/PagamentoRequestDTO.dto';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -60,6 +61,7 @@ export class Chat implements OnInit, OnDestroy {
   isModalPagamento: boolean = false;
   idChamadoAtual: number = 0;
   pagamentoService = inject(PagamentoService);
+  route = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.carregandoContatos = true;
@@ -74,6 +76,9 @@ export class Chat implements OnInit, OnDestroy {
           detail: 'Contatos Carregados com Sucesso',
           life: 3000,
         });
+
+        this.abrirConversaViaQueryParam();
+
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -91,6 +96,33 @@ export class Chat implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.chatWebsocket.desconectar();
+  }
+
+  /*
+    Permite abrir o chat já direto numa conversa específica quando a
+    navegação vem de outra tela (ex: home do prestador, ao aceitar
+    uma solicitação), via /chat?idChamado=123.
+  */
+  private abrirConversaViaQueryParam(): void {
+    const idChamadoParam = this.route.snapshot.queryParamMap.get('idChamado');
+
+    if (!idChamadoParam) {
+      return;
+    }
+
+    const idChamado = Number(idChamadoParam);
+
+    if (isNaN(idChamado)) {
+      return;
+    }
+
+    const contato = this.listaContatos.find(
+      (contato) => contato.idReferencia === idChamado && contato.tipoItemCentral === 'CHAMADO',
+    );
+
+    if (contato) {
+      this.carregarInformacoesDaConversa(contato);
+    }
   }
 
   carregarInformacoesDaConversa(contato: CentralGenericDTO) {

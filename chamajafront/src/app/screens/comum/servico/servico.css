@@ -537,6 +537,40 @@
 }
 
 
+/*
+  Endereço do serviço.
+
+  Ocupa a largura total do grid (em vez de dividir a coluna
+  com outro item), porque o texto do endereço tende a ser
+  mais longo que os demais campos (rua + número + complemento
+  + cidade + estado) e não deve truncar com reticências.
+*/
+
+.info-endereco {
+  grid-column: 1 / -1;
+
+  align-items: flex-start;
+}
+
+
+.info-endereco .info-icon {
+  background: #fef2e7;
+
+  color: #e08a3c;
+}
+
+
+.info-endereco .info-content strong {
+  overflow: visible;
+
+  white-space: normal;
+
+  text-overflow: initial;
+
+  line-height: 1.4;
+}
+
+
 /* =========================================================
    FOOTER
 ========================================================= */

@@ -1,5 +1,7 @@
 package com.raoni.chamaja.controller;
 
+import com.raoni.chamaja.dto.Prestador.CarregarAreasAtuacaoPrestador;
+import com.raoni.chamaja.dto.Prestador.CarregarHomePrestadorDTO;
 import com.raoni.chamaja.dto.Prestador.MelhoresDoMesDTO;
 import com.raoni.chamaja.dto.Prestador.PrestadorResponseDTO;
 import com.raoni.chamaja.service.PrestadorService;
@@ -32,11 +34,39 @@ public class PrestadorController {
         return ResponseEntity.ok(responseDTO);
     }
 
-    @GetMapping("/top5")
+    @GetMapping("/top4")
     @PreAuthorize("hasRole('USUARIO')")
-    public ResponseEntity<List<MelhoresDoMesDTO>> obterTop5MelhoresPrestadores(){
-        List<MelhoresDoMesDTO> responseDTOS = prestadorService.top5MelhoresPrestadores();
+    public ResponseEntity<List<MelhoresDoMesDTO>> obterTop4MelhoresPrestadores(){
+        List<MelhoresDoMesDTO> responseDTOS = prestadorService.top4MelhoresPrestadores();
         return ResponseEntity.ok(responseDTOS);
+    }
+
+    @GetMapping("/carregar-home")
+    @PreAuthorize("hasRole('PRESTADOR')")
+    public ResponseEntity<CarregarHomePrestadorDTO> carregarHomePrestador (){
+        CarregarHomePrestadorDTO dto = prestadorService.carregarHomePrestador();
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/carregar-categorias")
+    @PreAuthorize("hasRole('PRESTADOR')")
+    public ResponseEntity<CarregarAreasAtuacaoPrestador> carregarCategoriasPrestador (){
+        CarregarAreasAtuacaoPrestador dto = prestadorService.carregarAreasAtuacaoPrestador();
+        return ResponseEntity.ok(dto);
+    }
+
+    @PatchMapping("/adicionar-categoria/{id}")
+    @PreAuthorize("hasRole('PRESTADOR')")
+    public ResponseEntity<Void> adicionarCategoriaPrestador (@PathVariable("id") Long id){
+        prestadorService.adicionarCategoria(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/remover-categoria/{id}")
+    @PreAuthorize("hasRole('PRESTADOR')")
+    public ResponseEntity<Void> removerCategoriaPrestador (@PathVariable("id") Long id){
+        prestadorService.removerCategoria(id);
+        return ResponseEntity.ok().build();
     }
 
 }

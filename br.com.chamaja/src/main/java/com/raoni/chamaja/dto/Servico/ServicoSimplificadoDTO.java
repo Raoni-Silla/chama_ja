@@ -6,19 +6,15 @@ import com.raoni.chamaja.enums.StatusChamado;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record ServicoResponseDTO(
+public record ServicoSimplificadoDTO (
         Long idChamado,
         String titulo,
         StatusChamado statusChamado,
         Long idOutraPessoa,
         String nomeOutraPessoa,
         String fotoOutraPessoa,
-        LocalDateTime dataCriacao,
         LocalDateTime dataHoraServico,
-        LocalDateTime horaFinalizacao,
         BigDecimal valorServico,
-        boolean concluidoPeloCliente,
-        boolean concluidoPeloPrestador,
         EnderecoResponseDTO endereco
-) {
+){
 }

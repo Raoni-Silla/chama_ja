@@ -46,6 +46,10 @@ public class InteracaoInicial {
 
     private LocalDateTime dataCriacao;
 
+    @ManyToOne
+    @JoinColumn(name = "endereco_id")
+    private Endereco enderecoCombinado;
+
     @PrePersist
     protected void onCreate() {
         this.dataCriacao = LocalDateTime.now();

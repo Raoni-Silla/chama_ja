@@ -24,7 +24,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     //passa a requisição com o token adicionado para o próximo interceptor ou para o backend
     return next(authReq).pipe(
       catchError((erro : HttpErrorResponse) =>{
-        if(erro.status === 401  ){
+        if(erro.status === 401 ){
           console.warn('Sessão expirada')
           sessionStorage.removeItem('token_cadastro_chamaja');
           router.navigate(['/login']);

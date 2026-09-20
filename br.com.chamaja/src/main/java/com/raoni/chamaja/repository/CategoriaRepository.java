@@ -9,7 +9,10 @@ import java.util.List;
 
 public interface CategoriaRepository extends JpaRepository <Categoria, Long> {
 
-    @Query(value = "SELECT * FROM categoria ORDER BY RANDOM() LIMIT 6", nativeQuery = true)
-    List<Categoria> find6CategoriasAleatorias();
+    @Query(value = "SELECT * FROM categoria ORDER BY RANDOM() LIMIT 8", nativeQuery = true)
+    List<Categoria> find8CategoriasAleatorias();
+
+    @Query(value = "SELECT c FROM Categoria c WHERE c.id NOT IN :idsSelecionados")
+    List<Categoria> findByIdNotIn(@Param("idsSelecionados") List<Long> idsSelecionados);
 
 }

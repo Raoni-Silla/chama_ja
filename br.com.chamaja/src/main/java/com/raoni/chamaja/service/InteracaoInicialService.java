@@ -1,14 +1,12 @@
 package com.raoni.chamaja.service;
 
+import com.raoni.chamaja.dto.Endereco.EnderecoResponseDTO;
 import com.raoni.chamaja.dto.InteracaoInicial.InteracaoIniciaInfoUteisParaPrestador;
 import com.raoni.chamaja.dto.InteracaoInicial.InteracaoInicialRequestDTO;
 import com.raoni.chamaja.dto.InteracaoInicial.InteracaoInicialResponseDTO;
 import com.raoni.chamaja.enums.StatusChamado;
 import com.raoni.chamaja.enums.StatusInteracao;
-import com.raoni.chamaja.model.Chamado;
-import com.raoni.chamaja.model.InteracaoInicial;
-import com.raoni.chamaja.model.Prestador;
-import com.raoni.chamaja.model.Usuario;
+import com.raoni.chamaja.model.*;
 import com.raoni.chamaja.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -45,14 +43,17 @@ public class InteracaoInicialService {
         if (interacaoRepo.existsByRemetenteAndDestinatarioAndStatus(remetente, destinatario, StatusInteracao.PENDENTE) || chamadoRepository.existsByClienteAndPrestadorAndStatusChamado(remetente, destinatario, StatusChamado.EM_ANDAMENTO) || chamadoRepository.existsByClienteAndPrestadorAndStatusChamado(remetente, destinatario, StatusChamado.ABERTO)) {
             throw new IllegalStateException("você já tem uma negociação aberta com esse prestador, por favor aguarde até o fim da mesma para iniciar outra");
         }
+        Endereco endereco = enderecoRepo.findByUsuarioIdAndEnderecoPrincipalTrue(remetente.getId()).orElseThrow(() -> new EntityNotFoundException("Usuario não possui nenhum endereço valido"));
         InteracaoInicial interacaoInicial = new InteracaoInicial();
         interacaoInicial.setTitulo(dto.titulo());
         interacaoInicial.setMensagem(dto.descricao());
         interacaoInicial.setValorSugerido(dto.valorSugerido());
+        interacaoInicial.setEnderecoCombinado(endereco);
         interacaoInicial.setRemetente(remetente);
         interacaoInicial.setDestinatario(destinatario);
         // data e status o @prePersist salva pra mim como pendente e now
         interacaoInicial = interacaoRepo.save(interacaoInicial);
+
 
         return new InteracaoInicialResponseDTO(
                 interacaoInicial.getId(),
@@ -60,7 +61,8 @@ public class InteracaoInicialService {
                 interacaoInicial.getMensagem(),
                 interacaoInicial.getValorSugerido(),
                 interacaoInicial.getDataCriacao(),
-                interacaoInicial.getStatus()
+                interacaoInicial.getStatus(),
+                new EnderecoResponseDTO(interacaoInicial.getEnderecoCombinado().getId(), interacaoInicial.getEnderecoCombinado().getLogradouro(),interacaoInicial.getEnderecoCombinado().getNumero(),interacaoInicial.getEnderecoCombinado().getComplemento(),interacaoInicial.getEnderecoCombinado().getNomeCidade(),interacaoInicial.getEnderecoCombinado().getSiglaEstado(),interacaoInicial.getEnderecoCombinado().getCep(),interacaoInicial.getEnderecoCombinado().getLatitude(),interacaoInicial.getEnderecoCombinado().getLongitude(),interacaoInicial.getEnderecoCombinado().isEnderecoPrincipal())
         );
     }
 
@@ -95,6 +97,7 @@ public class InteracaoInicialService {
         }
         Chamado chamado = new Chamado();
         chamado.setTitulo(interacaoInicial.getTitulo());
+        chamado.setEndereco(interacaoInicial.getEnderecoCombinado());
         chamado.setDescricao(interacaoInicial.getMensagem());
         chamado.setCliente(interacaoInicial.getRemetente());
         chamado.setPrestador(prestador);

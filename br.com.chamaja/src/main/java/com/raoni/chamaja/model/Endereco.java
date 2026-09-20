@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Entity
+import java.util.List;
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                    @Entity
 @RequiredArgsConstructor
 @Getter
 @Setter
@@ -46,6 +48,9 @@ public class Endereco {
     @DecimalMin("-180.0")
     @DecimalMax("180.0")
     private Double longitude;
+
+    @OneToMany(mappedBy = "endereco")
+    private List<Chamado> chamados;
 
     private boolean enderecoPrincipal;
 

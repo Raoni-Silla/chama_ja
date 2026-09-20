@@ -220,6 +220,28 @@
                               </strong>
                             </div>
                           </div>
+
+                          @if (detalhesInteracaoInicial.endereco) {
+                            <div class="detalheProposta detalheEndereco">
+                              <div class="iconeDetalhe">
+                                <i class="pi pi-map-marker"></i>
+                              </div>
+
+                              <div>
+                                <span> Endereço do serviço </span>
+
+                                <strong>
+                                  {{ detalhesInteracaoInicial.endereco.logradouro }},
+                                  {{ detalhesInteracaoInicial.endereco.numero }}
+                                  @if (detalhesInteracaoInicial.endereco.complemento) {
+                                    - {{ detalhesInteracaoInicial.endereco.complemento }}
+                                  }
+                                  — {{ detalhesInteracaoInicial.endereco.nomeCidade }} /
+                                  {{ detalhesInteracaoInicial.endereco.siglaEstado }}
+                                </strong>
+                              </div>
+                            </div>
+                          }
                         </div>
 
                         <div class="rodapeCardInteracao">
@@ -363,6 +385,28 @@
                               </strong>
                             </div>
                           </div>
+
+                          @if (detalhesInteracaoInicial.endereco) {
+                            <div class="detalheProposta detalheEndereco">
+                              <div class="iconeDetalhe">
+                                <i class="pi pi-map-marker"></i>
+                              </div>
+
+                              <div>
+                                <span> Endereço do serviço </span>
+
+                                <strong>
+                                  {{ detalhesInteracaoInicial.endereco.logradouro }},
+                                  {{ detalhesInteracaoInicial.endereco.numero }}
+                                  @if (detalhesInteracaoInicial.endereco.complemento) {
+                                    - {{ detalhesInteracaoInicial.endereco.complemento }}
+                                  }
+                                  — {{ detalhesInteracaoInicial.endereco.nomeCidade }} /
+                                  {{ detalhesInteracaoInicial.endereco.siglaEstado }}
+                                </strong>
+                              </div>
+                            </div>
+                          }
                         </div>
 
                         <div class="rodapeCardInteracao">

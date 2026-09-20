@@ -36,7 +36,7 @@ public class Pagamento {
 
     private LocalDateTime dataLiberacao;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "chamado_id", nullable = false)
     private Chamado chamado;
 

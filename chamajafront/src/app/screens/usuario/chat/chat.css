@@ -996,6 +996,32 @@
   font-size: 0.92rem;
 }
 
+/*
+  Endereço do serviço.
+
+  Ocupa a linha inteira do grid (em vez de dividir espaço com
+  "Valor sugerido" ou "Enviado em"), pois o texto tende a ser
+  mais longo e ficaria espremido na metade da largura. O ícone
+  recebe uma cor própria (azul-petróleo) para se diferenciar
+  visualmente dos outros detalhes, que usam a cor primária.
+*/
+
+.detalheEndereco {
+  grid-column: 1 / -1;
+
+  align-items: flex-start;
+}
+
+.detalheEndereco .iconeDetalhe {
+  background: rgba(8, 145, 178, 0.1);
+
+  color: #0891b2;
+}
+
+.detalheEndereco strong {
+  line-height: 1.4;
+}
+
 .rodapeCardInteracao {
   margin-top: 18px;
 

@@ -1,1 +1,72 @@
-<p>aba-areas works!</p>
+@if (carregando) {
+  <div class="loading">
+    <p-progress-spinner ariaLabel="carregando" />
+    <p>Carregando suas áreas de atuação...</p>
+  </div>
+} @else {
+  <div class="body">
+    <!-- =====================================================
+         ÁREAS JÁ SELECIONADAS
+    ====================================================== -->
+
+    <section class="areasSelecionadas">
+      <div class="cabecalhoAreas">
+        <div>
+          <h3>Suas áreas de atuação</h3>
+          <p>Essas áreas aparecem no seu perfil para os clientes te encontrarem. (minimo uma selecionada)</p>
+        </div>
+
+        <span class="contadorSelecionadas">
+          {{ carregarAreas?.listaCategoriasPrestador?.length || 0 }}
+        </span>
+      </div>
+
+      <div class="listaAreasSelecionadas">
+        @if (carregarAreas === null || carregarAreas.listaCategoriasPrestador.length === 0) {
+          <h1>você ainda não possui áreas selecionadas</h1>
+        } @else {
+          @for (area of carregarAreas.listaCategoriasPrestador; track area.id) {
+            <button type="button" class="areaChip"  (click)="removerCategoriaNaLista(area.id)">
+              <i class="pi {{ area.icon }}"></i>
+              <span>{{ area.nome }}</span>
+              <i class="pi pi-check areaCheck"></i>
+            </button>
+          }
+        }
+      </div>
+    </section>
+
+    <!-- =====================================================
+         ÁREAS DISPONÍVEIS PRA ADICIONAR
+    ====================================================== -->
+
+    <section class="areasNaoSelecionadas">
+      <div class="cabecalhoAreas">
+        <div>
+          <h3>Adicionar mais áreas</h3>
+          <p>Selecione outras áreas que você também atende.</p>
+        </div>
+      </div>
+
+      @if (carregarAreas === null || carregarAreas.categoriasDisponiveis.length === 0) {
+        <h1>Não há mais áreas disponíveis para adicionar</h1>
+      } @else {
+        <div class="gradeAreasDisponiveis">
+          @for (area of carregarAreas.categoriasDisponiveis; track area.id) {
+            <button type="button" class="areaCard" (click)="adicionarCategoriaNaLista(area.id)">
+              <span class="areaIcone">
+                <i class="pi {{ area.icon }}"></i>
+              </span>
+              <span class="areaNome">{{ area.nome }}</span>
+            </button>
+          }
+        </div>
+      }
+
+      <button type="button" class="botaoCarregarMais">
+        <span>Carregar mais áreas</span>
+        <i class="pi pi-chevron-down"></i>
+      </button>
+    </section>
+  </div>
+}

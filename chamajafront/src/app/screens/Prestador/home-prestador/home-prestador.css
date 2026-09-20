@@ -19,6 +19,30 @@ button {
   cursor: pointer;
 }
 
+/* =========================================================
+   LOADING
+========================================================= */
+
+.carregandoHome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
+  width: 100%;
+  height: 100dvh;
+
+  color: #64748b;
+  font-size: 0.9rem;
+
+  background-color: #f8fafc;
+}
+
+.carregandoHome p {
+  margin: 0;
+}
+
 .homePrestador {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 335px;
@@ -260,6 +284,56 @@ button {
   gap: 13px;
 }
 
+/* =========================================================
+   ESTADO VAZIO — SOLICITAÇÕES
+========================================================= */
+
+.solicitacoesVazias {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 14px;
+
+  padding: 46px 20px;
+
+  text-align: center;
+}
+
+.iconeSolicitacoesVazias {
+  display: grid;
+  place-items: center;
+
+  width: 64px;
+  height: 64px;
+
+  color: #4f46e5;
+  background-color: #eef2ff;
+  border-radius: 18px;
+}
+
+.iconeSolicitacoesVazias i {
+  font-size: 1.6rem;
+}
+
+.solicitacoesVazias h3 {
+  margin: 0;
+
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.solicitacoesVazias p {
+  max-width: 320px;
+  margin: 0;
+
+  color: #64748b;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
 .solicitacaoCard {
   display: grid;
   grid-template-columns: 54px minmax(130px, 1fr) auto;
@@ -320,6 +394,8 @@ button {
 
 .tempoSolicitacao i {
   font-size: 11px;
+
+  color: #f59e0b;
 }
 
 .acoesSolicitacao {
@@ -345,7 +421,8 @@ button {
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
-    background-color 0.2s ease;
+    background-color 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .botaoAceitar {
@@ -369,6 +446,29 @@ button {
 .botaoRecusar:hover {
   background-color: rgb(239 51 64 / 7%);
   transform: translateY(-1px);
+}
+
+/* =========================================================
+   BOTÕES DESABILITADOS (enquanto aceita/recusa está em andamento)
+========================================================= */
+
+.botaoAceitar:disabled,
+.botaoRecusar:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
+}
+
+.botaoAceitar:disabled:hover {
+  background-color: #00c853;
+  box-shadow: none;
+  transform: none;
+}
+
+.botaoRecusar:disabled:hover {
+  background-color: transparent;
+  transform: none;
 }
 
 .painelLateral {
@@ -406,6 +506,57 @@ button {
 
 .proximoServicoHeader i {
   font-size: 19px;
+}
+
+/* =========================================================
+   ESTADO VAZIO — PRÓXIMO SERVIÇO
+   (herda o fundo roxo do .proximoServico, por isso usa tons claros)
+========================================================= */
+
+.proximoServicoVazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 14px;
+
+  padding: 30px 10px 8px;
+
+  text-align: center;
+}
+
+.iconeProximoServicoVazio {
+  display: grid;
+  place-items: center;
+
+  width: 58px;
+  height: 58px;
+
+  color: #ffffff;
+  background-color: rgb(255 255 255 / 15%);
+  border-radius: 16px;
+}
+
+.iconeProximoServicoVazio i {
+  font-size: 1.5rem;
+}
+
+.proximoServicoVazio h3 {
+  margin: 0;
+
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.proximoServicoVazio p {
+  max-width: 220px;
+  margin: 0;
+
+  color: rgb(255 255 255 / 75%);
+  font-size: 13.5px;
+  line-height: 1.5;
 }
 
 .dadosProximoServico {
@@ -451,8 +602,26 @@ button {
   font-size: 14px;
 }
 
+.informacoesServico li span {
+  line-height: 1.4;
+}
+
 .informacoesServico i {
   color: #c7d2fe;
+}
+
+/*
+  O endereço (último item da lista) pode quebrar em duas linhas,
+  diferente de data/hora. Alinha o ícone no topo em vez de centralizar
+  verticalmente, pra não ficar deslocado quando o texto tem 2 linhas.
+*/
+
+.informacoesServico li:last-child {
+  align-items: flex-start;
+}
+
+.informacoesServico li:last-child i {
+  margin-top: 2px;
 }
 
 .botaoDetalhes {
@@ -719,5 +888,9 @@ button {
 
   .painelLateral {
     padding: 20px 14px 35px;
+  }
+
+  .solicitacoesVazias {
+    padding: 34px 12px;
   }
 }

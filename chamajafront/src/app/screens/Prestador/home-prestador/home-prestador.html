@@ -1,263 +1,214 @@
-<div class="homePrestador">
-  <section class="conteudoPrincipal">
-    <header class="topbar">
-      <label class="campoPesquisa">
-        <i class="pi pi-search"></i>
+@if (carregando) {
+  <div class="carregandoHome">
+    <p-progress-spinner ariaLabel="carregando" />
+    <p>Carregando sua home...</p>
+  </div>
+} @else {
+  <div class="homePrestador">
+    <section class="conteudoPrincipal">
+      <header class="topbar">
+        <label class="campoPesquisa">
+          <i class="pi pi-search"></i>
 
-        <input
-          type="text"
-          placeholder="Buscar serviços..."
-        />
-      </label>
+          <input
+            type="text"
+            placeholder="Buscar serviços..."
+          />
+        </label>
 
-      <div class="acoesTopbar">
-        <button
-          type="button"
-          class="botaoNotificacao"
-          aria-label="Notificações"
-        >
-          <i class="pi pi-bell"></i>
-          <span class="badgeNotificacao">5</span>
-        </button>
+        <div class="acoesTopbar">
+          <button
+            type="button"
+            class="botaoNotificacao"
+            aria-label="Notificações"
+          >
+            <i class="pi pi-bell"></i>
+            <span class="badgeNotificacao">5</span>
+          </button>
 
-        <button
-          type="button"
-          class="botaoNotificacao"
-          aria-label="Mensagens"
-        >
-          <i class="pi pi-comments"></i>
-          <span class="badgeNotificacao">3</span>
-        </button>
+          <button
+            type="button"
+            class="botaoNotificacao"
+            aria-label="Mensagens"
+          >
+            <i class="pi pi-comments"></i>
+            <span class="badgeNotificacao">3</span>
+          </button>
 
-        <div class="usuarioTopbar">
-          <div class="avatarUsuario">R</div>
-          <span>Raoni</span>
+          <div class="usuarioTopbar">
+            <div class="avatarUsuario">
+              {{ dadosHome?.nome ? dadosHome!.nome.charAt(0) : '' }}
+            </div>
+            <span>{{ dadosHome?.nome }}</span>
+          </div>
         </div>
-      </div>
-    </header>
-
-    <section class="boasVindas" data-aos="fade-down">
-      <h1>
-        Olá, Raoni!
-        <span>👋</span>
-      </h1>
-
-      <p>
-        <i class="pi pi-map-marker"></i>
-        Assis, SP
-      </p>
-    </section>
-
-    <section
-      class="solicitacoesContainer"
-      data-aos="fade-up"
-    >
-      <header class="solicitacoesHeader">
-        <div class="tituloSolicitacoes">
-          <span class="indicadorPendente"></span>
-          <h2>Solicitações Pendentes</h2>
-        </div>
-
-        <span class="quantidadeSolicitacoes">
-          4 nova(s)
-        </span>
       </header>
 
-      <div class="listaSolicitacoes">
-        <article class="solicitacaoCard">
-          <div class="avatarSolicitacao">
-            G
-          </div>
+      <section class="boasVindas" data-aos="fade-down">
+        <h1>
+          Olá, {{ dadosHome?.nome }}!
+          <span>👋</span>
+        </h1>
 
-          <div class="dadosSolicitacao">
-            <h3>Gabriela Maz</h3>
-            <p>Tutoria</p>
-
-            <span class="tempoSolicitacao">
-              <i class="pi pi-clock"></i>
-              há 15 minutos
-            </span>
-          </div>
-
-          <div class="acoesSolicitacao">
-            <button
-              type="button"
-              class="botaoAceitar"
-            >
-              <i class="pi pi-check"></i>
-              Aceitar
-            </button>
-
-            <button
-              type="button"
-              class="botaoRecusar"
-            >
-              <i class="pi pi-times"></i>
-              Recusar
-            </button>
-          </div>
-        </article>
-
-        <article class="solicitacaoCard">
-          <div class="avatarSolicitacao">
-            R
-          </div>
-
-          <div class="dadosSolicitacao">
-            <h3>Ricardo Fernandes</h3>
-            <p>Manutenção de Computadores</p>
-
-            <span class="tempoSolicitacao">
-              <i class="pi pi-clock"></i>
-              há 1 hora
-            </span>
-          </div>
-
-          <div class="acoesSolicitacao">
-            <button
-              type="button"
-              class="botaoAceitar"
-            >
-              <i class="pi pi-check"></i>
-              Aceitar
-            </button>
-
-            <button
-              type="button"
-              class="botaoRecusar"
-            >
-              <i class="pi pi-times"></i>
-              Recusar
-            </button>
-          </div>
-        </article>
-
-        <article class="solicitacaoCard">
-          <div class="avatarSolicitacao">
-            J
-          </div>
-
-          <div class="dadosSolicitacao">
-            <h3>Juliana Rocha</h3>
-            <p>Instalação Elétrica</p>
-
-            <span class="tempoSolicitacao">
-              <i class="pi pi-clock"></i>
-              há 2 horas
-            </span>
-          </div>
-
-          <div class="acoesSolicitacao">
-            <button
-              type="button"
-              class="botaoAceitar"
-            >
-              <i class="pi pi-check"></i>
-              Aceitar
-            </button>
-
-            <button
-              type="button"
-              class="botaoRecusar"
-            >
-              <i class="pi pi-times"></i>
-              Recusar
-            </button>
-          </div>
-        </article>
-
-        <article class="solicitacaoCard">
-          <div class="avatarSolicitacao">
-            M
-          </div>
-
-          <div class="dadosSolicitacao">
-            <h3>Marcos Oliveira</h3>
-            <p>Montagem de Móveis</p>
-
-            <span class="tempoSolicitacao">
-              <i class="pi pi-clock"></i>
-              ontem às 18:30
-            </span>
-          </div>
-
-          <div class="acoesSolicitacao">
-            <button
-              type="button"
-              class="botaoAceitar"
-            >
-              <i class="pi pi-check"></i>
-              Aceitar
-            </button>
-
-            <button
-              type="button"
-              class="botaoRecusar"
-            >
-              <i class="pi pi-times"></i>
-              Recusar
-            </button>
-          </div>
-        </article>
-      </div>
-    </section>
-  </section>
-
-  <aside class="painelLateral">
-    <section
-      class="proximoServico"
-      data-aos="fade-left"
-    >
-      <header class="proximoServicoHeader">
-        <i class="pi pi-calendar"></i>
-        <h2>Próximo Serviço</h2>
-      </header>
-
-      <div class="dadosProximoServico">
-        <h3>Instalação de Ventilador</h3>
-        <p>Pedro Oliveira</p>
-      </div>
-
-      <div class="separador"></div>
-
-      <ul class="informacoesServico">
-        <li>
-          <i class="pi pi-calendar"></i>
-          <span>24 de fevereiro</span>
-        </li>
-
-        <li>
-          <i class="pi pi-clock"></i>
-          <span>14:00</span>
-        </li>
-
-        <li>
+        <p>
           <i class="pi pi-map-marker"></i>
-          <span>Centro, Assis - SP</span>
-        </li>
-      </ul>
+          {{ dadosHome?.cidade }}
+        </p>
+      </section>
 
-      <button
-        type="button"
-        class="botaoDetalhes"
+      <section
+        class="solicitacoesContainer"
+        data-aos="fade-up"
       >
-        Ver detalhes
-      </button>
+        <header class="solicitacoesHeader">
+          <div class="tituloSolicitacoes">
+            <span class="indicadorPendente"></span>
+            <h2>Solicitações Pendentes</h2>
+          </div>
+
+          <span class="quantidadeSolicitacoes">
+            {{ dadosHome?.solicitacoesPendentes?.length || 0 }} nova(s)
+          </span>
+        </header>
+
+        <div class="listaSolicitacoes">
+          @if (!dadosHome?.solicitacoesPendentes?.length) {
+            <div class="solicitacoesVazias">
+              <div class="iconeSolicitacoesVazias">
+                <i class="pi pi-inbox"></i>
+              </div>
+
+              <h3>Nenhuma solicitação por aqui</h3>
+
+              <p>Assim que alguém solicitar seus serviços, a solicitação aparece aqui.</p>
+            </div>
+          } @else {
+            @for (
+              solicitacao of dadosHome!.solicitacoesPendentes;
+              track solicitacao.idInteracao
+            ) {
+              <article class="solicitacaoCard">
+                <div class="avatarSolicitacao">
+                  {{ solicitacao.nomeRemetente.charAt(0) }}
+                </div>
+
+                <div class="dadosSolicitacao">
+                  <h3>{{ solicitacao.nomeRemetente }}</h3>
+                  <p>{{ solicitacao.titulo }}</p>
+
+                  <span class="tempoSolicitacao">
+                    <i class="pi pi-star-fill"></i>
+                    {{ solicitacao.avaliacaoRemetente | number: '1.1-1' }}
+                    ·
+                    {{ solicitacao.distanciaKmRemetente | number: '1.1-1' }} km
+                  </span>
+                </div>
+
+                <div class="acoesSolicitacao">
+                  <button
+                    type="button"
+                    class="botaoAceitar"
+                    [disabled]="processandoInteracao === solicitacao.idInteracao"
+                    (click)="aceitarSolicitacao(solicitacao)"
+                  >
+                    <i class="pi pi-check"></i>
+                    Aceitar
+                  </button>
+
+                  <button
+                    type="button"
+                    class="botaoRecusar"
+                    [disabled]="processandoInteracao === solicitacao.idInteracao"
+                    (click)="recusarSolicitacao(solicitacao)"
+                  >
+                    <i class="pi pi-times"></i>
+                    Recusar
+                  </button>
+                </div>
+              </article>
+            }
+          }
+        </div>
+      </section>
     </section>
 
-    <section
-      class="calendarioContainer"
-      data-aos="fade-left"
-      data-aos-delay="100"
-    >
-      <h2>Calendário</h2>
+    <aside class="painelLateral">
+      <section
+        class="proximoServico"
+        data-aos="fade-left"
+      >
+        <header class="proximoServicoHeader">
+          <i class="pi pi-calendar"></i>
+          <h2>Próximo Serviço</h2>
+        </header>
 
-      <p-datepicker
-        class="calendarioPrime"
-        [(ngModel)]="dataSelecionada"
-        [inline]="true"
-        [showWeek]="false"
-      ></p-datepicker>
-    </section>
-  </aside>
-</div>
+        @if (!dadosHome?.proximoServico) {
+          <div class="proximoServicoVazio">
+            <div class="iconeProximoServicoVazio">
+              <i class="pi pi-calendar-times"></i>
+            </div>
+
+            <h3>Nenhum serviço agendado</h3>
+
+            <p>Quando você tiver um serviço confirmado, ele aparece aqui.</p>
+          </div>
+        } @else {
+          <div class="dadosProximoServico">
+            <h3>{{ dadosHome!.proximoServico.titulo }}</h3>
+            <p>{{ dadosHome!.proximoServico.nomeOutraPessoa }}</p>
+          </div>
+
+          <div class="separador"></div>
+
+          <ul class="informacoesServico">
+            <li>
+              <i class="pi pi-calendar"></i>
+              <span>{{ dadosHome!.proximoServico.dataHoraServico | date: 'dd/MM/yyyy' }}</span>
+            </li>
+
+            <li>
+              <i class="pi pi-clock"></i>
+              <span>{{ dadosHome!.proximoServico.dataHoraServico | date: 'HH:mm' }}</span>
+            </li>
+
+            <li>
+              <i class="pi pi-map-marker"></i>
+              <span>
+                {{ dadosHome!.proximoServico.endereco.logradouro }},
+                {{ dadosHome!.proximoServico.endereco.numero }}
+                – {{ dadosHome!.proximoServico.endereco.nomeCidade }}/{{
+                  dadosHome!.proximoServico.endereco.siglaEstado
+                }}
+              </span>
+            </li>
+          </ul>
+
+          <button
+            type="button"
+            class="botaoDetalhes"
+            (click)="verDetalhesProximoServico()"
+          >
+            Ver detalhes
+          </button>
+        }
+      </section>
+
+      <section
+        class="calendarioContainer"
+        data-aos="fade-left"
+        data-aos-delay="100"
+      >
+        <h2>Calendário</h2>
+
+        <p-datepicker
+          class="calendarioPrime"
+          [(ngModel)]="dataSelecionada"
+          [inline]="true"
+          [showWeek]="false"
+        ></p-datepicker>
+      </section>
+    </aside>
+  </div>
+}
+
+<p-toast></p-toast>

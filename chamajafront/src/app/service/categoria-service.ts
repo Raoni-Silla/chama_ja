@@ -13,8 +13,8 @@ export class CategoriaService {
 
   constructor(private http: HttpClient) { }
 
-  obterSeisCategorias(): Observable<CategoriaDetalhesDTO[]> {
-    return this.http.get<CategoriaDetalhesDTO[]>(`${this.apiUrl}/obter-6-categorias`);
+  obterOitoCategorias(): Observable<CategoriaDetalhesDTO[]> {
+    return this.http.get<CategoriaDetalhesDTO[]>(`${this.apiUrl}/obter-8-categorias`);
   }
 
 

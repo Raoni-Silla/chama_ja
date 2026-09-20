@@ -17,8 +17,8 @@ public class CategoriaService {
     private CategoriaDetalhesDTO converterParaDTO (Categoria categoria){
         return new CategoriaDetalhesDTO(categoria.getId(),categoria.getNome(), categoria.getIconUrl());
     }
-    public List<CategoriaDetalhesDTO> obterSeisCategoriasAleatorias () {
-        return categoriaRepository.find6CategoriasAleatorias().stream().map(this::converterParaDTO).toList();
+    public List<CategoriaDetalhesDTO> obterOitoCategoriasAleatorias() {
+        return categoriaRepository.find8CategoriasAleatorias().stream().map(this::converterParaDTO).toList();
     }
 
 }

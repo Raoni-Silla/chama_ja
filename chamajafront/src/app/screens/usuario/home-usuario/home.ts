@@ -57,7 +57,7 @@ export class Home implements OnInit {
       error: (err) => console.error(err)
     });
 
-    this.categoriaService.obterSeisCategorias().subscribe({
+    this.categoriaService.obterOitoCategorias().subscribe({
       next: (resposta) => {
         this.listaMelhoresAreas = resposta;
         this.cdr.detectChanges();
