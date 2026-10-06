@@ -10,8 +10,7 @@
   box-sizing: border-box;
 }
 
-button,
-input {
+button {
   font: inherit;
 }
 
@@ -28,7 +27,7 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: 16px;
 
   width: 100%;
   height: 100dvh;
@@ -51,74 +50,35 @@ button {
   height: 100%;
   min-height: 100dvh;
 
-  color: #111827;
+  color: #0f172a;
   background-color: #f8fafc;
 }
 
 .conteudoPrincipal {
   min-width: 0;
-  padding: 28px 34px 40px;
+  padding: 32px 32px 40px;
   overflow-y: auto;
 }
+
+/* =========================================================
+   TOPBAR
+   Só ações à direita (chat, logout e usuário), todas com 40px.
+========================================================= */
 
 .topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 25px;
+  justify-content: flex-end;
 
-  min-height: 76px;
   padding-bottom: 24px;
 
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.campoPesquisa {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  width: min(100%, 330px);
-  height: 48px;
-  padding: 0 16px;
-
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 15px;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.campoPesquisa:focus-within {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 4px rgb(79 70 229 / 10%);
-}
-
-.campoPesquisa i {
-  color: #94a3b8;
-  font-size: 17px;
-}
-
-.campoPesquisa input {
-  width: 100%;
-  min-width: 0;
-
-  color: #111827;
-  background: transparent;
-  border: none;
-  outline: none;
-}
-
-.campoPesquisa input::placeholder {
-  color: #9ca3af;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .acoesTopbar {
   display: flex;
   align-items: center;
-  gap: 17px;
+  gap: 16px;
 }
 
 .botaoNotificacao {
@@ -127,8 +87,8 @@ button {
   display: grid;
   place-items: center;
 
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   padding: 0;
 
   color: #475569;
@@ -171,41 +131,170 @@ button {
   border-radius: 999px;
 }
 
+/* =========================================================
+   LOGOUT
+   Separado do grupo de notificações por um divisor sutil
+   (pseudo-elemento), já que é uma ação de conta/sessão, não
+   de conteúdo. Fica neutro em repouso e só revela o tom de
+   "saída" (vermelho) no hover/focus, pra não gritar a tela toda.
+
+   Espaço até o botão anterior = gap (16px) + margin-left (8px)
+   = 24px; o divisor fica em -12px, exatamente no meio.
+========================================================= */
+
+.botaoLogout {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  width: 40px;
+  height: 40px;
+  margin-left: 8px;
+  padding: 0;
+
+  color: #94a3b8;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.botaoLogout::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -12px;
+
+  width: 1px;
+  height: 22px;
+
+  background-color: #e2e8f0;
+  transform: translateY(-50%);
+}
+
+.botaoLogout i {
+  font-size: 19px;
+}
+
+.botaoLogout:hover {
+  color: #ef3340;
+  background-color: rgb(239 51 64 / 9%);
+}
+
+.botaoLogout:active {
+  transform: scale(0.92);
+}
+
+.botaoLogout:focus-visible {
+  outline: 2px solid rgb(239 51 64 / 35%);
+  outline-offset: 2px;
+}
+
 .usuarioTopbar {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 12px;
 
-  padding-left: 6px;
-  color: #111827;
+  padding-left: 8px;
+  color: #0f172a;
   font-weight: 600;
 }
+
+/* Nome muito longo não empurra a topbar */
+.usuarioTopbar span {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   AVATARES
+   Base compartilhada: círculo com gradiente e inicial branca.
+   O gradiente também serve de fallback (sem foto) e de
+   placeholder enquanto a imagem carrega.
+========================================================= */
 
 .avatarUsuario,
 .avatarSolicitacao {
   display: grid;
   place-items: center;
+  flex-shrink: 0;
 
   color: #ffffff;
   font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
 
   background: linear-gradient(135deg, #4f46e5, #6366f1);
   border-radius: 50%;
 }
 
 .avatarUsuario {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
 }
 
+/*
+  Avatar do remetente da solicitação.
+  - overflow: hidden recorta a foto no círculo;
+  - o anel branco + anel lilás bem fraco destaca a foto
+    do fundo cinza-claro do card (#f8fafc) sem pesar;
+  - no hover do card o anel ganha um pouco mais de cor,
+    acompanhando o realce do próprio card.
+*/
+
+.avatarSolicitacao {
+  position: relative;
+  overflow: hidden;
+
+  width: 54px;
+  height: 54px;
+
+  font-size: 1.25rem;
+
+  box-shadow:
+    0 0 0 3px #ffffff,
+    0 0 0 4px rgb(79 70 229 / 14%),
+    0 6px 14px rgb(15 23 42 / 8%);
+
+  transition: box-shadow 0.2s ease;
+}
+
+.avatarSolicitacao img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+}
+
+.solicitacaoCard:hover .avatarSolicitacao {
+  box-shadow:
+    0 0 0 3px #ffffff,
+    0 0 0 4px rgb(79 70 229 / 32%),
+    0 8px 18px rgb(15 23 42 / 10%);
+}
+
+/* =========================================================
+   BOAS-VINDAS
+========================================================= */
+
 .boasVindas {
-  padding: 37px 0 27px;
+  padding: 40px 0 28px;
 }
 
 .boasVindas h1 {
-  margin: 0 0 9px;
+  margin: 0 0 8px;
 
-  color: #111827;
+  color: #0f172a;
   font-size: clamp(1.7rem, 3vw, 2.25rem);
   font-weight: 750;
   letter-spacing: -0.7px;
@@ -219,7 +308,7 @@ button {
 .boasVindas p {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
 
   margin: 0;
 
@@ -227,15 +316,15 @@ button {
   font-size: 15px;
 }
 
-.boasVindas p i {
-  color: #64748b;
-}
+/* =========================================================
+   SOLICITAÇÕES
+========================================================= */
 
 .solicitacoesContainer {
   padding: 28px;
 
   background-color: #ffffff;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #e2e8f0;
   border-radius: 20px;
   box-shadow: 0 5px 25px rgb(15 23 42 / 4%);
 }
@@ -249,17 +338,17 @@ button {
 .solicitacoesHeader {
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 21px;
+  margin-bottom: 20px;
 }
 
 .tituloSolicitacoes {
-  gap: 11px;
+  gap: 12px;
 }
 
 .tituloSolicitacoes h2 {
   margin: 0;
 
-  color: #111827;
+  color: #0f172a;
   font-size: 1.25rem;
   font-weight: 700;
 }
@@ -281,7 +370,7 @@ button {
 .listaSolicitacoes {
   display: flex;
   flex-direction: column;
-  gap: 13px;
+  gap: 12px;
 }
 
 /* =========================================================
@@ -296,7 +385,7 @@ button {
 
   gap: 14px;
 
-  padding: 46px 20px;
+  padding: 48px 20px;
 
   text-align: center;
 }
@@ -310,7 +399,7 @@ button {
 
   color: #4f46e5;
   background-color: #eef2ff;
-  border-radius: 18px;
+  border-radius: 16px;
 }
 
 .iconeSolicitacoesVazias i {
@@ -320,7 +409,7 @@ button {
 .solicitacoesVazias h3 {
   margin: 0;
 
-  color: #111827;
+  color: #0f172a;
   font-size: 1rem;
   font-weight: 700;
 }
@@ -334,20 +423,25 @@ button {
   line-height: 1.5;
 }
 
+/*
+  O card não "pula" mais no hover: como os botões de aceitar/recusar
+  ficam dentro dele, o card subir fazia o alvo do clique se mexer
+  debaixo do cursor. O realce agora é só borda + sombra.
+*/
+
 .solicitacaoCard {
   display: grid;
   grid-template-columns: 54px minmax(130px, 1fr) auto;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
 
   padding: 20px;
 
   background-color: #f8fafc;
   border: 1px solid transparent;
-  border-radius: 17px;
+  border-radius: 16px;
 
   transition:
-    transform 0.2s ease,
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
@@ -355,12 +449,6 @@ button {
 .solicitacaoCard:hover {
   border-color: rgb(79 70 229 / 13%);
   box-shadow: 0 8px 22px rgb(15 23 42 / 5%);
-  transform: translateY(-2px);
-}
-
-.avatarSolicitacao {
-  width: 54px;
-  height: 54px;
 }
 
 .dadosSolicitacao {
@@ -368,15 +456,15 @@ button {
 }
 
 .dadosSolicitacao h3 {
-  margin: 0 0 3px;
+  margin: 0 0 4px;
 
-  color: #111827;
+  color: #0f172a;
   font-size: 16px;
   font-weight: 700;
 }
 
 .dadosSolicitacao p {
-  margin: 0 0 5px;
+  margin: 0 0 6px;
 
   color: #64748b;
   font-size: 14px;
@@ -386,10 +474,10 @@ button {
 .tempoSolicitacao {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 
-  color: #94a3b8;
-  font-size: 11px;
+  color: #64748b;
+  font-size: 12px;
 }
 
 .tempoSolicitacao i {
@@ -401,7 +489,7 @@ button {
 .acoesSolicitacao {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .botaoAceitar,
@@ -411,12 +499,12 @@ button {
   justify-content: center;
   gap: 8px;
 
-  min-width: 125px;
-  height: 47px;
-  padding: 0 18px;
+  min-width: 120px;
+  height: 44px;
+  padding: 0 20px;
 
   font-weight: 600;
-  border-radius: 13px;
+  border-radius: 12px;
 
   transition:
     transform 0.2s ease,
@@ -471,25 +559,46 @@ button {
   transform: none;
 }
 
+/* =========================================================
+   FOCO VIA TECLADO
+   Só aparece navegando com Tab; no clique de mouse não muda nada.
+========================================================= */
+
+.botaoNotificacao:focus-visible,
+.botaoAceitar:focus-visible,
+.botaoRecusar:focus-visible {
+  outline: 2px solid rgb(79 70 229 / 45%);
+  outline-offset: 2px;
+}
+
+.botaoDetalhes:focus-visible {
+  outline: 2px solid rgb(255 255 255 / 80%);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   PAINEL LATERAL
+========================================================= */
+
 .painelLateral {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 24px;
 
-  padding: 28px 26px;
+  padding: 32px 24px;
 
   background-color: #ffffff;
-  border-left: 1px solid #e5e7eb;
+  border-left: 1px solid #e2e8f0;
   overflow-y: auto;
 }
 
 .proximoServico {
-  padding: 27px;
+  padding: 24px;
 
   color: #ffffff;
 
   background: linear-gradient(145deg, #4f46e5, #6366f1);
-  border-radius: 19px;
+  border-radius: 20px;
   box-shadow: 0 13px 28px rgb(79 70 229 / 25%);
 }
 
@@ -521,7 +630,7 @@ button {
 
   gap: 14px;
 
-  padding: 30px 10px 8px;
+  padding: 32px 8px 8px;
 
   text-align: center;
 }
@@ -530,8 +639,8 @@ button {
   display: grid;
   place-items: center;
 
-  width: 58px;
-  height: 58px;
+  width: 56px;
+  height: 56px;
 
   color: #ffffff;
   background-color: rgb(255 255 255 / 15%);
@@ -560,12 +669,12 @@ button {
 }
 
 .dadosProximoServico {
-  padding-top: 27px;
+  padding-top: 24px;
 }
 
 .dadosProximoServico h3 {
   max-width: 220px;
-  margin: 0 0 7px;
+  margin: 0 0 8px;
 
   font-size: 1.2rem;
   line-height: 1.4;
@@ -578,7 +687,7 @@ button {
 
 .separador {
   height: 1px;
-  margin: 17px 0;
+  margin: 16px 0;
 
   background-color: rgb(255 255 255 / 13%);
 }
@@ -588,7 +697,7 @@ button {
   flex-direction: column;
   gap: 12px;
 
-  margin: 0 0 22px;
+  margin: 0 0 24px;
   padding: 0;
 
   list-style: none;
@@ -626,7 +735,7 @@ button {
 
 .botaoDetalhes {
   width: 100%;
-  height: 46px;
+  height: 44px;
 
   color: #4f46e5;
   font-weight: 700;
@@ -645,19 +754,23 @@ button {
   transform: translateY(-2px);
 }
 
+/* =========================================================
+   CALENDÁRIO
+========================================================= */
+
 .calendarioContainer {
   width: 100%;
   padding: 24px 20px;
 
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 19px;
+  border-radius: 20px;
 }
 
 .calendarioContainer > h2 {
   margin: 0 0 20px;
 
-  color: #111827;
+  color: #0f172a;
   font-size: 1.15rem;
   font-weight: 700;
 }
@@ -693,7 +806,7 @@ button {
 }
 
 :host ::ng-deep .calendarioPrime .p-datepicker-title {
-  color: #111827;
+  color: #0f172a;
   font-size: 14px;
   font-weight: 700;
 }
@@ -705,8 +818,8 @@ button {
 
   color: #64748b;
   background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 9px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
 }
 
 :host ::ng-deep .calendarioPrime .p-datepicker-prev-button:hover,
@@ -739,7 +852,7 @@ button {
   height: 32px;
   margin: auto;
 
-  color: #1f2937;
+  color: #1e293b;
   font-size: 12px;
   border-radius: 10px;
 }
@@ -774,21 +887,52 @@ button {
   background-color: #4f46e5;
 }
 
+/* =========================================================
+   MOVIMENTO REDUZIDO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .solicitacaoCard,
+  .avatarSolicitacao,
+  .botaoAceitar,
+  .botaoRecusar,
+  .botaoDetalhes,
+  .botaoLogout {
+    transition: none;
+  }
+
+  .botaoAceitar:hover,
+  .botaoRecusar:hover,
+  .botaoDetalhes:hover,
+  .botaoLogout:active {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
 @media (max-width: 1100px) {
   .homePrestador {
     grid-template-columns: minmax(0, 1fr) 290px;
   }
 
   .conteudoPrincipal {
-    padding-inline: 25px;
+    padding-inline: 24px;
   }
 
   .painelLateral {
-    padding-inline: 18px;
+    padding-inline: 16px;
   }
 
   .solicitacaoCard {
     grid-template-columns: 50px minmax(120px, 1fr);
+  }
+
+  .avatarSolicitacao {
+    width: 50px;
+    height: 50px;
   }
 
   .acoesSolicitacao {
@@ -814,7 +958,7 @@ button {
   }
 
   .painelLateral {
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid #e2e8f0;
     border-left: none;
   }
 
@@ -827,20 +971,7 @@ button {
 
 @media (max-width: 600px) {
   .conteudoPrincipal {
-    padding: 18px 14px 30px;
-  }
-
-  .topbar {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .campoPesquisa {
-    width: 100%;
-  }
-
-  .acoesTopbar {
-    justify-content: flex-end;
+    padding: 20px 16px 32px;
   }
 
   .usuarioTopbar span {
@@ -848,11 +979,11 @@ button {
   }
 
   .boasVindas {
-    padding-block: 25px;
+    padding-block: 24px;
   }
 
   .solicitacoesContainer {
-    padding: 18px 14px;
+    padding: 20px 16px;
   }
 
   .solicitacoesHeader {
@@ -865,12 +996,13 @@ button {
 
   .solicitacaoCard {
     grid-template-columns: 46px minmax(0, 1fr);
-    padding: 16px 13px;
+    padding: 16px;
   }
 
   .avatarSolicitacao {
     width: 46px;
     height: 46px;
+    font-size: 1.1rem;
   }
 
   .acoesSolicitacao {
@@ -882,15 +1014,14 @@ button {
   .botaoRecusar {
     width: 100%;
     min-width: 0;
-    height: 43px;
-    padding-inline: 10px;
+    padding-inline: 12px;
   }
 
   .painelLateral {
-    padding: 20px 14px 35px;
+    padding: 24px 16px 32px;
   }
 
   .solicitacoesVazias {
-    padding: 34px 12px;
+    padding: 32px 16px;
   }
 }

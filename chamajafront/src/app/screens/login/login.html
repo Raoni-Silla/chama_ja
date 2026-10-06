@@ -1,22 +1,135 @@
-<div class="container">
-    <div class="imagemLogin"></div>
-    <div class="login">
-        <h2>Logar na Sua<br>Conta</h2>
-        <form action="#">
-            <div class="campo">
-                <i class="fa fa-envelope icon"></i>
-                <input type="email" id="email" name="email" placeholder="Email" [(ngModel)]="email">
+<section class="login-page">
+  <div class="login-container">
+    <aside class="imagemLogin">
+      <div class="imagem-overlay">
+        <span class="imagem-badge">
+          <i class="pi pi-sign-in"></i>
+          Bem-vindo de volta
+        </span>
+
+        <div class="imagem-conteudo">
+          <h1>Seus atendimentos continuam por aqui</h1>
+
+          <p>
+            Entre na sua conta ChamaJá e continue acompanhando seus serviços
+            e conversas.
+          </p>
+
+          <div class="vantagens">
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Acompanhe seus atendimentos em tempo real
             </div>
-            <div class="campo">
-                <i class="fa fa-lock icon"></i>
-                <input type="password" id="password" name="password" placeholder="Senha" [(ngModel)]="password">
+
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Converse direto com clientes e prestadores
             </div>
-            <a href="#" class="esqueceu-senha">Esqueceu a Senha ?</a>
-            
-            <app-defaultbutton type="btn-entrar" (click)="autenticar()" [disabled]="!email || !password">Entrar</app-defaultbutton>
-            
-            <p class="criar-conta">Criar Nova Conta? <a href="#">Criar aqui</a></p>
+
+            <div class="vantagem-item">
+              <span>
+                <i class="pi pi-check"></i>
+              </span>
+
+              Pagamentos protegidos até a conclusão do serviço
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="login-painel">
+      <div class="login-conteudo">
+        <header class="login-header">
+          <div class="header-icon">
+            <i class="pi pi-sign-in"></i>
+          </div>
+
+          <div>
+            <span class="etapa-texto">Acesso à conta</span>
+            <h2>Entrar na sua conta</h2>
+
+            <p>Acesse sua conta para continuar usando o ChamaJá.</p>
+          </div>
+        </header>
+
+        <form class="login-form" action="#">
+          <div class="campo">
+            <label for="email">E-mail</label>
+
+            <div class="input-container">
+              <i class="pi pi-envelope input-icon"></i>
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="input-control"
+                placeholder="seuemail@exemplo.com"
+                autocomplete="email"
+                [(ngModel)]="email"
+              />
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="password">Senha</label>
+
+            <div class="input-container">
+              <i class="pi pi-lock input-icon"></i>
+
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="input-control"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+                [(ngModel)]="password"
+              />
+            </div>
+          </div>
+
+          <a href="#" class="esqueceu-senha">Esqueceu a senha?</a>
+
+          <app-defaultbutton
+            type="btn-entrar"
+            [disabled]="!email || !password"
+            (click)="autenticar()"
+          >
+            Entrar
+
+            <i class="pi pi-arrow-right"></i>
+          </app-defaultbutton>
+
+          <div class="separador">
+            <span>Ainda não tem conta?</span>
+          </div>
+
+          <p class="criar-conta">
+            Novo por aqui?
+
+            <a routerLink="/register">
+              Criar conta
+              <i class="pi pi-arrow-up-right"></i>
+            </a>
+          </p>
         </form>
-    </div>
-</div>
-<p-toast></p-toast>
+
+        <div class="aviso-seguranca">
+          <i class="pi pi-shield"></i>
+
+          <p>Sua conexão é segura e seus dados são criptografados.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<p-toast position="top-left"></p-toast>

@@ -5,6 +5,7 @@ import { PrestadorResponseDTO } from '../DTOS/Prestador/PrestadorResponseDTO.dto
 import { MelhoresDoMesDTO } from '../DTOS/MelhoresDoMes/MelhoresDoMesDTO.dto';
 import { CarregarHomePrestadorDTO } from '../DTOS/Prestador/CarregarHomePrestadorDTO.dto';
 import { CarregarAreasAtuacaoPrestador } from '../DTOS/Prestador/CarregarAreasAtuacaoPrestador.dto';
+import { CarregarCarteiraPrestadorDTO } from '../DTOS/Prestador/CarregarCarteiraPrestadorDTO.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -44,5 +45,17 @@ export class PrestadorService {
 
   removerCategoria(id: number): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/remover-categoria/${id}`, null);
+  }
+
+  carregarCarteira () : Observable<CarregarCarteiraPrestadorDTO>{
+    return this.http.get<CarregarCarteiraPrestadorDTO>(`${this.apiUrl}/carregar-carteira`)
+  }
+
+  retirarSaldo (saldo : number) : Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/retirar-saldo/${saldo}`, null)
+  }
+
+  trocarChavePix(chave : string) : Observable<void>{
+    return this.http.patch<void>(`${this.apiUrl}/trocar-chave-pix/${chave}`, null);
   }
 }

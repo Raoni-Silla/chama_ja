@@ -5,8 +5,21 @@
 } @else {
   <div class="perfil-header">
     <div class="foto-container">
-      <img [src]="urlFoto" alt="Sua foto de perfil" class="foto-perfil" />
-      <button class="btn-editar-foto"><i class="pi pi-pencil icone-lapis"></i> Editar</button>
+      <div class="foto-borda">
+        <img [src]="urlFoto" alt="Sua foto de perfil" class="foto-perfil" />
+      </div>
+
+      <p-fileupload
+        mode="basic"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        [auto]="true"
+        [customUpload]="true"
+        (uploadHandler)="onUpload($event)"
+        chooseLabel="Editar foto"
+        chooseIcon="pi pi-camera"
+        class="btn-editar-foto"
+      />
     </div>
   </div>
 
@@ -30,7 +43,14 @@
 
     <div class="form-group">
       <label for="raioBusca"> Raio para busca (KM)</label>
-      <input type="number" id="raioBusca" formControlName="raioBusca" min="1" max="100" class="form-input"/>
+      <input
+        type="number"
+        id="raioBusca"
+        formControlName="raioBusca"
+        min="1"
+        max="100"
+        class="form-input"
+      />
     </div>
 
     <div class="form-acoes">

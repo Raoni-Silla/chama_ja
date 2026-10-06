@@ -1,197 +1,287 @@
-<div class="carteiraContainer">
-  <!-- =====================================================
-       CABEÇALHO
-  ====================================================== -->
+@if (carregando) {
+  <div class="carregandoCarteira">
+    <p-progress-spinner ariaLabel="carregando" />
+    <p>Carregando sua carteira...</p>
+  </div>
+} @else {
+  <div class="carteiraContainer">
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
 
-  <header class="carteiraHeader">
-    <h1>Minha <span class="destaque">Carteira</span></h1>
-    <p>Gerencie seus ganhos e transações</p>
-  </header>
+    <header class="carteiraHeader">
+      <h1>Minha <span class="destaque">Carteira</span></h1>
+      <p>Gerencie seus ganhos e transações</p>
+    </header>
 
-  <!-- =====================================================
-       SALDO
-  ====================================================== -->
+    <!-- =====================================================
+         SALDO
+    ====================================================== -->
 
-  <section class="saldoCard">
-    <div class="saldoTopo">
-      <span class="saldoIcone">
-        <i class="pi pi-wallet"></i>
-      </span>
+    <section class="saldoCard">
+      <div class="saldoTopo">
+        <span class="saldoIcone">
+          <i class="pi pi-wallet"></i>
+        </span>
 
-      <span class="saldoLabel">Saldo disponível</span>
-    </div>
-
-    <div class="saldoValor">
-      <span class="saldoInteiro">$14.235</span><span class="saldoCentavos">,34</span>
-    </div>
-
-    <button type="button" class="botaoSacar">
-      <i class="pi pi-arrow-right-arrow-left"></i>
-      <span>Solicitar saque</span>
-    </button>
-  </section>
-
-  <!-- =====================================================
-       ÚLTIMOS PAGAMENTOS
-  ====================================================== -->
-
-  <section class="cardSecao">
-    <h2>Últimos pagamentos</h2>
-
-    <div class="listaPagadores">
-      <div class="pagadorItem">
-        <div class="pagadorAvatar corA">
-          <span>A</span>
-          <span class="statusPago">
-            <i class="pi pi-check"></i>
-          </span>
-        </div>
-        <span class="pagadorNome">Ali</span>
+        <span class="saldoLabel">Saldo disponível</span>
       </div>
 
-      <div class="pagadorItem">
-        <div class="pagadorAvatar corB">
-          <span>S</span>
-          <span class="statusPago">
-            <i class="pi pi-check"></i>
-          </span>
-        </div>
-        <span class="pagadorNome">Steve</span>
+      <div class="saldoValor">
+        {{ dadosCarteira?.saldoDisponivel | currency: 'BRL' }}
       </div>
 
-      <div class="pagadorItem">
-        <div class="pagadorAvatar corC">
-          <span>A</span>
-          <span class="statusPago">
-            <i class="pi pi-check"></i>
-          </span>
+      <button type="button" class="botaoSacar" (click)="abrirModalSaque()">
+        <i class="pi pi-arrow-right-arrow-left"></i>
+        <span>Solicitar saque</span>
+      </button>
+    </section>
+
+    <!-- =====================================================
+         ÚLTIMOS PAGAMENTOS
+    ====================================================== -->
+
+    <section class="cardSecao">
+      <h2>Últimos pagamentos</h2>
+
+      @if (!dadosCarteira?.ultimosPagamentos?.length) {
+        <p class="textoVazio">Você ainda não recebeu nenhum pagamento.</p>
+      } @else {
+        <div class="listaPagadores">
+          @for (pagador of dadosCarteira!.ultimosPagamentos; track $index) {
+            <div class="pagadorItem">
+              <div class="pagadorAvatar {{ obterCorAvatar($index) }}">
+                @if (pagador.urlFoto) {
+                  <img [src]="pagador.urlFoto" [alt]="pagador.nome" />
+                } @else {
+                  <span>{{ pagador.nome.charAt(0) }}</span>
+                }
+
+                <span class="statusPago">
+                  <i class="pi pi-check"></i>
+                </span>
+              </div>
+
+              <span class="pagadorNome">{{ pagador.nome }}</span>
+            </div>
+          }
         </div>
-        <span class="pagadorNome">Ahmed</span>
+      }
+    </section>
+
+    <!-- =====================================================
+         HISTÓRICO DE TRANSAÇÕES
+    ====================================================== -->
+
+    <section class="cardSecao">
+      <h2>Histórico de transações</h2>
+
+      @if (!dadosCarteira?.ultimasTransacoes?.length) {
+        <p class="textoVazio">Nenhuma transação por aqui ainda.</p>
+      } @else {
+        <div class="listaTransacoes">
+          @for (transacao of dadosCarteira!.ultimasTransacoes; track $index) {
+            <div class="transacaoItem" [title]="transacao.descricao">
+              <div class="transacaoAvatar">
+                <i class="pi {{ obterIconeTransacao(transacao.tipoTransacao) }}"></i>
+              </div>
+
+              <div class="transacaoInfo">
+                <strong>{{ obterLabelTransacao(transacao.tipoTransacao) }}</strong>
+                <span>{{ transacao.data | date: 'dd/MM/yyyy' }} · {{ transacao.data | date: 'HH:mm' }}</span>
+              </div>
+
+              <span
+                class="transacaoValor"
+                [class.positivo]="ehTransacaoPositiva(transacao.tipoTransacao)"
+                [class.negativo]="!ehTransacaoPositiva(transacao.tipoTransacao)"
+              >
+                {{ ehTransacaoPositiva(transacao.tipoTransacao) ? '+' : '-' }}{{
+                  transacao.valor | currency: 'BRL'
+                }}
+              </span>
+            </div>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- =====================================================
+         CHAVE PIX
+    ====================================================== -->
+
+    <section class="cardSecao">
+      <div class="chavesPixHeader">
+        <div>
+          <h2>Minha chave PIX</h2>
+          <p>Gerencie sua chave para receber pagamentos</p>
+        </div>
+
+        <button type="button" class="botaoAdicionarChave" (click)="abrirModalTrocarChave()">
+          <i class="pi pi-plus"></i>
+          <span>{{ dadosCarteira?.chavePix ? 'Alterar chave' : 'Adicionar chave' }}</span>
+        </button>
       </div>
 
-      <div class="pagadorItem">
-        <div class="pagadorAvatar corD">
-          <span>M</span>
-          <span class="statusPago">
-            <i class="pi pi-check"></i>
-          </span>
+      @if (dadosCarteira?.chavePix) {
+        <div class="listaChaves">
+          <div class="chaveItem">
+            <span class="chaveIcone">
+              <i class="pi pi-key"></i>
+            </span>
+
+            <div class="chaveInfo">
+              <span>Chave PIX</span>
+              <strong>{{ dadosCarteira!.chavePix }}</strong>
+            </div>
+
+            <button
+              type="button"
+              class="botaoCopiar"
+              aria-label="Copiar chave"
+              (click)="copiarChave()"
+            >
+              <i class="pi pi-copy"></i>
+            </button>
+          </div>
         </div>
-        <span class="pagadorNome">Mark</span>
-      </div>
-    </div>
-  </section>
+      } @else {
+        <p class="textoVazio">Você ainda não cadastrou uma chave PIX.</p>
+      }
+    </section>
+  </div>
+}
 
-  <!-- =====================================================
-       HISTÓRICO DE TRANSAÇÕES
-  ====================================================== -->
-
-  <section class="cardSecao">
-    <h2>Histórico de transações</h2>
-
-    <div class="listaTransacoes">
-      <div class="transacaoItem">
-        <div class="transacaoAvatar corA">
-          <span>A</span>
-        </div>
-
-        <div class="transacaoInfo">
-          <strong>Ali</strong>
-          <span>Hoje · 12:32</span>
-        </div>
-
-        <span class="transacaoValor positivo">+$35.23</span>
-      </div>
-
-      <div class="transacaoItem">
-        <div class="transacaoAvatar saque">
-          <i class="pi pi-arrow-up"></i>
-        </div>
-
-        <div class="transacaoInfo">
-          <strong>Sacado</strong>
-          <span>Ontem · 02:12</span>
-        </div>
-
-        <span class="transacaoValor negativo">-$430.00</span>
+<p-dialog
+  [(visible)]="modalRetirarSaldoIsOpen"
+  [modal]="true"
+  header="Retirar saldo"
+  [style]="{ width: '24rem' }"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="modal-retirar-saldo"
+>
+  <div class="conteudoSaque">
+    <div class="introducaoSaque">
+      <div class="iconeIntroducaoSaque">
+        <i class="pi pi-arrow-right-arrow-left"></i>
       </div>
 
-      <div class="transacaoItem">
-        <div class="transacaoAvatar corE">
-          <span>N</span>
-        </div>
-
-        <div class="transacaoInfo">
-          <strong>Netflix</strong>
-          <span>Dez 24 · 13:53</span>
-        </div>
-
-        <span class="transacaoValor positivo">+$13.00</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- =====================================================
-       CHAVES PIX
-  ====================================================== -->
-
-  <section class="cardSecao">
-    <div class="chavesPixHeader">
       <div>
-        <h2>Minhas chaves PIX</h2>
-        <p>Gerencie suas chaves para receber pagamentos</p>
+        <h3>Quanto você quer sacar?</h3>
+        <p>O valor é descontado direto do seu saldo disponível.</p>
       </div>
+    </div>
 
-      <button type="button" class="botaoAdicionarChave">
-        <i class="pi pi-plus"></i>
-        <span>Adicionar chave</span>
+    <div class="infoContexto">
+      <span>Saldo disponível</span>
+      <strong>{{ dadosCarteira?.saldoDisponivel | currency: 'BRL' }}</strong>
+    </div>
+
+    <div class="campoValorSaque">
+      <label for="valorSaque">Valor do saque</label>
+
+      <div class="inputValorSaque">
+        <span>R$</span>
+
+        <input
+          type="number"
+          id="valorSaque"
+          name="valorSaque"
+          min="0"
+          step="0.01"
+          placeholder="0,00"
+          [(ngModel)]="valor"
+        />
+      </div>
+    </div>
+
+    <div class="acoesSaque">
+      <button
+        type="button"
+        class="botaoCancelarSaque"
+        (click)="modalRetirarSaldoIsOpen = false"
+      >
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        class="botaoConfirmarSaque"
+        [disabled]="!valor || valor <= 0"
+        (click)="retirarSaldo()"
+      >
+        <i class="pi pi-arrow-right-arrow-left"></i>
+        Confirmar saque
       </button>
     </div>
+  </div>
+</p-dialog>
 
-    <div class="listaChaves">
-      <div class="chaveItem">
-        <span class="chaveIcone">
-          <i class="pi pi-id-card"></i>
-        </span>
-
-        <div class="chaveInfo">
-          <span>CPF</span>
-          <strong>***.***.***-89</strong>
-        </div>
-
-        <button type="button" class="botaoCopiar" aria-label="Copiar chave">
-          <i class="pi pi-copy"></i>
-        </button>
+<p-dialog
+  [(visible)]="modalTrocarChavePix"
+  [modal]="true"
+  header="Trocar chave PIX"
+  [style]="{ width: '24rem' }"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="modal-retirar-saldo"
+>
+  <div class="conteudoSaque">
+    <div class="introducaoSaque">
+      <div class="iconeIntroducaoSaque">
+        <i class="pi pi-key"></i>
       </div>
 
-      <div class="chaveItem">
-        <span class="chaveIcone">
-          <i class="pi pi-envelope"></i>
-        </span>
-
-        <div class="chaveInfo">
-          <span>E-mail</span>
-          <strong>user&#64;email.com</strong>
-        </div>
-
-        <button type="button" class="botaoCopiar" aria-label="Copiar chave">
-          <i class="pi pi-copy"></i>
-        </button>
-      </div>
-
-      <div class="chaveItem">
-        <span class="chaveIcone">
-          <i class="pi pi-phone"></i>
-        </span>
-
-        <div class="chaveInfo">
-          <span>Telefone</span>
-          <strong>(11) 98***-****</strong>
-        </div>
-
-        <button type="button" class="botaoCopiar" aria-label="Copiar chave">
-          <i class="pi pi-copy"></i>
-        </button>
+      <div>
+        <h3>Deseja mudar sua chave PIX?</h3>
+        <p>Insira uma chave PIX válida (CPF, e-mail, telefone ou aleatória).</p>
       </div>
     </div>
-  </section>
-</div>
+
+    <div class="infoContexto">
+      <span>Chave atual</span>
+      <strong>{{ dadosCarteira?.chavePix || 'Nenhuma cadastrada' }}</strong>
+    </div>
+
+    <div class="campoValorSaque">
+      <label for="novaChave">Nova chave PIX</label>
+
+      <div class="inputValorSaque">
+        <span>
+          <i class="pi pi-key"></i>
+        </span>
+
+        <input
+          type="text"
+          id="novaChave"
+          name="novaChave"
+          placeholder="Digite a nova chave"
+          [(ngModel)]="novaChavePix"
+        />
+      </div>
+    </div>
+
+    <div class="acoesSaque">
+      <button
+        type="button"
+        class="botaoCancelarSaque"
+        (click)="modalTrocarChavePix = false"
+      >
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        class="botaoConfirmarSaque"
+        [disabled]="!novaChavePix || !novaChavePix.trim()"
+        (click)="trocarChavePix()"
+      >
+        <i class="pi pi-check"></i>
+        Salvar chave
+      </button>
+    </div>
+  </div>
+</p-dialog>
+
+<p-toast></p-toast>

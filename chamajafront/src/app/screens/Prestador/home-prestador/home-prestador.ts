@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -10,10 +10,11 @@ import { PrestadorService } from '../../../service/prestador-service';
 import { InteracaoInicial } from '../../../service/interacao-inicial';
 import { CarregarHomePrestadorDTO } from '../../../DTOS/Prestador/CarregarHomePrestadorDTO.dto';
 import { InteracaoIniciaInfoUteisParaPrestador } from '../../../DTOS/InteracaoInicial/InteracaoInicialInfoUteisParaPrestador.dto';
+import { LoginService } from '../../../service/login-service';
 
 @Component({
   selector: 'app-home-prestador',
-  imports: [FormsModule, DatePickerModule, CommonModule, ToastModule, ProgressSpinnerModule],
+  imports: [FormsModule, DatePickerModule, CommonModule, ToastModule, ProgressSpinnerModule, RouterLink],
   providers: [MessageService],
   templateUrl: './home-prestador.html',
   styleUrl: './home-prestador.css',
@@ -26,7 +27,7 @@ export class HomePrestador implements OnInit {
   router = inject(Router);
   messageService = inject(MessageService);
   cdr = inject(ChangeDetectorRef);
-
+  loginService = inject(LoginService);
   carregando: boolean = true;
   dadosHome: CarregarHomePrestadorDTO | null = null;
 
@@ -125,4 +126,10 @@ export class HomePrestador implements OnInit {
       },
     });
   }
+
+  logOut() {
+    this.loginService.limparToken();
+    location.reload();
+  }
+
 }

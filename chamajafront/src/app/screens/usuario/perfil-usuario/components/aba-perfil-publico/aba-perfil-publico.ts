@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,6 +14,7 @@ import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FileUpload, FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 @Component({
   selector: 'app-aba-perfil-publico',
   imports: [
@@ -24,6 +25,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     DialogModule,
     ButtonModule,
     ProgressSpinnerModule,
+    FileUploadModule,
   ],
   providers: [MessageService],
   templateUrl: './aba-perfil-publico.html',
@@ -38,6 +40,7 @@ export class AbaPerfilPublico implements OnInit {
   modalVisivel = false;
   codigoSms = '';
   carregando = false;
+  @ViewChild(FileUpload) fileUpload!: FileUpload;
 
   constructor(
     private fb: FormBuilder,
@@ -68,7 +71,7 @@ export class AbaPerfilPublico implements OnInit {
           nome: resposta.nome,
           email: resposta.email,
           telefone: resposta.telefone,
-          raioBusca: resposta.raioBusca / 1000
+          raioBusca: resposta.raioBusca / 1000,
         });
 
         this.carregando = false;
@@ -112,7 +115,7 @@ export class AbaPerfilPublico implements OnInit {
         urlFoto: this.urlFoto,
         cpf: this.cpf,
         verificado: this.verificado,
-        raioBusca:this.perfilForm.get('raioBusca')?.value
+        raioBusca: this.perfilForm.get('raioBusca')?.value,
       };
 
       this.usuarioService.salvarInfosModificadasDaTelaDePerfil(dto).subscribe({
@@ -192,5 +195,49 @@ export class AbaPerfilPublico implements OnInit {
 
   showDialog() {
     this.modalVisivel = true;
+  }
+
+  onUpload(event: FileUploadHandlerEvent): void {
+    const arquivo = event.files[0];
+
+    const formData = new FormData();
+    formData.append('foto', arquivo);
+
+    this.usuarioService.atualizarFoto(formData).subscribe({
+      next: () => {
+        this.usuarioService.obterInfosParaTelaDePerfil().subscribe({
+          next: (resposta) => {
+            this.verificado = resposta.verificado;
+            this.urlFoto = resposta.urlFoto;
+            this.cpf = resposta.cpf;
+
+            this.telefoneOriginal = resposta.telefone;
+
+            this.perfilForm.patchValue({
+              nome: resposta.nome,
+              email: resposta.email,
+              telefone: resposta.telefone,
+              raioBusca: resposta.raioBusca / 1000,
+            });
+
+            this.carregando = false;
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            this.carregando = false;
+            console.error(err);
+          },
+        });
+      },
+      error: () => {
+        this.messageService.add({
+            severity: 'error',
+            summary: 'Encontramos um erro',
+            detail: 'Impossivel fazer alterações no momento, tente denovo mais tarde',
+            life: 3000,
+          });
+      },
+      complete: () => this.fileUpload.clear(),
+    });
   }
 }

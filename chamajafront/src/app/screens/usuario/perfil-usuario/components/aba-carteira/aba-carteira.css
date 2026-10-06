@@ -21,12 +21,44 @@ button {
 }
 
 /* =========================================================
+   LOADING
+========================================================= */
+
+.carregandoCarteira {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  padding: 4rem 1rem;
+
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.carregandoCarteira p {
+  margin: 0;
+}
+
+/* =========================================================
+   ESTADO VAZIO (pagamentos, transações, chave PIX)
+========================================================= */
+
+.textoVazio {
+  margin: 0;
+
+  color: #9ca3af;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* =========================================================
    CABEÇALHO
 ========================================================= */
 
 .carteiraHeader h1 {
   margin: 0 0 0.4rem;
-  margin-top: 20px;
 
   color: #111827;
   font-size: 1.85rem;
@@ -89,19 +121,10 @@ button {
   margin-bottom: 1.75rem;
 
   color: #ffffff;
-  line-height: 1;
-}
-
-.saldoInteiro {
   font-size: clamp(2.4rem, 5vw, 3rem);
   font-weight: 750;
+  line-height: 1;
   letter-spacing: -1px;
-}
-
-.saldoCentavos {
-  color: rgb(255 255 255 / 65%);
-  font-size: 1.6rem;
-  font-weight: 600;
 }
 
 .botaoSacar {
@@ -190,6 +213,14 @@ button {
   border-radius: 50%;
 }
 
+.pagadorAvatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .statusPago {
   position: absolute;
   right: -2px;
@@ -239,6 +270,13 @@ button {
   border-bottom: none;
 }
 
+/*
+  Toda transação agora mostra um ícone por tipo (pagamento, saque,
+  estorno, taxa) em vez de iniciais de pessoa — a TransacaoCarteira
+  não guarda nome de cliente, só descrição livre. Por isso o avatar
+  aqui é sempre o quadrado com ícone, sem variantes.
+*/
+
 .transacaoAvatar {
   display: grid;
   place-items: center;
@@ -247,14 +285,6 @@ button {
   width: 42px;
   height: 42px;
 
-  color: #ffffff;
-  font-size: 0.95rem;
-  font-weight: 700;
-
-  border-radius: 50%;
-}
-
-.transacaoAvatar.saque {
   color: #4f46e5;
   font-size: 0.9rem;
 
@@ -506,4 +536,232 @@ button {
   .chaveInfo strong {
     font-size: 0.85rem;
   }
+}
+
+/* =========================================================
+   MODAL — RETIRAR SALDO
+========================================================= */
+
+:host ::ng-deep .modal-retirar-saldo {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+:host ::ng-deep .modal-retirar-saldo .p-dialog-header {
+  padding: 20px 24px;
+
+  border-bottom: 1px solid #f3f4f6;
+}
+
+:host ::ng-deep .modal-retirar-saldo .p-dialog-title {
+  color: #111827;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+:host ::ng-deep .modal-retirar-saldo .p-dialog-content {
+  padding: 22px 24px 24px;
+}
+
+.conteudoSaque {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.introducaoSaque {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+
+  padding: 0.9rem;
+
+  background-color: #f8fafc;
+  border: 1px solid #eef2ff;
+  border-radius: 12px;
+}
+
+.iconeIntroducaoSaque {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  width: 40px;
+  height: 40px;
+
+  color: #ffffff;
+  font-size: 0.95rem;
+
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border-radius: 10px;
+}
+
+.introducaoSaque h3 {
+  margin: 0 0 0.15rem;
+
+  color: #111827;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.introducaoSaque p {
+  margin: 0;
+
+  color: #6b7280;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.infoContexto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.7rem 0.9rem;
+
+  background-color: #eef2ff;
+  border-radius: 10px;
+}
+
+.infoContexto span {
+  color: #4f46e5;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.infoContexto strong {
+  color: #4f46e5;
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+
+.campoValorSaque {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.campoValorSaque label {
+  color: #334155;
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.inputValorSaque {
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  border: 1px solid #dbe2ea;
+  border-radius: 12px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inputValorSaque:focus-within {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgb(99 102 241 / 13%);
+}
+
+.inputValorSaque span {
+  padding: 0.85rem 0.9rem;
+
+  color: #4f46e5;
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  background-color: #f8fafc;
+  border-right: 1px solid #dbe2ea;
+}
+
+.inputValorSaque input {
+  width: 100%;
+  padding: 0.85rem 0.9rem;
+
+  color: #111827;
+  font-family: inherit;
+  font-size: 0.9rem;
+
+  background-color: #ffffff;
+  border: none;
+  outline: none;
+}
+
+.inputValorSaque input::placeholder {
+  color: #9ca3af;
+}
+
+/* Remove as setinhas do input number em navegadores WebKit */
+.inputValorSaque input::-webkit-outer-spin-button,
+.inputValorSaque input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.acoesSaque {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  margin-top: 0.25rem;
+}
+
+.botaoCancelarSaque,
+.botaoConfirmarSaque {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  padding: 0.8rem;
+
+  font-size: 0.85rem;
+  font-weight: 700;
+
+  border-radius: 11px;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.botaoCancelarSaque {
+  color: #4b5563;
+
+  background-color: #ffffff;
+  border: 1px solid #dbe2ea;
+}
+
+.botaoCancelarSaque:hover {
+  background-color: #f8fafc;
+  border-color: #b8c2d0;
+}
+
+.botaoConfirmarSaque {
+  color: #ffffff;
+
+  background-color: #4f46e5;
+  border: 1px solid #4f46e5;
+  box-shadow: 0 4px 12px rgb(79 70 229 / 25%);
+}
+
+.botaoConfirmarSaque i {
+  font-size: 0.78rem;
+}
+
+.botaoConfirmarSaque:hover:not(:disabled) {
+  background-color: #4338ca;
+  border-color: #4338ca;
+}
+
+.botaoConfirmarSaque:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
 }

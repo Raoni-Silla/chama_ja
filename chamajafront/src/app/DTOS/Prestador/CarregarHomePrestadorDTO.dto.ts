@@ -2,10 +2,9 @@ import { InteracaoIniciaInfoUteisParaPrestador } from "../InteracaoInicial/Inter
 import { ServicoSimplificadoDTO } from "../Servico/ServicoSimplificadoDTO.dto";
 
 export interface CarregarHomePrestadorDTO{
-
     nome : string,
     cidade : string,
+    fotoUrl : string,
     proximoServico : ServicoSimplificadoDTO,
     solicitacoesPendentes : InteracaoIniciaInfoUteisParaPrestador []
-
 }

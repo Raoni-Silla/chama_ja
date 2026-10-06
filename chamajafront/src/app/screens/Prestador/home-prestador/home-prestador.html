@@ -7,38 +7,26 @@
   <div class="homePrestador">
     <section class="conteudoPrincipal">
       <header class="topbar">
-        <label class="campoPesquisa">
-          <i class="pi pi-search"></i>
-
-          <input
-            type="text"
-            placeholder="Buscar serviços..."
-          />
-        </label>
-
         <div class="acoesTopbar">
-          <button
-            type="button"
-            class="botaoNotificacao"
-            aria-label="Notificações"
-          >
-            <i class="pi pi-bell"></i>
-            <span class="badgeNotificacao">5</span>
+          <button type="button" class="botaoNotificacao" aria-label="Mensagens" routerLink="/chat">
+            <i class="pi pi-comments"></i>
           </button>
 
-          <button
-            type="button"
-            class="botaoNotificacao"
-            aria-label="Mensagens"
-          >
-            <i class="pi pi-comments"></i>
-            <span class="badgeNotificacao">3</span>
+          <button type="button" class="botaoLogout" aria-label="logout" (click)="logOut()">
+            <i class="pi pi-sign-out"></i>
           </button>
 
           <div class="usuarioTopbar">
-            <div class="avatarUsuario">
-              {{ dadosHome?.nome ? dadosHome!.nome.charAt(0) : '' }}
+            <div class="avatarSolicitacao">
+              @if (dadosHome?.fotoUrl) {
+                <img
+                  [src]="dadosHome?.fotoUrl"
+                  [alt]="'Foto de ' + dadosHome?.nome"
+                  loading="lazy"
+                />
+              }
             </div>
+
             <span>{{ dadosHome?.nome }}</span>
           </div>
         </div>
@@ -56,10 +44,7 @@
         </p>
       </section>
 
-      <section
-        class="solicitacoesContainer"
-        data-aos="fade-up"
-      >
+      <section class="solicitacoesContainer" data-aos="fade-up">
         <header class="solicitacoesHeader">
           <div class="tituloSolicitacoes">
             <span class="indicadorPendente"></span>
@@ -83,13 +68,18 @@
               <p>Assim que alguém solicitar seus serviços, a solicitação aparece aqui.</p>
             </div>
           } @else {
-            @for (
-              solicitacao of dadosHome!.solicitacoesPendentes;
-              track solicitacao.idInteracao
-            ) {
+            @for (solicitacao of dadosHome!.solicitacoesPendentes; track solicitacao.idInteracao) {
               <article class="solicitacaoCard">
                 <div class="avatarSolicitacao">
-                  {{ solicitacao.nomeRemetente.charAt(0) }}
+                  @if (solicitacao.fotoRemetente) {
+                    <img
+                      [src]="solicitacao.fotoRemetente"
+                      [alt]="'Foto de ' + solicitacao.nomeRemetente"
+                      loading="lazy"
+                    />
+                  } @else {
+                    {{ solicitacao.nomeRemetente.charAt(0) }}
+                  }
                 </div>
 
                 <div class="dadosSolicitacao">
@@ -133,10 +123,7 @@
     </section>
 
     <aside class="painelLateral">
-      <section
-        class="proximoServico"
-        data-aos="fade-left"
-      >
+      <section class="proximoServico" data-aos="fade-left">
         <header class="proximoServicoHeader">
           <i class="pi pi-calendar"></i>
           <h2>Próximo Serviço</h2>
@@ -183,21 +170,13 @@
             </li>
           </ul>
 
-          <button
-            type="button"
-            class="botaoDetalhes"
-            (click)="verDetalhesProximoServico()"
-          >
+          <button type="button" class="botaoDetalhes" (click)="verDetalhesProximoServico()">
             Ver detalhes
           </button>
         }
       </section>
 
-      <section
-        class="calendarioContainer"
-        data-aos="fade-left"
-        data-aos-delay="100"
-      >
+      <section class="calendarioContainer" data-aos="fade-left" data-aos-delay="100">
         <h2>Calendário</h2>
 
         <p-datepicker

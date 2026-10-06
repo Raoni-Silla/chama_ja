@@ -253,17 +253,29 @@
     box-sizing: border-box;
 }
 
+/* =========================================================
+   BOTÃO DE EDITAR FOTO (p-fileupload, modo basic)
+   O class="btn-editar-foto" fica na tag <p-fileupload>, que é
+   só um invólucro: aqui ele cuida apenas do posicionamento
+   (sobrepor a parte de baixo da foto). O visual vai no botão
+   que o PrimeNG renderiza dentro dele (.p-button), via ::ng-deep.
+   ========================================================= */
+
 .btn-editar-foto {
     position: relative;
+    z-index: 1;
 
+    display: block;
+    margin-top: -16px;
+}
+
+:host ::ng-deep .btn-editar-foto .p-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.45rem;
 
     min-width: 132px;
-
-    margin-top: -16px;
     padding: 0.65rem 1rem;
 
     color: var(--slate-700);
@@ -276,8 +288,6 @@
     font-size: 0.78rem;
     font-weight: 700;
 
-    cursor: pointer;
-
     box-shadow:
         0 8px 18px -8px rgba(15, 23, 42, 0.28);
 
@@ -289,12 +299,16 @@
         box-shadow 180ms ease;
 }
 
-.btn-editar-foto i {
+:host ::ng-deep .btn-editar-foto .p-button-label {
+    font-weight: 700;
+}
+
+:host ::ng-deep .btn-editar-foto .p-button-icon {
     color: var(--primary-600);
     font-size: 0.82rem;
 }
 
-.btn-editar-foto:hover {
+:host ::ng-deep .btn-editar-foto .p-button:hover {
     color: var(--primary-700);
     background-color: var(--primary-50);
     border-color: var(--primary-200);
@@ -305,9 +319,19 @@
         0 12px 22px -9px rgba(79, 70, 229, 0.32);
 }
 
-.btn-editar-foto:focus-visible {
+:host ::ng-deep .btn-editar-foto .p-button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+:host ::ng-deep .btn-editar-foto .p-button:focus-visible {
     outline: 3px solid rgba(99, 102, 241, 0.22);
     outline-offset: 3px;
+}
+
+:host ::ng-deep .btn-editar-foto .p-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
 }
 
 .status-perfil {
@@ -944,5 +968,10 @@
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
+    }
+
+    :host ::ng-deep .btn-editar-foto .p-button:hover,
+    :host ::ng-deep .btn-editar-foto .p-button:active {
+        transform: none;
     }
 }

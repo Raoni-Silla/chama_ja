@@ -62,7 +62,11 @@ export class UsuarioService {
     return this.http.get<EnderecoResponseDTO[]>(`${this.apiUrl}/obter-enderecos`);
   }
 
-  alterarRaioDeBusca(raioBusca : number) : Observable<void>{
-    return this.http.patch<void>(`${this.apiUrl}/alterar-raio-busca/${raioBusca}`, null)
+  alterarRaioDeBusca(raioBusca: number): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/alterar-raio-busca/${raioBusca}`, null);
+  }
+
+  atualizarFoto(form: FormData): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/salvarFoto`, form);
   }
 }
