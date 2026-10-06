@@ -21,6 +21,11 @@ public interface ChamadoRepository extends JpaRepository<Chamado, Long> {
             LocalDateTime agora,
             Prestador prestador
     );
+    List<Chamado> findTop4ByPrestadorAndStatusChamadoOrderByDataFinalizacaoDesc(
+            Prestador prestador,
+            StatusChamado statusChamado
+    );
+
 
 
 

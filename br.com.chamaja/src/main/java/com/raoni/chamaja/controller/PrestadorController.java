@@ -1,9 +1,6 @@
 package com.raoni.chamaja.controller;
 
-import com.raoni.chamaja.dto.Prestador.CarregarAreasAtuacaoPrestador;
-import com.raoni.chamaja.dto.Prestador.CarregarHomePrestadorDTO;
-import com.raoni.chamaja.dto.Prestador.MelhoresDoMesDTO;
-import com.raoni.chamaja.dto.Prestador.PrestadorResponseDTO;
+import com.raoni.chamaja.dto.Prestador.*;
 import com.raoni.chamaja.service.PrestadorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +63,27 @@ public class PrestadorController {
     @PreAuthorize("hasRole('PRESTADOR')")
     public ResponseEntity<Void> removerCategoriaPrestador (@PathVariable("id") Long id){
         prestadorService.removerCategoria(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/carregar-carteira")
+    @PreAuthorize("hasRole('PRESTADOR')")
+    public ResponseEntity<CarregarCarteiraPrestadorDTO> carregarCarteiraPrestador (){
+        CarregarCarteiraPrestadorDTO dto =  prestadorService.carregarCarteiraPrestador();
+        return ResponseEntity.ok(dto);
+    }
+
+    @PatchMapping("/retirar-saldo/{valor}")
+    @PreAuthorize("hasRole('PRESTADOR')")
+    public ResponseEntity<Void> retirarSaldoPrestador (@PathVariable("valor")  Double valor){
+        prestadorService.retirarValor(valor);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/trocar-chave-pix/{chave}")
+    @PreAuthorize("hasRole('PRESTADOR')")
+    public ResponseEntity<Void> mudarChavePix(@PathVariable("chave") String chave){
+        prestadorService.trocarChavePix(chave);
         return ResponseEntity.ok().build();
     }
 

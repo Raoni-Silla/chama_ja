@@ -10,6 +10,7 @@ import java.util.List;
 public record CarregarHomePrestadorDTO(
         String nome,
         String cidade,
+        String fotoUrl,
         ServicoSimplificadoDTO proximoServico,
         List<InteracaoIniciaInfoUteisParaPrestador> solicitacoesPendentes
 ) {

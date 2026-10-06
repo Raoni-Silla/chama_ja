@@ -51,4 +51,11 @@ public class Carteira {
         saldoBloqueado = saldoBloqueado.subtract(valor);
         this.saldoDisponivel = this.saldoDisponivel.add(valor);
     }
+
+    public void retirarValorSaldoDisponivel (BigDecimal valor){
+        if (valor.compareTo(this.saldoDisponivel) > 0){
+            throw  new RuntimeException("Saldo negativo");
+        }
+        saldoDisponivel = saldoDisponivel.subtract(valor);
+    }
 }

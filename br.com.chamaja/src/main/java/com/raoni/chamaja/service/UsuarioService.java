@@ -1,5 +1,8 @@
 package com.raoni.chamaja.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
+import com.cloudinary.utils.ObjectUtils;
 import com.raoni.chamaja.dto.Endereco.EnderecoResponseDTO;
 import com.raoni.chamaja.dto.Usuario.UsuarioInfoBasicasDTO;
 import com.raoni.chamaja.dto.Usuario.UsuarioInfoPerfilDTO;
@@ -14,9 +17,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +32,9 @@ public class UsuarioService {
     private final UsuarioRepository userRepo;
     private final SmsService smsService;
     private final PasswordEncoder passwordEncoder;
+    private final Cloudinary cloudinary;
+    private static final Set<String> TIPOS_PERMITIDOS = Set.of("image/jpeg", "image/png", "image/webp");
+    private static final long TAMANHO_MAXIMO = 1_000_000;
 
     private String gerarNumeroAleatorioValidacao() {
         int codigo = (int) (Math.random() * 900000) + 100000;
@@ -185,5 +195,38 @@ public class UsuarioService {
                     e.isEnderecoPrincipal()
             );
         }).toList();
+    }
+
+    public void salvarFoto(MultipartFile foto) {
+        Usuario usuario = userRepo.findById(obterIdUsuarioLogado())
+                .orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa usuario logado"));
+
+        if (foto == null || foto.isEmpty()) {
+            throw new IllegalArgumentException("Nenhuma foto foi enviada");
+        }
+        if (!TIPOS_PERMITIDOS.contains(foto.getContentType())) {
+            throw new IllegalArgumentException("Formato inválido. Envie uma imagem JPG, PNG ou WEBP");
+        }
+        if (foto.getSize() > TAMANHO_MAXIMO) {
+            throw new IllegalArgumentException("A foto deve ter no máximo 1 MB");
+        }
+        String fotoUrl;
+        try {
+            Map<?, ?> resultado = cloudinary.uploader().upload(foto.getBytes(), ObjectUtils.asMap(
+                    "folder", "chamaja/perfis",
+                    "public_id", "usuario-" + usuario.getId(),
+                    "overwrite", true,
+                    "invalidate", true,
+                    "resource_type", "image",
+                    "transformation", new Transformation()
+                            .width(256).height(256)
+                            .crop("fill").gravity("face")
+            ));
+            fotoUrl = (String) resultado.get("secure_url");
+        } catch (IOException e) {
+            throw new IllegalStateException("Não foi possível enviar a foto. Tente novamente", e);
+        }
+        usuario.setFotoUrl(fotoUrl);
+        userRepo.save(usuario);
     }
 }

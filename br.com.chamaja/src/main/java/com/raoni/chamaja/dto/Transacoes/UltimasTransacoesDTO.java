@@ -1,4 +1,14 @@
 package com.raoni.chamaja.dto.Transacoes;
 
-public record UltimasTransacoesDTO() {
+import com.raoni.chamaja.enums.TipoTransacao;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+public record UltimasTransacoesDTO(
+        BigDecimal valor,
+        TipoTransacao tipoTransacao,
+        LocalDateTime data,
+        String descricao
+) {
 }

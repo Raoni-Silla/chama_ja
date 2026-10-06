@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +92,13 @@ public class UsuarioController {
     public ResponseEntity<List<EnderecoResponseDTO>> obterTodosEnderecos () {
         List<EnderecoResponseDTO> listDto = usuarioService.listarTodosEnderecosUsuario();
         return ResponseEntity.status(200).body(listDto);
+    }
+
+    @PatchMapping(path = "/salvarFoto")
+    @PreAuthorize("hasAnyRole('USUARIO','PRESTADOR')")
+    public ResponseEntity<Void> salvarFoto (@RequestParam(name = "foto") MultipartFile foto) {
+        usuarioService.salvarFoto(foto);
+        return ResponseEntity.noContent().build();
     }
 
 

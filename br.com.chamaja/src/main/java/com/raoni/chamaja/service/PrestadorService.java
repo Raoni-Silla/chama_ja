@@ -2,25 +2,23 @@ package com.raoni.chamaja.service;
 
 import com.raoni.chamaja.dto.Categoria.CategoriaDetalhesDTO;
 import com.raoni.chamaja.dto.InteracaoInicial.InteracaoIniciaInfoUteisParaPrestador;
-import com.raoni.chamaja.dto.Prestador.CarregarAreasAtuacaoPrestador;
-import com.raoni.chamaja.dto.Prestador.CarregarHomePrestadorDTO;
-import com.raoni.chamaja.dto.Prestador.MelhoresDoMesDTO;
-import com.raoni.chamaja.dto.Prestador.PrestadorResponseDTO;
+import com.raoni.chamaja.dto.Pagamento.UltimosPagamentosDTO;
+import com.raoni.chamaja.dto.Prestador.*;
 import com.raoni.chamaja.dto.Servico.ServicoSimplificadoDTO;
-import com.raoni.chamaja.model.Categoria;
-import com.raoni.chamaja.model.Endereco;
-import com.raoni.chamaja.model.Prestador;
-import com.raoni.chamaja.model.Usuario;
+import com.raoni.chamaja.dto.Transacoes.UltimasTransacoesDTO;
+import com.raoni.chamaja.enums.StatusChamado;
+import com.raoni.chamaja.enums.TipoTransacao;
+import com.raoni.chamaja.model.*;
 import com.raoni.chamaja.projection.PrestadorProximoProjection;
-import com.raoni.chamaja.repository.CategoriaRepository;
-import com.raoni.chamaja.repository.EnderecoRepository;
-import com.raoni.chamaja.repository.PrestadorRepository;
-import com.raoni.chamaja.repository.UsuarioRepository;
+import com.raoni.chamaja.repository.*;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -36,6 +34,8 @@ public class PrestadorService {
     private final ServicoService servicoService;
     private final InteracaoInicialService interacaoInicialService;
     private final CategoriaRepository categoriaRepository;
+    private final ChamadoRepository chamadoRepository;
+    private final TransacaoRepository transacaoRepository;
 
     private PrestadorResponseDTO converterParaDTO(
             Prestador prestador,
@@ -235,6 +235,7 @@ public class PrestadorService {
         return new CarregarHomePrestadorDTO(
                 prestador.getNome(),
                 nomeCidadeEnderecoPrincipal,
+                prestador.getFotoUrl(),
                 servicoSimplificadoDTO,
                 interacoesPendentes
         );
@@ -279,6 +280,47 @@ public class PrestadorService {
         Categoria categoria = categoriaRepository.findById(idCategoria).orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada por id"));
         Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar algum prestador logado"));
         prestador.getCategorias().remove(categoria);
+        prestadorRepository.save(prestador);
+    }
+
+    public CarregarCarteiraPrestadorDTO carregarCarteiraPrestador() {
+        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar algum prestador logado"));
+        List<UltimosPagamentosDTO> ultimosPagamentosDTOS = chamadoRepository.findTop4ByPrestadorAndStatusChamadoOrderByDataFinalizacaoDesc(prestador, StatusChamado.CONCLUIDO).stream().map(c -> new UltimosPagamentosDTO(c.getCliente().getNome(),c.getCliente().getFotoUrl())).toList();
+        List<UltimasTransacoesDTO> ultimasTransacoesDTOS = transacaoRepository.findByCarteiraOrderByDataTransacaoDesc(prestador.getCarteira()).stream().map(t -> new UltimasTransacoesDTO(t.getValorTransacao(),t.getTipoTransacao(),t.getDataTransacao(),t.getDescricao())).toList();
+        return new CarregarCarteiraPrestadorDTO(
+                prestador.getCarteira().getSaldoDisponivel(),
+                prestador.getCarteira().getChavePix(),
+                ultimosPagamentosDTOS,
+                ultimasTransacoesDTOS
+        );
+    }
+
+    @Transactional
+    public void retirarValor(Double valor) {
+        if (valor == null || valor <= 0) {
+            throw new IllegalArgumentException("O valor do saque deve ser positivo");
+        }
+        BigDecimal valorCorrigido = BigDecimal.valueOf(valor);
+        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar algum prestador logado"));
+        prestador.getCarteira().retirarValorSaldoDisponivel(valorCorrigido);
+        TransacaoCarteira transacaoCarteira = new TransacaoCarteira();
+        transacaoCarteira.setCarteira(prestador.getCarteira());
+        transacaoCarteira.setValorTransacao(valorCorrigido);
+        transacaoCarteira.setDataTransacao(LocalDateTime.now());
+        transacaoCarteira.setTipoTransacao(TipoTransacao.SAQUE_PIX);
+        transacaoRepository.save(transacaoCarteira);
+        transacaoCarteira.setDescricao("Retirada do dinheiro da plataforma");
+
+        prestadorRepository.save(prestador);
+    }
+
+    @Transactional
+    public void trocarChavePix(String numeroPix){
+        if (numeroPix == null){
+            throw new IllegalArgumentException("Impossivel mudar essa chave pix");
+        }
+        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar algum prestador logado"));
+        prestador.getCarteira().setChavePix(numeroPix);
         prestadorRepository.save(prestador);
     }
 }

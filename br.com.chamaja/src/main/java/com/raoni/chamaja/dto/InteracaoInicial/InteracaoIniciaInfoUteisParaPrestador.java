@@ -9,7 +9,7 @@ public record InteracaoIniciaInfoUteisParaPrestador(
         BigDecimal valorSugerido,
         Long idRemetente,
         String nomeRemetente,
-        String fotoRemetente,
+            String fotoRemetente,
         Double avaliacaoRemetente,
         Double distanciaKmRemetente
 ) {

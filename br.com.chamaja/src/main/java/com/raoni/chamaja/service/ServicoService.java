@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -37,29 +38,39 @@ public class ServicoService {
     }
 
     private List<ServicoResponseDTO> listarServicosUsuarioLogado() {
-        Usuario usuario = usuarioRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa usuario logado"));
-        List<Chamado> chamados = chamadoRepository.findByClienteAndStatusChamadoIn(usuario, List.of(StatusChamado.EM_ANDAMENTO, StatusChamado.CONCLUIDO));
-        return getServicoResponseDTOS(chamados);
+        Usuario usuario = usuarioRepository.findById(obterIdUsuarioLogado())
+                .orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa usuario logado"));
+        List<Chamado> chamados = chamadoRepository.findByClienteAndStatusChamadoIn(
+                usuario, List.of(StatusChamado.EM_ANDAMENTO, StatusChamado.CONCLUIDO));
+        return getServicoResponseDTOS(chamados, Chamado::getPrestador);
     }
 
-
     private List<ServicoResponseDTO> listarServicosPrestadorLogado() {
-        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado()).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa usuario logado"));
-        List<Chamado> chamados = chamadoRepository.findByPrestadorAndStatusChamadoIn(prestador, List.of(StatusChamado.EM_ANDAMENTO, StatusChamado.CONCLUIDO));
-        return getServicoResponseDTOS(chamados);
+        Prestador prestador = prestadorRepository.findById(obterIdUsuarioLogado())
+                .orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar essa usuario logado"));
+        List<Chamado> chamados = chamadoRepository.findByPrestadorAndStatusChamadoIn(
+                prestador, List.of(StatusChamado.EM_ANDAMENTO, StatusChamado.CONCLUIDO));
+        return getServicoResponseDTOS(chamados, Chamado::getCliente);
     }
 
     @NonNull
-    private List<ServicoResponseDTO> getServicoResponseDTOS(List<Chamado> chamados) {
+    private List<ServicoResponseDTO> getServicoResponseDTOS(
+            List<Chamado> chamados,
+            Function<Chamado, Usuario> obterOutraPessoa) {
+
         return chamados.stream().map(c -> {
-            Proposta proposta = propostaRepository.findByChamadoAndStatus(c, StatusProposta.ACEITA).orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar esse proposta"));
+            Proposta proposta = propostaRepository.findByChamadoAndStatus(c, StatusProposta.ACEITA)
+                    .orElseThrow(() -> new EntityNotFoundException("Impossivel encontrar esse proposta"));
+
+            Usuario outraPessoa = obterOutraPessoa.apply(c);
+
             return new ServicoResponseDTO(
                     c.getId(),
                     c.getTitulo(),
                     c.getStatusChamado(),
-                    c.getPrestador().getId(),
-                    c.getPrestador().getNome(),
-                    c.getPrestador().getFotoUrl(),
+                    outraPessoa.getId(),
+                    outraPessoa.getNome(),
+                    outraPessoa.getFotoUrl(),
                     c.getDataCriacaoChamado(),
                     c.getPraQuandoFoiAgendado(),
                     c.getDataFinalizacao(),
@@ -119,7 +130,7 @@ public class ServicoService {
 
             Pagamento pagamento = pagamentoRepository.findByChamado(chamado).orElseThrow(() -> new EntityNotFoundException("Impossível encontrar o pagamento deste chamado"));
             if (!pagamento.getStatus().equals(StatusPagamento.PENDENTE)) {
-                throw new IllegalArgumentException("Pagamento deve ter status retido para liberação");
+                throw new IllegalArgumentException("Pagamento deve ter status pendente para liberação");
             }
             chamado.setStatusChamado(StatusChamado.CONCLUIDO);
             chamado.setDataFinalizacao(LocalDateTime.now());
