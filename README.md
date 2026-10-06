@@ -292,7 +292,7 @@ O ChamaJá está **em desenvolvimento**. Uma parcela significativa dos fluxos ce
 | Chat em tempo real                | ✅ Implementado       |
 | Negociação e propostas            | ✅ Implementado       |
 | Gerenciamento de cartões          | ✅ Ambiente de testes |
-| Encerramento bilateral do serviço | 🟡 Parcial           |
+| Encerramento bilateral do serviço | ✅ Implementado           |
 | Pagamentos completos / retenção   | 🔵 Planejado         |
 | Avaliações                        | 🔵 Planejado         |
 | Área administrativa               | 🔵 Planejado         |
